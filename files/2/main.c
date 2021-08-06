@@ -6,22 +6,22 @@ void read_input(char *path) {
     scanf("%30s", path);
 }
 
-int file_size_from_path(const char *path){
-    if(path==NULL) {return -2;}
+int file_size_from_path(const char *path) {
+    if (path == NULL) { return -2; }
 
     FILE *f;
-    f=fopen(path,"r");
-    if(f==NULL){return -1;}
+    f = fopen(path, "r");
+    if (f == NULL) { return -1; }
 
 
-    int rozmiar=0;
-    int i=0;
-    i=fgetc(f);
+    int rozmiar = 0;
+    int i = 0;
+    i = fgetc(f);
 
-    while(i!=EOF){
-        i=fgetc(f);
+    while (i != EOF) {
+        i = fgetc(f);
         rozmiar++;
-        if(i==EOF){break;}
+        if (i == EOF) { break; }
     }
 
     fclose(f);
@@ -80,7 +80,6 @@ int main() {
 
     int size_from_path = file_size_from_path(path);
     int size_from_file = file_size_from_file(fp);
-
 
 
     if (size_from_path < 0 || size_from_file < 0) {
