@@ -1,11 +1,11 @@
 #include <stdio.h>
 
 
-void read_input(char *path) {
+void readStdInput(char *path) {
     scanf("%30s", path);
 }
 
-void clean_stdin(void) {
+void cleanStdInput(void) {
     int c;
     do {
         c = getchar();
@@ -40,23 +40,23 @@ int main() {
     FILE *p_outFile;
 
     printf("Podaj sciezke do pliku:");
-    read_input(input_path);
+    readStdInput(input_path);
     p_inFile = fopen(input_path, "r");
     if (p_inFile == NULL) {
         printf("Couldn't open file\n");
         return 4;
     }
-    clean_stdin();
+    cleanStdInput();
 
     printf("Podaj sciezke do pliku wyjściowego:");
-    read_input(output_path);
+    readStdInput(output_path);
     p_outFile = fopen(output_path, "w");
     if (p_outFile == NULL) {
         printf("Couldn't create file\n");
         fclose(p_inFile);
         return 5;
     }
-    clean_stdin();
+    cleanStdInput();
 
     if (copyFile(p_inFile, p_outFile) == -1) {
         printf("Error while coping file\n");

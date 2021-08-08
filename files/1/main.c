@@ -1,7 +1,7 @@
 #include <stdio.h>
 //#define BUFFER_SIZE 31
 
-void read_input(char *path) {
+void readStdInput(char *path) {
     scanf("%30s", path);
 }
 
@@ -10,7 +10,7 @@ int main() {
 //    char* path = "c:\\temp\\test.txt";
     char path[31];
     printf("Podaj sciezke do pliku:");
-    read_input(path);
+    readStdInput(path);
 
     fp = fopen(path, "r");
     if (fp == NULL) {

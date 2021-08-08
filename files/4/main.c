@@ -1,18 +1,18 @@
 #include <stdio.h>
 
 
-void read_input(char *path) {
+void readStdInput(char *path) {
     scanf("%30s", path);
 }
 
-void clean_stdin(void) {
+void cleanStdInput(void) {
     int c;
     do {
         c = getchar();
     } while (c != '\n' && c != EOF);
 }
 
-int fsize(FILE *f) {
+int fSize(FILE *f) {
     if (f == NULL) {
         return -2;
     }
@@ -34,7 +34,7 @@ int copyFile(FILE *input_fp, FILE *output_fp) {
 
     int count = 0;
 
-    int flength = fsize(input_fp);
+    int flength = fSize(input_fp);
     for (int fpos = flength - 1; fpos >= 0; fpos--) {
         fseek(input_fp, fpos, SEEK_SET);
         fputc(fgetc(input_fp), output_fp);
@@ -54,23 +54,23 @@ int main() {
     FILE *p_outFile;
 
     printf("Podaj sciezke do pliku:");
-    read_input(input_path);
+    readStdInput(input_path);
     p_inFile = fopen(input_path, "r");
     if (p_inFile == NULL) {
         printf("Couldn't open file\n");
         return 4;
     }
-    clean_stdin();
+    cleanStdInput();
 
     printf("Podaj sciezke do pliku wyjściowego:");
-    read_input(output_path);
+    readStdInput(output_path);
     p_outFile = fopen(output_path, "w");
     if (p_outFile == NULL) {
         printf("Couldn't create file\n");
         fclose(p_inFile);
         return 5;
     }
-    clean_stdin();
+    cleanStdInput();
 
     if (copyFile(p_inFile, p_outFile) == -1) {
         printf("Error while coping file\n");
