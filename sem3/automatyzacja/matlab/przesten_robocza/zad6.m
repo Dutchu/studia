@@ -1,0 +1,16 @@
+disp("real(C)");
+disp(real(C));
+disp("real(D)");
+disp(real(D));
+disp("imag(C)");
+disp(imag(C));
+disp("imag(D)");
+disp(imag(D));
+disp("abs(C)");
+disp(abs(C));
+disp("abs(D)");
+disp(abs(D));
+disp("angle(C)");
+disp(angle(C));
+disp("angle(D)");
+disp(angle(D));

@@ -1,0 +1,10 @@
+disp("A.*B");
+disp(A.*B);
+disp("A./B");
+disp(A./B);
+disp("A.\B");
+disp(A.\B);
+disp("A.^2");
+disp(A.^2);
+disp("B.^2");
+disp(B.^2);

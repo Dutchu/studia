@@ -1,0 +1,13 @@
+function [varargout] = zad3a(operation,varargin)
+    
+    if(operation ~= "+" || operation ~= "*" && operation ~= ".*")
+
+    end
+    
+    arg_num = lenght(varargin)
+    disp(operation);
+
+
+end
+
+      

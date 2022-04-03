@@ -1,0 +1,123 @@
+[Format]      =  1
+[Precision]   =  1e-008
+[MinAngle]    =  30
+[DoSmartMesh] =  1
+[Depth]       =  100
+[LengthUnits] =  millimeters
+[ProblemType] =  planar
+[Coordinates] =  cartesian
+[Comment]     =  "Add comments here."
+[PointProps]   = 0
+[BdryProps]   = 1
+  <BeginBdry>
+    <BdryName> = "rajman"
+    <BdryType> = 1
+    <Vs> = 0
+    <qs> = 0
+    <c0> = 0
+    <c1> = 0
+  <EndBdry>
+[BlockProps]  = 10
+  <BeginBlock>
+    <BlockName> = "e3"
+    <ex> = 3
+    <ey> = 3
+    <qv> = 0
+  <EndBlock>
+  <BeginBlock>
+    <BlockName> = "e2"
+    <ex> = 2
+    <ey> = 2
+    <qv> = 0
+  <EndBlock>
+  <BeginBlock>
+    <BlockName> = "Air"
+    <ex> = 1
+    <ey> = 1
+    <qv> = 0
+  <EndBlock>
+  <BeginBlock>
+    <BlockName> = "e1"
+    <ex> = 2.6498996896116669
+    <ey> = 2.6498996896116669
+    <qv> = 0
+  <EndBlock>
+  <BeginBlock>
+    <BlockName> = "e2"
+    <ex> = 2
+    <ey> = 2
+    <qv> = 0
+  <EndBlock>
+  <BeginBlock>
+    <BlockName> = "e3"
+    <ex> = 3
+    <ey> = 3
+    <qv> = 0
+  <EndBlock>
+  <BeginBlock>
+    <BlockName> = "e4"
+    <ex> = 0.042882574356338271
+    <ey> = 0.042882574356338271
+    <qv> = 0
+  <EndBlock>
+  <BeginBlock>
+    <BlockName> = "e5"
+    <ex> = 37.197476986533054
+    <ey> = 37.197476986533054
+    <qv> = 0
+  <EndBlock>
+  <BeginBlock>
+    <BlockName> = "e6"
+    <ex> = 0.015664246064106369
+    <ey> = 0.015664246064106369
+    <qv> = 0
+  <EndBlock>
+  <BeginBlock>
+    <BlockName> = "e7"
+    <ex> = 142.03015659052124
+    <ey> = 142.03015659052124
+    <qv> = 0
+  <EndBlock>
+[ConductorProps]  = 2
+  <BeginConductor>
+    <ConductorName> = "Potential 100"
+    <Vc> = 100
+    <qc> = 0
+    <ConductorType> = 1
+  <EndConductor>
+  <BeginConductor>
+    <ConductorName> = "Potential -10"
+    <Vc> = -10
+    <qc> = 0
+    <ConductorType> = 1
+  <EndConductor>
+[NumPoints] = 10
+50	0	0	0	0
+-50	0	0	0	0
+50	4	0	0	0
+-50	4	0	0	0
+-50	1	0	0	0
+50	1	0	0	0
+0	80.952399999999997	0	0	0
+0	-69.952399999999997	0	0	0
+0	0	0	0	0
+0	4	0	0	0
+[NumSegments] = 9
+3	4	-1	0	0	0	0
+2	5	-1	0	0	0	0
+4	1	-1	0	0	0	0
+5	0	-1	0	0	0	0
+2	9	-1	0	0	0	1
+1	8	-1	0	0	0	2
+5	4	-1	0	0	0	0
+8	0	-1	0	0	0	2
+9	3	-1	0	0	0	1
+[NumArcSegments] = 2
+6	7	180	1	1	0	0	0	1
+7	6	180	1	1	0	0	0	1
+[NumHoles] = 0
+[NumBlockLabels] = 4
+-41.299999999999997	3.2000000000000002	5	-1	0	0
+-29.899999999999999	0.5	6	-1	0	0
+-29.600000000000001	11	3	-1	0	0
+74.531193314604536	20.325176105838928	4	-1	0	0
