@@ -6,7 +6,7 @@ import java.util.Scanner;
 import static java.lang.System.out;
 
 public class Main {
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         // Using Scanner for Getting Input from User
         Scanner in = new Scanner(System.in);
 
@@ -27,40 +27,64 @@ public class Main {
         userTextList.forEach(out::println);
 
         out.println("Gib me lower boundary: ");
-        int low = in.nextInt();
-        out.println("You entered integer " + low);
+        int low = 0;
+        boolean wrongInput = true;
+        while (wrongInput) {
+            try {
+                low = in.nextInt();
+                wrongInput = false;
+            } catch (InputMismatchException e) {
+                in.nextLine();
+                System.err.println("[InputMismatchException] Wrong input! Input only integer numbers please.");
+            }
 
-        if (low < 0 || low > listSize) {
-            out.println("Wrong input");
-            System.exit(1);
+            if (low != 0) {
+                out.println("You entered integer " + low);
+            }
+
+            if (low > listSize || low < 0) {
+                out.println("Wrong input. Text size is different.");
+                wrongInput = true;
+            }
+
+
         }
+
 
         out.println("Gib me upper boundary: ");
-        int high = in.nextInt();
-
-        boolean inputNotNull = true;
-        while (inputNotNull) {
+        int high = 0;
+        wrongInput = true;
+        List<Character> subList = new ArrayList<>();
+        while (wrongInput) {
             try {
                 high = in.nextInt();
-
-                System.out.printf("The number %d is power of 2: %b\n", number, isPowerOfTwo(number));
-                if (high == 0) {
-                    inputNotNull = false;
-                }
-            }
-            catch (InputMismatchException e) {
-                System.err.println("Wrong input! Input only integer numbers please...");
+                wrongInput = false;
+            } catch (InputMismatchException e) {
                 in.nextLine();
+                System.err.println("[InputMismatchException] Wrong input! Input only integer numbers please.");
             }
-            out.println("You entered integer " + high);
+
+            if (high != 0) {
+                out.println("You entered integer " + high);
+            }
 
             if (high > listSize || high < 0) {
-                out.println("Wrong input");
-                System.exit(1);
+                out.println("Wrong input. Text size is different.");
+                wrongInput = true;
             }
 
-            List<Character> subList = userTextList.subList(low, high);
+            try {
+                subList = userTextList.subList(low, high);
+            } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
+                wrongInput = true;
+                System.err.println(e + ". Wrong input!");
+            }
 
-            subList.forEach(out::println);
         }
+
+        out.print("Your input: ");
+        subList.forEach(out::print);
+
+        System.exit(0);
     }
+}
