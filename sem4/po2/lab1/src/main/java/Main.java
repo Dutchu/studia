@@ -1,4 +1,10 @@
+import com.google.common.collect.Lists;
+import org.checkerframework.checker.fenum.qual.SwingBoxOrientation;
+
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,7 +20,39 @@ public class Main {
         BigDecimal b = new BigDecimal("4.31");
         BigDecimal c = new BigDecimal("5.23");
 
-        QuadraticEquationSolver solver;
+        DeltaSolver deltaSolver = new DeltaSolver(a, b, c);
+
+        System.out.println(deltaSolver.getDelta());
+        System.out.println(deltaSolver.a);
+        System.out.println(deltaSolver.b);
+        System.out.println(deltaSolver.c);
+
+        /***
+         * Usage of "Factory" Design pattern
+         */
+
+        QESolverFactory qeSolverFactory = new QESolverFactory();
+
+
+        /***
+         * Usage of "Strategy" Design pattern
+         */
+
+        System.out.println("Usage of \"Strategy\" Design pattern");
+
+        List<Discounter> discounters = Lists.newArrayList(
+                amount -> amount.multiply(BigDecimal.valueOf(0.9)),
+                amount -> amount.multiply(BigDecimal.valueOf(0.8)),
+                amount -> amount.multiply(BigDecimal.valueOf(0.5))
+        );
+
+        Discounter combinedDiscounter = discounters
+                .stream()
+                .reduce(v -> v, Discounter::combine);
+
+        System.out.println(a);
+        System.out.println(combinedDiscounter.apply(a));
+
 
     }
 }

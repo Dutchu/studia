@@ -46,8 +46,6 @@ public class Main {
                 out.println("Wrong input. Text size is different.");
                 wrongInput = true;
             }
-
-
         }
 
 
@@ -63,23 +61,19 @@ public class Main {
                 in.nextLine();
                 System.err.println("[InputMismatchException] Wrong input! Input only integer numbers please.");
             }
-
             if (high != 0) {
                 out.println("You entered integer " + high);
             }
-
             if (high > listSize || high < 0) {
                 out.println("Wrong input. Text size is different.");
                 wrongInput = true;
             }
-
             try {
                 subList = userTextList.subList(low, high);
             } catch (IllegalArgumentException | IndexOutOfBoundsException e) {
                 wrongInput = true;
                 System.err.println(e + ". Wrong input!");
             }
-
         }
 
         out.print("Your input: ");
