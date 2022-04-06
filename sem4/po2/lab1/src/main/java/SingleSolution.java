@@ -19,7 +19,7 @@ public class SingleSolution implements QESolvable {
 
     @Override
     public List<BigDecimal> solve() {
-        MathContext mc = new MathContext("10");
+        MathContext mc = new MathContext(10);
         return Lists.newArrayList(
                 deltaSolver
                         .b.negate()

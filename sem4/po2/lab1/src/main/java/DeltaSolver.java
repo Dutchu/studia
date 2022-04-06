@@ -23,7 +23,11 @@ public class DeltaSolver {
         this.a = a;
         this.b = b;
         this.c = c;
-        this.delta = b.pow(2).subtract(a.multiply(c).multiply(new BigDecimal(4)));
+
+        this.delta = b.pow(2)
+                .subtract(
+                        a.multiply(c)
+                                .multiply(BigDecimal.valueOf(4)));
 
     }
 

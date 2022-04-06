@@ -16,23 +16,28 @@ public class Main {
         Realizację zadania rozpocznij od napisania programu wczytującego parametry wywołania programu i konwertującego je do typu double.
         */
 
-        BigDecimal a = new BigDecimal("-2.3");
-        BigDecimal b = new BigDecimal("4.31");
-        BigDecimal c = new BigDecimal("5.23");
+        BigDecimal a = new BigDecimal("1");
+        BigDecimal b = new BigDecimal("4");
+        BigDecimal c = new BigDecimal("5");
 
         DeltaSolver deltaSolver = new DeltaSolver(a, b, c);
 
-        System.out.println(deltaSolver.getDelta());
-        System.out.println(deltaSolver.a);
-        System.out.println(deltaSolver.b);
-        System.out.println(deltaSolver.c);
+        System.out.println("Delta: " + deltaSolver.getDelta());
 
         /***
          * Usage of "Factory" Design pattern
          */
 
         QESolverFactory qeSolverFactory = new QESolverFactory();
-        qeSolverFactory.getSolution(deltaSolver).solve();
+
+        List<BigDecimal> solutions = qeSolverFactory.getSolution(deltaSolver).solve();
+
+        if (solutions == null) {
+            System.out.println("No solutions");
+        } else {
+            System.out.println("Quadratic equation solutions: " + solutions);
+        }
+
 
 
         /***
