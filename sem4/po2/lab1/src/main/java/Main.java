@@ -30,7 +30,7 @@ public class Main {
 
         QESolverFactory qeSolverFactory = new QESolverFactory();
 
-        List<BigDecimal> solutions = qeSolverFactory.getSolution(deltaSolver).solve();
+        List<BigDecimal> solutions = qeSolverFactory.calcDelta(deltaSolver).solve();
 
         if (solutions == null) {
             System.out.println("No solutions");
