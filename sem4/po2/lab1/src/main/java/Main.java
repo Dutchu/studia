@@ -4,6 +4,7 @@ import org.checkerframework.checker.fenum.qual.SwingBoxOrientation;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Main {
@@ -16,9 +17,23 @@ public class Main {
         Realizację zadania rozpocznij od napisania programu wczytującego parametry wywołania programu i konwertującego je do typu double.
         */
 
-        BigDecimal a = new BigDecimal("1");
-        BigDecimal b = new BigDecimal("4");
-        BigDecimal c = new BigDecimal("5");
+
+        List<String> argsList = Arrays.stream(args).toList();
+
+        System.out.println("Program arguments: " + argsList);
+
+        BigDecimal a = BigDecimal.ZERO;
+        BigDecimal b = BigDecimal.ZERO;
+        BigDecimal c = BigDecimal.ZERO;
+
+        try {
+            a = new BigDecimal(argsList.get(0));
+            b = new BigDecimal(argsList.get(1));
+            c = new BigDecimal(argsList.get(2));
+        } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) {
+            System.err.println(e.getMessage());
+        }
+
 
         DeltaSolver deltaSolver = new DeltaSolver(a, b, c);
 
