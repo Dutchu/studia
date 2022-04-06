@@ -10,7 +10,8 @@ public class QESolverFactory {
             return new DoubleSolution(deltaSolver);
         }
         if(ifDeltaComparedZero < 0) {
-            return new NoSolution(deltaSolver);
+            return new NoSolution();
         }
+        return null;
     }
 }

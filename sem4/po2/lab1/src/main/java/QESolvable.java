@@ -10,5 +10,5 @@ import java.util.List;
  */
 
 public interface QESolvable {
-    public List<BigDecimal> solve(DeltaSolver deltaSolution);
+    public List<BigDecimal> solve();
 }

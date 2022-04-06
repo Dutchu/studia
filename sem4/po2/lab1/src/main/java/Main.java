@@ -32,6 +32,7 @@ public class Main {
          */
 
         QESolverFactory qeSolverFactory = new QESolverFactory();
+        qeSolverFactory.getSolution(deltaSolver).solve();
 
 
         /***
