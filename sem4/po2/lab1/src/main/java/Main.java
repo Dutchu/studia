@@ -39,7 +39,6 @@ public class Main {
         }
 
 
-
         /***
          * Usage of "Strategy" Design pattern
          */
