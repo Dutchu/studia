@@ -1,37 +1,45 @@
-import java.io.*;
+package shoppingList;
 
-public class ShoppingList implements Externalizable {
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
-    private String categories;
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class ShoppingList {
 
-    public void setCategories(String categories) {
+    private List<ShoppingCategory> categories;
+
+//    @Override
+//    public void writeExternal(ObjectOutput out) throws IOException {
+//        System.out.println("[shoppingList.ShoppingList] writeExternal() ");
+//        out.writeUTF(categories);
+//    }
+
+//    @Override
+//    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
+//        System.out.println("[shoppingList.ShoppingList] readExternal() ");
+//        this.categories = (String) in.readUTF();
+//    }
+
+
+    public List<ShoppingCategory> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<ShoppingCategory> categories) {
         this.categories = categories;
     }
 
-    public String getCategories() {
-        return this.categories;
-    }
-
-    @Override
-    public void writeExternal(ObjectOutput out) throws IOException {
-        System.out.println("[ShoppingList] writeExternal() ");
-        out.writeUTF(categories);
-    }
-
-    @Override
-    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
-        System.out.println("[ShoppingList] readExternal() ");
-        this.categories = (String) in.readUTF();
+    public void addCategories(ShoppingCategory categories) {
+        this.categories.add(categories);
     }
 
     @Override
     public String toString() {
-        System.out.println("[ShoppingList] toString() ");
-        return "ShoppingList{" +
-                "categories='" + categories + '\'' +
-                '}';
+        return categories.stream()
+                .map(e -> e.getCategoryName() + '\n' + e.getItems().stream()
+                        .map(i -> '\t' + i.toString())
+                        .collect(Collectors.joining("\n")))
+                .collect(Collectors.joining("\n"));
     }
-
 }

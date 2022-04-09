@@ -1,0 +1,8 @@
+spozywcze
+	Bannan
+	Cebula
+	Pomidor
+warzywka
+	Bannan
+	Cebula
+	Pomidor

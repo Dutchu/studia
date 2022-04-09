@@ -1,3 +1,5 @@
+package fileReader;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
@@ -24,7 +26,7 @@ public class LineReader {
         }
 
         if (sc == null) {
-            System.err.println("[ ERROR : LineReader.readLine() ] Couldn't read a file");
+            System.err.println("[ ERROR : fileReader.LineReader.readLine() ] Couldn't read a file");
             return "";
         }
 

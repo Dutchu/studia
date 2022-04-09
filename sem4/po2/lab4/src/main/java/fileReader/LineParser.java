@@ -1,2 +1,4 @@
-package fileReader;public class LineParser {
+package fileReader;
+
+public class LineParser {
 }
