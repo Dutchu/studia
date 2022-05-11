@@ -5,12 +5,20 @@
   </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" ENABLED="true" />
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e912e2d-b339-4506-8596-8596e88aebb7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/files/21/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/files/21/main.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/FileParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/ShoppListBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/FileStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/FileStream.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/LineParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingCategory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingList.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/zakupy.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/zakupy.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,9 +29,10 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="ProjectId" id="1wx6QfiQqjp4nI6pr95z761rHHm" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -31,9 +40,12 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/files" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.DirectoryMappings" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -44,6 +56,7 @@
       <option name="presentableId" value="Default" />
       <updated>1629387877919</updated>
       <workItem from="1629387879228" duration="15000" />
+      <workItem from="1652290969885" duration="54000" />
     </task>
     <servers />
   </component>
