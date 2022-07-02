@@ -1,0 +1,11 @@
+C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/18/cmake-build-debug/CMakeFiles/18.dir
+C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/18/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/18/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/20/cmake-build-debug/CMakeFiles/20.dir
+C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/20/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/20/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/utils/cmake-build-debug/CMakeFiles/utils.dir
+C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/utils/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/utils/cmake-build-debug/CMakeFiles/rebuild_cache.dir

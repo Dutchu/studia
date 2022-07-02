@@ -1,9 +1,8 @@
 package fileReader;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileStream {
 
@@ -11,6 +10,10 @@ public class FileStream {
 
     public String getFileName() {
         return fileName;
+    }
+
+    public FileStream(String fileName) {
+        this.fileName = fileName;
     }
 
     public void setFileName(String fileName) {
@@ -27,4 +30,49 @@ public class FileStream {
         }
 
     }
+
+    public byte[] readFile() {
+        byte[] message = new byte[0];
+
+        try (FileInputStream file = new FileInputStream(fileName);) {
+            message = file.readAllBytes();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return message;
+    }
+
+    public String readFileString() {
+
+        String lines = "";
+
+        try (FileReader fileReader = new FileReader(fileName)) {
+            try (BufferedReader bufferedReader = new BufferedReader(fileReader)) {
+                lines = bufferedReader.lines()
+                        .collect(Collectors.joining(System.lineSeparator()));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return lines;
+    }
+
+    public String readLineString() {
+
+        String line = "";
+
+        try (FileReader fileReader = new FileReader(fileName)) {
+            try (BufferedReader reader = new BufferedReader(fileReader)) {
+                line = reader.readLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return line;
+    }
+
 }

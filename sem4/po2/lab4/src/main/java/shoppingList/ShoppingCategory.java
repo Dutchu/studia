@@ -8,6 +8,11 @@ public class ShoppingCategory {
     private String categoryName;
     private List<ShoppingItem> items;
 
+    public ShoppingCategory(String name, List<ShoppingItem> items){
+        categoryName = name;
+        this.items = items;
+    }
+
     public String getCategoryName() {
         return categoryName;
     }

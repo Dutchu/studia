@@ -10,11 +10,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e912e2d-b339-4506-8596-8596e88aebb7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/FileParser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/ShoppListBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/FileParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/FileParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/FileStream.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/FileStream.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/LineParser.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/ShoppListBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/fileReader/ShoppListBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingCategory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingList.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../sem4/po2/lab4/src/main/java/shoppingList/ShoppingList.java" afterDir="false" />
@@ -31,6 +30,14 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2021" />
+    <option name="minorVersion" value="3.3" />
+  </component>
   <component name="ProjectId" id="1wx6QfiQqjp4nI6pr95z761rHHm" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -44,8 +51,44 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="cf.first.check.clang-format" value="false" />
     <property name="cidr.known.project.marker" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/files" />
+    <property name="cmake.loaded.for.project" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/structs/utils" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.DirectoryMappings" />
+    <property name="structure.view.defaults.are.configured" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\utils" />
+      <recent name="C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\20" />
+      <recent name="C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\18" />
+      <recent name="C:\Users\Bartek\Desktop\studia\sem2\pp2\structs" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\18" />
+    </key>
+  </component>
+  <component name="RunManager" selected="CMake Application.structs">
+    <configuration name="Unnamed" type="CLionNativeAppRunConfigurationType" nameIsGenerated="true" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="structs" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$/structs" PASS_PARENT_ENVS_2="true" RUN_PATH="$PROJECT_DIR$/structs/18/main.c" EXPLICIT_BUILD_TARGET_NAME="all">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CMake.Explicit.Target" explicitTargetName="all" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.structs" />
+      <item itemvalue="Makefile Application.Unnamed" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -56,7 +99,8 @@
       <option name="presentableId" value="Default" />
       <updated>1629387877919</updated>
       <workItem from="1629387879228" duration="15000" />
-      <workItem from="1652290969885" duration="54000" />
+      <workItem from="1652290969885" duration="626000" />
+      <workItem from="1652525569097" duration="29167000" />
     </task>
     <servers />
   </component>
@@ -73,5 +117,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="CMakeRunConfiguration">
+        <watch expression="files_array" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>

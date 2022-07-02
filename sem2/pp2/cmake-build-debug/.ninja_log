@@ -1,0 +1,7 @@
+# ninja log v5
+36	248	6751972420889179	CMakeFiles/pp2.dir/structs/utils/main.c.obj	c30e83c559aa9d82
+16	82	6739948021155394	CMakeFiles/pp2.dir/structs/20/main.c.obj	36743f62b9b0bf90
+89	190	6750057329682734	pp2.exe	9423b72bbd94f53e
+2	89	6751973037851688	CMakeFiles/pp2.dir/structs/18/main.c.obj	81df0e74b4dfa960
+2	103	6751975499676708	CMakeFiles/pp2.dir/structs/20/main.c.obj	36743f62b9b0bf90
+15	107	6751975499731726	CMakeFiles/pp2.dir/structs/utils/main.c.obj	c30e83c559aa9d82

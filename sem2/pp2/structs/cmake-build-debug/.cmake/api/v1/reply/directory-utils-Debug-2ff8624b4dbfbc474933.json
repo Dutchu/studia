@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/utils/cmake-build-debug",
+		"source" : "utils"
+	}
+}

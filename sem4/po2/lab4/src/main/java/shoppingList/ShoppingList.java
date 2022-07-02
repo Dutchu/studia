@@ -21,6 +21,9 @@ public class ShoppingList {
 //        this.categories = (String) in.readUTF();
 //    }
 
+    public ShoppingList(List<ShoppingCategory> categories){
+        this.categories = categories;
+    }
 
     public List<ShoppingCategory> getCategories() {
         return categories;

@@ -1,0 +1,159 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"jsonFile" : "directory-.-Debug-d0094a50bb2071803777.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.21"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/18/cmake-build-debug",
+					"jsonFile" : "directory-18-Debug-4b6466715a8a4c2a0e22.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.17"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "18",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/20/cmake-build-debug",
+					"jsonFile" : "directory-20-Debug-a612e7749276665e2713.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.17"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "20",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/utils/cmake-build-debug",
+					"jsonFile" : "directory-utils-Debug-2ff8624b4dbfbc474933.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.17"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "utils",
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "structs"
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "18",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "20",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "utils",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "18::@9a841c1652b7f6087bdb",
+					"jsonFile" : "target-18-Debug-12052b7118ff3f368c66.json",
+					"name" : "18",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "20::@c995a41b733013d39271",
+					"jsonFile" : "target-20-Debug-f0f921e4726dcf70b169.json",
+					"name" : "20",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "utils::@1782d13e7e36025b0844",
+					"jsonFile" : "target-utils-Debug-76ef8f5ead7273c253c9.json",
+					"name" : "utils",
+					"projectIndex" : 3
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/cmake-build-debug",
+		"source" : "C:/Users/Bartek/Desktop/studia/sem2/pp2/structs"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

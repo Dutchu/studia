@@ -1,14 +1,14 @@
 import fileReader.FileStream;
+import fileReader.FileParser;
 import fileReader.LineReader;
+import fileReader.ShoppListBuilder;
 import shoppingList.ShoppingCategory;
 import shoppingList.ShoppingItem;
 import shoppingList.ShoppingList;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Main {
 
@@ -22,44 +22,70 @@ public class Main {
          */
         LineReader lineReader = new LineReader(FILE_NAME);
 
-        ShoppingItem shoppingItem1 = new ShoppingItem();
-        shoppingItem1.setItemName("Bannan");
-        ShoppingItem shoppingItem2 = new ShoppingItem();
-        shoppingItem2.setItemName("Cebula");
-        ShoppingItem shoppingItem3 = new ShoppingItem();
-        shoppingItem3.setItemName("Pomidor");
+        ShoppingItem shoppingItem1 = new ShoppingItem("Bannan");
+        ShoppingItem shoppingItem2 = new ShoppingItem("Cebula");
+        ShoppingItem shoppingItem3 = new ShoppingItem("Pomidor");
+        ShoppingItem shoppingItem4 = new ShoppingItem("Jajka");
 
-        List<ShoppingItem> shoppingItems = new ArrayList<>();
-        shoppingItems.add(shoppingItem1);
-        shoppingItems.add(shoppingItem2);
-        shoppingItems.add(shoppingItem3);
+        ShoppingItem shoppingItem5 = new ShoppingItem("Pilka");
+        ShoppingItem shoppingItem6 = new ShoppingItem("Koszulki");
+        ShoppingItem shoppingItem7 = new ShoppingItem("Korki");
+        ShoppingItem shoppingItem8 = new ShoppingItem("Spodenki");
 
-        ShoppingCategory shoppingCategory1 = new ShoppingCategory();
-        shoppingCategory1.setCategoryName("spozywcze");
-        shoppingCategory1.setItems(shoppingItems);
-        ShoppingCategory shoppingCategory2 = new ShoppingCategory();
-        shoppingCategory2.setCategoryName("warzywka");
-        shoppingCategory2.setItems(shoppingItems);
+        ShoppingItem shoppingItem9 = new ShoppingItem("Opony");
+        ShoppingItem shoppingItem10 = new ShoppingItem("Hamulce");
+        ShoppingItem shoppingItem11 = new ShoppingItem("Wycieraczki");
+        ShoppingItem shoppingItem12 = new ShoppingItem("Tapicerka");
+
+        List<ShoppingItem> shoppingItems1 = new ArrayList<>();
+        shoppingItems1.add(shoppingItem1);
+        shoppingItems1.add(shoppingItem2);
+        shoppingItems1.add(shoppingItem3);
+        shoppingItems1.add(shoppingItem4);
+
+        List<ShoppingItem> shoppingItems2 = new ArrayList<>();
+        shoppingItems2.add(shoppingItem5);
+        shoppingItems2.add(shoppingItem6);
+        shoppingItems2.add(shoppingItem7);
+        shoppingItems2.add(shoppingItem8);
+
+        List<ShoppingItem> shoppingItems3 = new ArrayList<>();
+        shoppingItems3.add(shoppingItem9);
+        shoppingItems3.add(shoppingItem10);
+        shoppingItems3.add(shoppingItem11);
+        shoppingItems3.add(shoppingItem12);
+
+        ShoppingCategory shoppingCategory1 = new ShoppingCategory("spozywcze", shoppingItems1);
+        ShoppingCategory shoppingCategory2 = new ShoppingCategory("sportowe", shoppingItems2);
+        ShoppingCategory shoppingCategory3 = new ShoppingCategory("moto", shoppingItems3);
+
 
         List<ShoppingCategory> shoppingCategoryList = new ArrayList<>();
 
-        ShoppingList shoppingList = new ShoppingList();
-        shoppingList.setCategories(shoppingCategoryList);
+        ShoppingList shoppingList = new ShoppingList(shoppingCategoryList);
+
         System.out.println(shoppingList);
         shoppingList.addCategories(shoppingCategory1);
         System.out.println(shoppingList);
         shoppingList.addCategories(shoppingCategory2);
         System.out.println(shoppingList);
+        shoppingList.addCategories(shoppingCategory3);
+        System.out.println(shoppingList);
 
-        FileStream fileStream = new FileStream();
-        fileStream.setFileName(FILE_NAME);
-
+        FileStream fileStream = new FileStream(FILE_NAME);
         fileStream.writeFile(shoppingList.toString());
 
+        FileParser fileParser = new FileParser();
+        fileParser.getMessage(FILE_NAME);
+
+        System.out.println("\nFile: " + fileStream.readLineString());
+
+        ShoppListBuilder shoppListBuilder = new ShoppListBuilder();
+        shoppingList = shoppListBuilder.build(FILE_NAME);
+        System.out.println("[MAIN] " + shoppingList);
 
 
 //        System.out.println(lr.readLine());
-
 //        writeShoppingList(sl);
 //        ShoppingList deserializedShoppingList = new ShoppingList();
 //        deserializedShoppingList = readShoppingList(deserializedShoppingList);
