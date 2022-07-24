@@ -1,1 +1,0 @@
-CMakeLists.txt not found in C:\Users\Bartek\Desktop\studia\sem2\pp2 Select CMakeLists.txt

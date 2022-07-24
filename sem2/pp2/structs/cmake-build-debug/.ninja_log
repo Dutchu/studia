@@ -1,9 +1,0 @@
-# ninja log v5
-68	160	6801332515789878	../file_struct/cmake-build-debug/18.exe	647a30389c923d4b
-2	66	6800486661119571	../test/cmake-build-debug/CMakeFiles/test.dir/main.c.obj	28a53485fce8e1db
-0	66	6801332514872336	../file_struct/cmake-build-debug/CMakeFiles/18.dir/main.c.obj	506b842efa8f8b70
-66	142	6800486661847622	../test/cmake-build-debug/test.exe	877f5af4afdacbfe
-1	145	6803827972856152	build.ninja	af05be522e3a23aa
-2	63	6803816508849585	../hidden_message_II/cmake-build-debug/CMakeFiles/hidden_message_II.dir/main.c.obj	aa3cab5d94e0bfdf
-2	74	6803806583788978	../hidden_message_II/cmake-build-debug/CMakeFiles/hidden_message_II.dir/__/struct_utils/struct_utils.c.obj	4836cf7e8a223531
-63	140	6803816509587925	../hidden_message_II/cmake-build-debug/hidden_message_II.exe	ea27e29d36296320
