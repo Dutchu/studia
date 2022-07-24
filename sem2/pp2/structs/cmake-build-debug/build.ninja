@@ -68,207 +68,214 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/CMakeLists.txt
 # =============================================================================
 
+
+#############################################
+# Utility command for rebuild_cache
+
+build ../file_struct/cmake-build-debug/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\file_struct\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Bartek\Desktop\studia\sem2\pp2\structs -BC:\Users\Bartek\Desktop\studia\sem2\pp2\structs\cmake-build-debug"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build ../file_struct/cmake-build-debug/rebuild_cache: phony ../file_struct/cmake-build-debug/CMakeFiles/rebuild_cache.util
+
 # =============================================================================
-# Object build statements for EXECUTABLE target 18
+# Object build statements for EXECUTABLE target file_struct
 
 
 #############################################
-# Order-only phony target for 18
+# Order-only phony target for file_struct
 
-build cmake_object_order_depends_target_18: phony || ../18/cmake-build-debug/CMakeFiles/18.dir
+build cmake_object_order_depends_target_file_struct: phony || ../file_struct/cmake-build-debug/CMakeFiles/file_struct.dir
 
-build ../18/cmake-build-debug/CMakeFiles/18.dir/main.c.obj: C_COMPILER__18_Debug C$:/Users/Bartek/Desktop/studia/sem2/pp2/structs/18/main.c || cmake_object_order_depends_target_18
-  DEP_FILE = ..\18\cmake-build-debug\CMakeFiles\18.dir\main.c.obj.d
+build ../file_struct/cmake-build-debug/CMakeFiles/file_struct.dir/main.c.obj: C_COMPILER__file_struct_Debug C$:/Users/Bartek/Desktop/studia/sem2/pp2/structs/file_struct/main.c || cmake_object_order_depends_target_file_struct
+  DEP_FILE = ..\file_struct\cmake-build-debug\CMakeFiles\file_struct.dir\main.c.obj.d
   FLAGS = -g -std=gnu99
-  OBJECT_DIR = ..\18\cmake-build-debug\CMakeFiles\18.dir
-  OBJECT_FILE_DIR = ..\18\cmake-build-debug\CMakeFiles\18.dir
-  TARGET_COMPILE_PDB = ..\18\cmake-build-debug\CMakeFiles\18.dir\
-  TARGET_PDB = ..\18\cmake-build-debug\18.pdb
+  INCLUDES = -IC:/Users/Bartek/Desktop/studia/sem2/pp2/structs/file_struct/../struct_utils
+  OBJECT_DIR = ..\file_struct\cmake-build-debug\CMakeFiles\file_struct.dir
+  OBJECT_FILE_DIR = ..\file_struct\cmake-build-debug\CMakeFiles\file_struct.dir
+
+build ../file_struct/cmake-build-debug/CMakeFiles/file_struct.dir/__/struct_utils/struct_utils.c.obj: C_COMPILER__file_struct_Debug C$:/Users/Bartek/Desktop/studia/sem2/pp2/structs/struct_utils/struct_utils.c || cmake_object_order_depends_target_file_struct
+  DEP_FILE = ..\file_struct\cmake-build-debug\CMakeFiles\file_struct.dir\__\struct_utils\struct_utils.c.obj.d
+  FLAGS = -g -std=gnu99
+  INCLUDES = -IC:/Users/Bartek/Desktop/studia/sem2/pp2/structs/file_struct/../struct_utils
+  OBJECT_DIR = ..\file_struct\cmake-build-debug\CMakeFiles\file_struct.dir
+  OBJECT_FILE_DIR = ..\file_struct\cmake-build-debug\CMakeFiles\file_struct.dir\__\struct_utils
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target 18
+# Link build statements for EXECUTABLE target file_struct
 
 
 #############################################
-# Link the executable ..\18\cmake-build-debug\18.exe
+# Link the executable ..\file_struct\cmake-build-debug\file_struct.exe
 
-build ../18/cmake-build-debug/18.exe: C_EXECUTABLE_LINKER__18_Debug ../18/cmake-build-debug/CMakeFiles/18.dir/main.c.obj
+build ../file_struct/cmake-build-debug/file_struct.exe: C_EXECUTABLE_LINKER__file_struct_Debug ../file_struct/cmake-build-debug/CMakeFiles/file_struct.dir/main.c.obj ../file_struct/cmake-build-debug/CMakeFiles/file_struct.dir/__/struct_utils/struct_utils.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = ..\18\cmake-build-debug\CMakeFiles\18.dir
+  OBJECT_DIR = ..\file_struct\cmake-build-debug\CMakeFiles\file_struct.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = ..\18\cmake-build-debug\CMakeFiles\18.dir\
-  TARGET_FILE = ..\18\cmake-build-debug\18.exe
-  TARGET_IMPLIB = ..\18\cmake-build-debug\lib18.dll.a
-  TARGET_PDB = ..\18\cmake-build-debug\18.pdb
+  TARGET_FILE = ..\file_struct\cmake-build-debug\file_struct.exe
+  TARGET_IMPLIB = ..\file_struct\cmake-build-debug\libfile_struct.dll.a
+  TARGET_PDB = file_struct.exe.dbg
 
 
 #############################################
 # Utility command for edit_cache
 
-build ../18/cmake-build-debug/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\18\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+build ../file_struct/cmake-build-debug/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\file_struct\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
-build ../18/cmake-build-debug/edit_cache: phony ../18/cmake-build-debug/CMakeFiles/edit_cache.util
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build ../18/cmake-build-debug/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\18\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Bartek\Desktop\studia\sem2\pp2\structs -BC:\Users\Bartek\Desktop\studia\sem2\pp2\structs\cmake-build-debug"
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build ../18/cmake-build-debug/rebuild_cache: phony ../18/cmake-build-debug/CMakeFiles/rebuild_cache.util
+build ../file_struct/cmake-build-debug/edit_cache: phony ../file_struct/cmake-build-debug/CMakeFiles/edit_cache.util
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
 # C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/CMakeLists.txt
 # =============================================================================
 
-# =============================================================================
-# Object build statements for EXECUTABLE target 20
-
-
-#############################################
-# Order-only phony target for 20
-
-build cmake_object_order_depends_target_20: phony || ../20/cmake-build-debug/CMakeFiles/20.dir
-
-build ../20/cmake-build-debug/CMakeFiles/20.dir/main.c.obj: C_COMPILER__20_Debug C$:/Users/Bartek/Desktop/studia/sem2/pp2/structs/20/main.c || cmake_object_order_depends_target_20
-  DEP_FILE = ..\20\cmake-build-debug\CMakeFiles\20.dir\main.c.obj.d
-  FLAGS = -g -std=gnu99
-  OBJECT_DIR = ..\20\cmake-build-debug\CMakeFiles\20.dir
-  OBJECT_FILE_DIR = ..\20\cmake-build-debug\CMakeFiles\20.dir
-  TARGET_COMPILE_PDB = ..\20\cmake-build-debug\CMakeFiles\20.dir\
-  TARGET_PDB = ..\20\cmake-build-debug\20.pdb
-
-
-# =============================================================================
-# Link build statements for EXECUTABLE target 20
-
-
-#############################################
-# Link the executable ..\20\cmake-build-debug\20.exe
-
-build ../20/cmake-build-debug/20.exe: C_EXECUTABLE_LINKER__20_Debug ../20/cmake-build-debug/CMakeFiles/20.dir/main.c.obj
-  FLAGS = -g
-  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = ..\20\cmake-build-debug\CMakeFiles\20.dir
-  POST_BUILD = cd .
-  PRE_LINK = cd .
-  TARGET_COMPILE_PDB = ..\20\cmake-build-debug\CMakeFiles\20.dir\
-  TARGET_FILE = ..\20\cmake-build-debug\20.exe
-  TARGET_IMPLIB = ..\20\cmake-build-debug\lib20.dll.a
-  TARGET_PDB = ..\20\cmake-build-debug\20.pdb
-
 
 #############################################
 # Utility command for edit_cache
 
-build ../20/cmake-build-debug/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\20\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+build ../hidden_message_II/cmake-build-debug/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\hidden_message_II\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
-build ../20/cmake-build-debug/edit_cache: phony ../20/cmake-build-debug/CMakeFiles/edit_cache.util
+build ../hidden_message_II/cmake-build-debug/edit_cache: phony ../hidden_message_II/cmake-build-debug/CMakeFiles/edit_cache.util
+
+# =============================================================================
+# Object build statements for EXECUTABLE target hidden_message_II
+
+
+#############################################
+# Order-only phony target for hidden_message_II
+
+build cmake_object_order_depends_target_hidden_message_II: phony || ../hidden_message_II/cmake-build-debug/CMakeFiles/hidden_message_II.dir
+
+build ../hidden_message_II/cmake-build-debug/CMakeFiles/hidden_message_II.dir/main.c.obj: C_COMPILER__hidden_message_II_Debug C$:/Users/Bartek/Desktop/studia/sem2/pp2/structs/hidden_message_II/main.c || cmake_object_order_depends_target_hidden_message_II
+  DEP_FILE = ..\hidden_message_II\cmake-build-debug\CMakeFiles\hidden_message_II.dir\main.c.obj.d
+  FLAGS = -g -std=gnu99
+  INCLUDES = -IC:/Users/Bartek/Desktop/studia/sem2/pp2/structs/hidden_message_II/../struct_utils
+  OBJECT_DIR = ..\hidden_message_II\cmake-build-debug\CMakeFiles\hidden_message_II.dir
+  OBJECT_FILE_DIR = ..\hidden_message_II\cmake-build-debug\CMakeFiles\hidden_message_II.dir
+
+build ../hidden_message_II/cmake-build-debug/CMakeFiles/hidden_message_II.dir/__/struct_utils/struct_utils.c.obj: C_COMPILER__hidden_message_II_Debug C$:/Users/Bartek/Desktop/studia/sem2/pp2/structs/struct_utils/struct_utils.c || cmake_object_order_depends_target_hidden_message_II
+  DEP_FILE = ..\hidden_message_II\cmake-build-debug\CMakeFiles\hidden_message_II.dir\__\struct_utils\struct_utils.c.obj.d
+  FLAGS = -g -std=gnu99
+  INCLUDES = -IC:/Users/Bartek/Desktop/studia/sem2/pp2/structs/hidden_message_II/../struct_utils
+  OBJECT_DIR = ..\hidden_message_II\cmake-build-debug\CMakeFiles\hidden_message_II.dir
+  OBJECT_FILE_DIR = ..\hidden_message_II\cmake-build-debug\CMakeFiles\hidden_message_II.dir\__\struct_utils
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target hidden_message_II
+
+
+#############################################
+# Link the executable ..\hidden_message_II\cmake-build-debug\hidden_message_II.exe
+
+build ../hidden_message_II/cmake-build-debug/hidden_message_II.exe: C_EXECUTABLE_LINKER__hidden_message_II_Debug ../hidden_message_II/cmake-build-debug/CMakeFiles/hidden_message_II.dir/main.c.obj ../hidden_message_II/cmake-build-debug/CMakeFiles/hidden_message_II.dir/__/struct_utils/struct_utils.c.obj
+  FLAGS = -g
+  LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  OBJECT_DIR = ..\hidden_message_II\cmake-build-debug\CMakeFiles\hidden_message_II.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = ..\hidden_message_II\cmake-build-debug\hidden_message_II.exe
+  TARGET_IMPLIB = ..\hidden_message_II\cmake-build-debug\libhidden_message_II.dll.a
+  TARGET_PDB = hidden_message_II.exe.dbg
 
 
 #############################################
 # Utility command for rebuild_cache
 
-build ../20/cmake-build-debug/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\20\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Bartek\Desktop\studia\sem2\pp2\structs -BC:\Users\Bartek\Desktop\studia\sem2\pp2\structs\cmake-build-debug"
+build ../hidden_message_II/cmake-build-debug/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\hidden_message_II\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Bartek\Desktop\studia\sem2\pp2\structs -BC:\Users\Bartek\Desktop\studia\sem2\pp2\structs\cmake-build-debug"
   DESC = Running CMake to regenerate build system...
   pool = console
   restat = 1
 
-build ../20/cmake-build-debug/rebuild_cache: phony ../20/cmake-build-debug/CMakeFiles/rebuild_cache.util
+build ../hidden_message_II/cmake-build-debug/rebuild_cache: phony ../hidden_message_II/cmake-build-debug/CMakeFiles/rebuild_cache.util
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
 # C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/CMakeLists.txt
 # =============================================================================
 
+
+#############################################
+# Utility command for rebuild_cache
+
+build ../test/cmake-build-debug/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\test\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Bartek\Desktop\studia\sem2\pp2\structs -BC:\Users\Bartek\Desktop\studia\sem2\pp2\structs\cmake-build-debug"
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build ../test/cmake-build-debug/rebuild_cache: phony ../test/cmake-build-debug/CMakeFiles/rebuild_cache.util
+
 # =============================================================================
-# Object build statements for EXECUTABLE target utils
+# Object build statements for EXECUTABLE target test
 
 
 #############################################
-# Order-only phony target for utils
+# Order-only phony target for test
 
-build cmake_object_order_depends_target_utils: phony || ../utils/cmake-build-debug/CMakeFiles/utils.dir
+build cmake_object_order_depends_target_test: phony || ../test/cmake-build-debug/CMakeFiles/test.dir
 
-build ../utils/cmake-build-debug/CMakeFiles/utils.dir/main.c.obj: C_COMPILER__utils_Debug C$:/Users/Bartek/Desktop/studia/sem2/pp2/structs/utils/main.c || cmake_object_order_depends_target_utils
-  DEP_FILE = ..\utils\cmake-build-debug\CMakeFiles\utils.dir\main.c.obj.d
+build ../test/cmake-build-debug/CMakeFiles/test.dir/main.c.obj: C_COMPILER__test_Debug C$:/Users/Bartek/Desktop/studia/sem2/pp2/structs/test/main.c || cmake_object_order_depends_target_test
+  DEP_FILE = ..\test\cmake-build-debug\CMakeFiles\test.dir\main.c.obj.d
   FLAGS = -g -std=gnu99
-  OBJECT_DIR = ..\utils\cmake-build-debug\CMakeFiles\utils.dir
-  OBJECT_FILE_DIR = ..\utils\cmake-build-debug\CMakeFiles\utils.dir
-  TARGET_COMPILE_PDB = ..\utils\cmake-build-debug\CMakeFiles\utils.dir\
-  TARGET_PDB = ..\utils\cmake-build-debug\utils.pdb
+  OBJECT_DIR = ..\test\cmake-build-debug\CMakeFiles\test.dir
+  OBJECT_FILE_DIR = ..\test\cmake-build-debug\CMakeFiles\test.dir
 
 
 # =============================================================================
-# Link build statements for EXECUTABLE target utils
+# Link build statements for EXECUTABLE target test
 
 
 #############################################
-# Link the executable ..\utils\cmake-build-debug\utils.exe
+# Link the executable ..\test\cmake-build-debug\test.exe
 
-build ../utils/cmake-build-debug/utils.exe: C_EXECUTABLE_LINKER__utils_Debug ../utils/cmake-build-debug/CMakeFiles/utils.dir/main.c.obj
+build ../test/cmake-build-debug/test.exe: C_EXECUTABLE_LINKER__test_Debug ../test/cmake-build-debug/CMakeFiles/test.dir/main.c.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
-  OBJECT_DIR = ..\utils\cmake-build-debug\CMakeFiles\utils.dir
+  OBJECT_DIR = ..\test\cmake-build-debug\CMakeFiles\test.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
-  TARGET_COMPILE_PDB = ..\utils\cmake-build-debug\CMakeFiles\utils.dir\
-  TARGET_FILE = ..\utils\cmake-build-debug\utils.exe
-  TARGET_IMPLIB = ..\utils\cmake-build-debug\libutils.dll.a
-  TARGET_PDB = ..\utils\cmake-build-debug\utils.pdb
+  TARGET_FILE = ..\test\cmake-build-debug\test.exe
+  TARGET_IMPLIB = ..\test\cmake-build-debug\libtest.dll.a
+  TARGET_PDB = test.exe.dbg
 
 
 #############################################
 # Utility command for edit_cache
 
-build ../utils/cmake-build-debug/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\utils\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+build ../test/cmake-build-debug/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\test\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
   DESC = No interactive CMake dialog available...
   restat = 1
 
-build ../utils/cmake-build-debug/edit_cache: phony ../utils/cmake-build-debug/CMakeFiles/edit_cache.util
-
-
-#############################################
-# Utility command for rebuild_cache
-
-build ../utils/cmake-build-debug/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D C:\Users\Bartek\Desktop\studia\sem2\pp2\structs\utils\cmake-build-debug && "C:\Users\Bartek\AppData\Local\JetBrains\CLion 2021.3.3\bin\cmake\win\bin\cmake.exe" --regenerate-during-build -SC:\Users\Bartek\Desktop\studia\sem2\pp2\structs -BC:\Users\Bartek\Desktop\studia\sem2\pp2\structs\cmake-build-debug"
-  DESC = Running CMake to regenerate build system...
-  pool = console
-  restat = 1
-
-build ../utils/cmake-build-debug/rebuild_cache: phony ../utils/cmake-build-debug/CMakeFiles/rebuild_cache.util
+build ../test/cmake-build-debug/edit_cache: phony ../test/cmake-build-debug/CMakeFiles/edit_cache.util
 
 # =============================================================================
 # Target aliases.
 
-build 18: phony ../18/cmake-build-debug/18.exe
+build file_struct: phony ../file_struct/cmake-build-debug/file_struct.exe
 
-build 18.exe: phony ../18/cmake-build-debug/18.exe
+build file_struct.exe: phony ../file_struct/cmake-build-debug/file_struct.exe
 
-build 20: phony ../20/cmake-build-debug/20.exe
+build hidden_message_II: phony ../hidden_message_II/cmake-build-debug/hidden_message_II.exe
 
-build 20.exe: phony ../20/cmake-build-debug/20.exe
+build hidden_message_II.exe: phony ../hidden_message_II/cmake-build-debug/hidden_message_II.exe
 
-build utils: phony ../utils/cmake-build-debug/utils.exe
+build test: phony ../test/cmake-build-debug/test.exe
 
-build utils.exe: phony ../utils/cmake-build-debug/utils.exe
+build test.exe: phony ../test/cmake-build-debug/test.exe
 
 # =============================================================================
 # Folder targets.
@@ -276,30 +283,30 @@ build utils.exe: phony ../utils/cmake-build-debug/utils.exe
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/18/cmake-build-debug
-
-build ../18/cmake-build-debug/all: phony ../18/cmake-build-debug/18.exe
-
-# =============================================================================
-
-#############################################
-# Folder: C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/20/cmake-build-debug
-
-build ../20/cmake-build-debug/all: phony ../20/cmake-build-debug/20.exe
-
-# =============================================================================
-
-#############################################
 # Folder: C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/cmake-build-debug
 
-build all: phony ../18/cmake-build-debug/all ../20/cmake-build-debug/all ../utils/cmake-build-debug/all
+build all: phony ../file_struct/cmake-build-debug/all ../hidden_message_II/cmake-build-debug/all ../test/cmake-build-debug/all
 
 # =============================================================================
 
 #############################################
-# Folder: C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/utils/cmake-build-debug
+# Folder: C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/file_struct/cmake-build-debug
 
-build ../utils/cmake-build-debug/all: phony ../utils/cmake-build-debug/utils.exe
+build ../file_struct/cmake-build-debug/all: phony ../file_struct/cmake-build-debug/file_struct.exe
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/hidden_message_II/cmake-build-debug
+
+build ../hidden_message_II/cmake-build-debug/all: phony ../hidden_message_II/cmake-build-debug/hidden_message_II.exe
+
+# =============================================================================
+
+#############################################
+# Folder: C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/test/cmake-build-debug
+
+build ../test/cmake-build-debug/all: phony ../test/cmake-build-debug/test.exe
 
 # =============================================================================
 # Built-in targets
@@ -308,14 +315,14 @@ build ../utils/cmake-build-debug/all: phony ../utils/cmake-build-debug/utils.exe
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | ../18/CMakeLists.txt ../20/CMakeLists.txt ../CMakeLists.txt ../utils/CMakeLists.txt C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCCompiler.cmake.in C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCCompilerABI.c C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCompilerIdDetection.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineCCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineCompileFeatures.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineCompilerABI.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineCompilerId.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineRCCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineSystem.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeFindBinUtils.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeParseImplicitIncludeInfo.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeParseImplicitLinkInfo.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeParseLibraryArchitecture.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCCompiler.cmake.in C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystem.cmake.in C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeTestCCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeTestCompilerCommon.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeTestRCCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/ADSP-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/ARMCC-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/ARMClang-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/AppleClang-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Borland-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Bruce-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Clang-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Clang-DetermineCompilerInternal.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Compaq-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Cray-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Embarcadero-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Fujitsu-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GHS-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-C.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-FindBinUtils.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/HP-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/IAR-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Intel-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/MSVC-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/NVHPC-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/NVIDIA-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/PGI-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/PathScale-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/ROCMClang-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/SCO-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/SDCC-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/SunPro-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/TI-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Watcom-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/XL-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/XLClang-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/zOS-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Internal/FeatureTesting.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake
+build build.ninja: RERUN_CMAKE | ../CMakeLists.txt ../file_struct/CMakeLists.txt ../hidden_message_II/CMakeLists.txt ../test/CMakeLists.txt C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-C.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build ../18/CMakeLists.txt ../20/CMakeLists.txt ../CMakeLists.txt ../utils/CMakeLists.txt C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCCompiler.cmake.in C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCCompilerABI.c C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCompilerIdDetection.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineCCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineCompileFeatures.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineCompilerABI.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineCompilerId.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineRCCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeDetermineSystem.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeFindBinUtils.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeParseImplicitIncludeInfo.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeParseImplicitLinkInfo.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeParseLibraryArchitecture.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCCompiler.cmake.in C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystem.cmake.in C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeTestCCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeTestCompilerCommon.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeTestRCCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/ADSP-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/ARMCC-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/ARMClang-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/AppleClang-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Borland-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Bruce-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Clang-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Clang-DetermineCompilerInternal.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Compaq-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Cray-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Embarcadero-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Fujitsu-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GHS-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-C.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-FindBinUtils.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/HP-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/IAR-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/IBMCPP-C-DetermineVersionInternal.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Intel-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/MSVC-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/NVHPC-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/NVIDIA-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/PGI-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/PathScale-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/ROCMClang-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/SCO-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/SDCC-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/SunPro-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/TI-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/TinyCC-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/VisualAge-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/Watcom-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/XL-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/XLClang-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/zOS-C-DetermineCompiler.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Internal/FeatureTesting.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake: phony
+build ../CMakeLists.txt ../file_struct/CMakeLists.txt ../hidden_message_II/CMakeLists.txt ../test/CMakeLists.txt C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeGenericSystem.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeRCInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU-C.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Compiler/GNU.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C-ABI.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU-C.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-GNU.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows-windres.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/Windows.cmake C$:/Users/Bartek/AppData/Local/JetBrains/CLion$ 2021.3.3/bin/cmake/win/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake CMakeCache.txt CMakeFiles/3.21.1/CMakeCCompiler.cmake CMakeFiles/3.21.1/CMakeRCCompiler.cmake CMakeFiles/3.21.1/CMakeSystem.cmake: phony
 
 
 #############################################

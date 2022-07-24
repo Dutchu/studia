@@ -4,16 +4,17 @@ project(structs C)
 set(CMAKE_C_STANDARD 11)
 
 #include_directories(structs)
-#include_directories(structs/18)
-#include_directories(structs/20)
-#include_directories(structs/utils)
+#include_directories(structs/file_struct)
+#include_directories(structs/hidden_message_II)
+#include_directories(structs/struct_utils)
 #
 #add_executable(pp2
-#        structs/18/main.c
-#        structs/20/main.c
-#        structs/utils/main.c
-#        structs/utils/main.h)
+#        structs/file_struct/main.c
+#        structs/hidden_message_II/main.c
+#        structs/struct_utils/main.c
+#        structs/struct_utils/main.h)
 
-add_subdirectory("${PROJECT_SOURCE_DIR}/18" "${PROJECT_SOURCE_DIR}/18/cmake-build-debug")
-add_subdirectory("${PROJECT_SOURCE_DIR}/20" "${PROJECT_SOURCE_DIR}/20/cmake-build-debug")
-add_subdirectory("${PROJECT_SOURCE_DIR}/utils" "${PROJECT_SOURCE_DIR}/utils/cmake-build-debug")
+add_subdirectory("${PROJECT_SOURCE_DIR}/file_struct" "${PROJECT_SOURCE_DIR}/file_struct/cmake-build-debug")
+add_subdirectory("${PROJECT_SOURCE_DIR}/hidden_message_II" "${PROJECT_SOURCE_DIR}/hidden_message_II/cmake-build-debug")
+add_subdirectory("${PROJECT_SOURCE_DIR}/test" "${PROJECT_SOURCE_DIR}/test/cmake-build-debug")
+#add_subdirectory("${PROJECT_SOURCE_DIR}/struct_utils" "${PROJECT_SOURCE_DIR}/struct_utils/cmake-build-debug")

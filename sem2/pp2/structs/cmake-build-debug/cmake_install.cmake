@@ -39,17 +39,17 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/18/cmake-build-debug/cmake_install.cmake")
+  include("C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/file_struct/cmake-build-debug/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/20/cmake-build-debug/cmake_install.cmake")
+  include("C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/hidden_message_II/cmake-build-debug/cmake_install.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for the subdirectory.
-  include("C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/utils/cmake-build-debug/cmake_install.cmake")
+  include("C:/Users/Bartek/Desktop/studia/sem2/pp2/structs/test/cmake-build-debug/cmake_install.cmake")
 endif()
 
 if(CMAKE_INSTALL_COMPONENT)
