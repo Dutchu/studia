@@ -1,15 +1,6 @@
-spozywcze
-	Bannan
-	Cebula
-	Pomidor
-	Jajka
-sportowe
-	Pilka
-	Koszulki
-	Korki
-	Spodenki
-moto
-	Opony
-	Hamulce
-	Wycieraczki
-	Tapicerka
+null{ empty }
+
+XD
+	1
+	2
+	3

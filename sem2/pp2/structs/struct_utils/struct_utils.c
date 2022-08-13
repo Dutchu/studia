@@ -146,3 +146,31 @@ int read_to_newline(int buffer_size, char * buffer) {
     return 0;
 }
 
+int load_data(struct message_t *cp, int size, const char *filename) {
+    static const unsigned int BUFF_SIZE = 0x12;
+
+    if (cp == NULL || filename == NULL) return -1;
+    if (size < 0) return -1;
+
+    FILE *f;
+    f = fopen(filename, "r");
+    if (f == NULL) return -2;
+
+    const char buffer[BUFF_SIZE];
+    size_t elements_num;
+    elements_num = fread(buffer, sizeof(char), BUFF_SIZE, f);
+
+    printf("[load data] buffer : %s\n", buffer);
+    printf( "Dlugosc tekstu = %d\n", strlen( buffer ) );
+    printf( "Zapisanych elementow = %d\n", elements_num );
+
+    if( ferror( f ) != 0 )
+        printf( "Blad zapisu danych do pliku.\n" );
+
+    return 0;
+}
+
+int decode_message(const struct message_t *cp, int size, char *msg, int text_size) {
+
+}
+

@@ -1,8 +1,7 @@
-package fileReader;
+package common;
 
 import java.io.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FileStream {
 
@@ -20,15 +19,18 @@ public class FileStream {
         this.fileName = fileName;
     }
 
-    public void writeFile(String message) {
+    public int writeFile(String message) {
 
         try (FileOutputStream file = new FileOutputStream(fileName);) {
             file.write(message.getBytes());
 
         } catch (IOException e) {
+
             e.printStackTrace();
+            return 2;
         }
 
+        return 1;
     }
 
     public byte[] readFile() {

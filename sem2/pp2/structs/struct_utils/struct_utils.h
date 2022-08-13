@@ -34,5 +34,6 @@ int take_input(char *input);
 void print_string_array(char **array, int size);
 int check_file_name(FILE *fp);
 int get_file_size(FILE *f_handle);
-
+int decode_message(const struct message_t *cp, int size, char *msg, int text_size);
+int load_data(struct message_t *cp, int size, const char *filename);
 #endif //STRUCT_UTILS_H

@@ -1,4 +1,4 @@
-package shoppingList;
+package model;
 
 import java.util.List;
 import java.util.Objects;
@@ -8,8 +8,8 @@ public class ShoppingCategory {
     private String categoryName;
     private List<ShoppingItem> items;
 
-    public ShoppingCategory(String name, List<ShoppingItem> items){
-        categoryName = name;
+    public ShoppingCategory(String categoryName, List<ShoppingItem> items) {
+        this.categoryName = categoryName;
         this.items = items;
     }
 
@@ -29,6 +29,13 @@ public class ShoppingCategory {
         this.items = items;
     }
 
+    public void addItem(ShoppingItem item) {
+        this.items.add(item);
+    }
+
+    public void removeItem(ShoppingItem item) {
+        this.items.removeIf( e -> item.getItemName().equals(e.getItemName()));
+    }
 
     @Override
     public String toString() {

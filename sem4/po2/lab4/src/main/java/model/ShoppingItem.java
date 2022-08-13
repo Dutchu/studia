@@ -1,8 +1,9 @@
-package shoppingList;
+package model;
 
 import java.util.Objects;
 
 public class ShoppingItem {
+
     private String itemName;
 
     public ShoppingItem(String itemName) {
