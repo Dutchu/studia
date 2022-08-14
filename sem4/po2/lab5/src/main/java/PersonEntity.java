@@ -1,17 +1,47 @@
 public class PersonEntity extends Entity{
 
-    private final String FIRST_NAME;
-    private final String LAST_NAME;
-    private String address;
-    private PhoneNumber contactNumber;
+    private final String firstName;
+    private final String lastName;
+    private final PhoneNumber contactNumber;
+    private final String address;
 
-    public PersonEntity(String first_name, String last_name) {
-        FIRST_NAME = first_name;
-        LAST_NAME = last_name;
+    public PersonEntity(String firstName, String lastName, String address,  PhoneNumber contactNumber) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.contactNumber = contactNumber;
+        this.address = address;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     @Override
-    void description() {
+    public PhoneNumber getContactNumber() {
+        return contactNumber;
+    }
 
+    @Override
+    public String getAddress() {
+        return address;
+    }
+
+    @Override
+    public String description() {
+        return toString();
+    }
+
+    @Override
+    public String toString() {
+        return "PersonEntity{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", contactNumber=" + contactNumber +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

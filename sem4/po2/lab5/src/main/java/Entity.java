@@ -1,4 +1,6 @@
 public abstract class Entity {
 
-    abstract void description();
+    abstract String description();
+    abstract public PhoneNumber getContactNumber();
+    abstract String getAddress();
 }
