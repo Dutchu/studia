@@ -7,14 +7,33 @@ import java.util.Timer;
 
 public class Server {
     public static final int PORT = 6969;
+    private ServerSocket serverSocket;
 
-    public static void main(String[] args) {
+
+    public Server(ServerSocket serverSocket) {
+        this.serverSocket = serverSocket;
+    }
+
+    public void startServer() {
+
         try {
-            new Server();
-        } catch (IOException | ClassNotFoundException e) {
+            while (!serverSocket.isClosed()) {
+
+                Socket socket = serverSocket.accept();
+                System.out.println("New client has connected!");
+                ClientHandler clientHandler = new ClientHandler(socket);
+                Thread thread = new Thread(clientHandler);
+                thread.start();
+
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
+
+
+
 
     public Server() throws IOException, ClassNotFoundException {
         ServerSocket serverSocket = new ServerSocket(PORT);
@@ -36,5 +55,15 @@ public class Server {
         );
 
         serverSocket.close();
+    }
+
+    public static void main(String[] args) {
+        try {
+            ServerSocket serverSocket = new ServerSocket(PORT);
+            Server server = new Server(serverSocket);
+            server.startServer();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.Date;
 
-public class Notification implements Serializable {
+public class Notification implements Serializable, Comparable<Notification> {
     private String author;
     private String content;
     private Date time;
@@ -19,6 +19,11 @@ public class Notification implements Serializable {
                 ", content='" + content + '\'' +
                 ", time=" + time +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Notification otherDate) {
+        return time.compareTo(otherDate.getTime());
     }
 
     public String getAuthor() {
