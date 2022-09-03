@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #define DELIMITER ","
-#define FILENAME "../rekordy.txt"
+#define FILENAME "../data.txt"
 class Person {
 private:
     std::string code;
@@ -20,8 +20,7 @@ public:
     }
 
     static void load(std::string filename, std::vector<Person*>* destination) {
-
-        // file format : pesel,imie,nazwisko,adres;
+        
         std::fstream file;
         file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
         size_t pos = 0;
@@ -31,7 +30,6 @@ public:
         std::string delimiter = DELIMITER;
         int data_index;
         int corrupted;
-        int valid;
 
         try {
             file.open(filename, std::ios::in);
