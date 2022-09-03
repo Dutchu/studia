@@ -44,7 +44,7 @@ public:
                 data_index = 0;
                 corrupted = 0;
                 while ( (pos = line.find(delimiter)) != std::string::npos ) {
-                    
+
                     token = line.substr(0, pos);
                     tokens.push_back(token);
                     line.erase(0, pos + delimiter.length());
