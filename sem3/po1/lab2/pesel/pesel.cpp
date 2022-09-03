@@ -20,7 +20,7 @@ public:
     }
 
     static void load(std::string filename, std::vector<Person*>* destination) {
-        
+
         std::fstream file;
         file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
         size_t pos = 0;
@@ -44,8 +44,7 @@ public:
                 data_index = 0;
                 corrupted = 0;
                 while ( (pos = line.find(delimiter)) != std::string::npos ) {
-
-
+                    
                     token = line.substr(0, pos);
                     tokens.push_back(token);
                     line.erase(0, pos + delimiter.length());
@@ -61,8 +60,9 @@ public:
 
                 if ( !corrupted && validate(&tokens[0]) ) {
                     destination->push_back( new Person(tokens[0], tokens[1], tokens[2], tokens[3]) );
-                    tokens.clear();
                 }
+
+                tokens.clear();
 
             }
         } catch (std::ifstream::failure &e) {
