@@ -1,0 +1,3 @@
+11111111111,Jacek,Grechuta,Przypalowa 12,234,2134
+22222222222,Beata,Kozidrak,Szkolna 17,
+33333333333,Norbet,Dudzicki,Maczka 1,
