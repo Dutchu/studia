@@ -32,7 +32,7 @@ public:
         std::string s = std::string("Point{x=");
         s.append(std::to_string(x));
         s.append(",y=");
-        s.append(std::to_string(x));
+        s.append(std::to_string(y));
         s.append("}");
         return s;
     }
