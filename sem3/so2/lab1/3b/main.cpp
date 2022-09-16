@@ -20,7 +20,7 @@ int access_pid_from_memory();
 
 int main(int argc, char **argv)
 {
-    //Search memmory for PID of previous process running this code
+    //Search memory for PID of previous process running this code
     DWORD read_pid = access_pid_from_memory();
 
     std::cout << "Found PID : " << read_pid << std::endl;
