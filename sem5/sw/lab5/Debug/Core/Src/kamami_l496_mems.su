@@ -1,0 +1,10 @@
+../Core/Src/kamami_l496_mems.c:53:9:mems_init	184	static
+../Core/Src/kamami_l496_mems.c:92:6:mems_acc_read_xyz	32	static
+../Core/Src/kamami_l496_mems.c:99:9:mems_acc_read_x	32	static
+../Core/Src/kamami_l496_mems.c:108:9:mems_acc_read_y	32	static
+../Core/Src/kamami_l496_mems.c:117:9:mems_acc_read_z	32	static
+../Core/Src/kamami_l496_mems.c:127:13:MX_I2C3_Init	8	static
+../Core/Src/kamami_l496_mems.c:160:13:MX_GPIO_Init	32	static
+../Core/Src/kamami_l496_mems.c:187:13:LM75_Error_Handler	16	static
+../Core/Src/kamami_l496_mems.c:197:6:HAL_I2C_MspInit	40	static
+../Core/Src/kamami_l496_mems.c:227:6:HAL_I2C_MspDeInit	16	static

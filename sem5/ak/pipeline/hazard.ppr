@@ -1,0 +1,7 @@
+[Pipelined Architecture Project]
+PipelineFunctionality=pipe.pfu
+InstructionMemory=hazard.cod
+DataMemory=hazard.dat
+MemoryAccessTime=3
+Forwarding=yes
+DelaySlot=0

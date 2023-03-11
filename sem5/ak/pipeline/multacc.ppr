@@ -1,0 +1,7 @@
+[Pipelined Architecture Project]
+PipelineFunctionality=pipe.pfu
+InstructionMemory=multacc.cod
+DataMemory=multacc.dat
+MemoryAccessTime=1
+Forwarding=no
+DelaySlot=0
