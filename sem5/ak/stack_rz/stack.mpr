@@ -1,5 +1,0 @@
-[Microprogrammed Architecture Project]
-Microcode=stack.mco
-InstructionMemory=stack.cod
-DataMemory=stack.dat
-MemoryAccessTime=1
