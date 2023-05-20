@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 #define files to compile
 set(PROJECT_SOURCES
-        array.cpp)
+        list.cpp)
 #        ${UTILS_SOURCES}/cycle_list_utils.c)
 
 #add directory of utils

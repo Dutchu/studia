@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 #define files to compile
 set(PROJECT_SOURCES
-        sequence.cpp)
+        fibb.cpp)
 #        ${UTILS_SOURCES}/struct_utils.c)
 #
 ##add directory of utils

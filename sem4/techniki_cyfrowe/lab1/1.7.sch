@@ -1,11 +1,11 @@
-DSCH 3.5
-VERSION 4/23/2022 7:18:44 PM
+DSCH 3.8
+VERSION 16.09.2022 23:33:08
 BB(-9,-55,89,-10)
 SYM  #light
 BB(83,-35,89,-21)
 TITLE 85 -21  #carry
 MODEL 49
-PROP                                                                                                                                   
+PROP                                                                                                                                    
 REC(84,-34,4,4,r)
 VIS 1
 PIN(85,-20,0.000,0.000)carry
@@ -49,9 +49,9 @@ LIG(87,-54,85,-54)
 FSYM
 SYM  #and2
 BB(25,-30,60,-10)
-TITLE 37 -19  #&
+TITLE 37 -19  #and2_1
 MODEL 402
-PROP                                                                                                                                   
+PROP                                                                                                                                    
 REC(15,20,0,0, )
 VIS 0
 PIN(25,-15,0.000,0.000)b
@@ -75,7 +75,7 @@ SYM  #B
 BB(-9,-39,0,-31)
 TITLE -5 -35  #B
 MODEL 59
-PROP                                                                                                                                   
+PROP                                                                                                                                    
 REC(-8,-38,6,6,r)
 VIS 1
 PIN(0,-35,0.000,0.000)B
@@ -109,9 +109,9 @@ LIG(-8,-42,-2,-42)
 FSYM
 SYM  #xor2
 BB(25,-50,60,-30)
-TITLE 42 -40  #^
+TITLE 42 -40  #xor2_2
 MODEL 602
-PROP                                                                                                                                   
+PROP                                                                                                                                    
 REC(0,15,0,0, )
 VIS 0
 PIN(25,-45,0.000,0.000)a
@@ -154,4 +154,4 @@ LIG(10,-25,25,-25)
 LIG(10,-45,25,-45)
 LIG(0,-45,10,-45)
 LIG(10,-45,10,-25)
-FFIG C:\Users\wtcz4-19\Desktop\1.7.sch
+FFIG C:\Users\Bartek\Desktop\studia\sem4\techniki_cyfrowe\lab1\1.7.sch
