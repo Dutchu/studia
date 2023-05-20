@@ -45,9 +45,11 @@ public:
                 corrupted = 0;
                 while ( (pos = line.find(delimiter)) != std::string::npos ) {
 
+
                     token = line.substr(0, pos);
                     tokens.push_back(token);
                     line.erase(0, pos + delimiter.length());
+
 
                     if (data_index > 3) {
                         std::cerr << "Line Corrupted!" << std::endl;
@@ -66,8 +68,8 @@ public:
 
             }
         } catch (std::ifstream::failure &e) {
-            std::cerr <<  "Reading file failed!" << std::endl;
-            std::cerr << e.what() << std::endl;
+//            std::cerr <<  "Reading file failed!" << std::endl;
+//            std::cerr << e.what() << std::endl;
         }
 
         try {
@@ -92,6 +94,7 @@ int main()
 {
     std::vector<Person*> persons;
     Person::load(FILENAME, &persons);
+
 
     for (auto & person : persons)
         person -> print();

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(sequence CXX)
+project(fibonacci CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -9,11 +9,11 @@ set(CMAKE_CXX_STANDARD 17)
 
 #define files to compile
 set(PROJECT_SOURCES
-        fibb.cpp)
+        fib.cpp)
 #        ${UTILS_SOURCES}/struct_utils.c)
 #
 ##add directory of utils
 #include_directories("${UTILS_SOURCES}")
 
 #create executable from sources
-add_executable(sequence ${PROJECT_SOURCES})
+add_executable(fibonacci ${PROJECT_SOURCES})

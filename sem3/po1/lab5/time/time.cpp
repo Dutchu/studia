@@ -3,10 +3,34 @@
 #include <chrono>
 
 #define FILENAME "../test-time.txt"
+class base {
+public:
+    virtual void print()
+    {
+        std::cout << "print base class\n";
+    }
 
+    void show()
+    {
+        std::cout << "show base class\n";
+    }
+};
+
+class derived : public base {
+public:
+    void print()
+    {
+        std::cout << "print derived class\n";
+    }
+
+    void show()
+    {
+        std::cout << "show derived class\n";
+    }
+};
 class TestTime {
 public:
-    void read(const std::string &f) {
+     void read(const std::string &f) {
 
         std::string data;
         std::ifstream file;
@@ -37,19 +61,21 @@ public:
 int main() {
 
     auto tt = _TestTime();
-
+    int i;
     auto start = std::chrono::high_resolution_clock::now();
-    tt.read(FILENAME);
+    for(i = 0; i < 1000; i++)
+        tt.read(FILENAME);
     auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start);
-    std::cout << duration.count() << '\n';
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);
+    std::cout << "Czas wykonania funkcji 1000 razy w milli sekundach: " << duration.count() << '\n';
 
 
     start = std::chrono::high_resolution_clock::now();
-    tt._read(FILENAME);
+    for(i = 0; i < 1000; i++)
+        tt._read(FILENAME);
     end = std::chrono::high_resolution_clock::now();
-    duration = std::chrono::duration_cast<std::chrono::nanoseconds>(end-start);
-    std::cout << duration.count() << '\n';
+    duration = std::chrono::duration_cast<std::chrono::milliseconds>(end-start);
+    std::cout << "Czas wykonania funkcji wirtualnej 1000 razy w milli sekundach: " << duration.count() << '\n';
 
 
     return 0;

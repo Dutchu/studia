@@ -1,16 +1,15 @@
 #include <iostream>
 #include <cmath>
 
-template<typename T> class Sequence {
-public:
-    Sequence<T>()= default;
+template<typename T> class Fib {
 
+public:
     T get(T n) {
         if (n <= 1) return n;
         return get(n - 1) + get(n - 2);
     }
 
-    bool contains(T e) {
+    bool find(T e) {
         return square(5 * e * e + 4) || square(5 * e * e - 4);
     }
 
@@ -21,16 +20,28 @@ public:
 };
 
 int main() {
-    auto fib1 = Sequence<int>();
-    auto fib2 = Sequence<long>();
-    auto fib3 = Sequence<float>();
+    auto fib1 = Fib<int>();
+    auto fib2 = Fib<long>();
+    auto fib3 = Fib<float>();
 
-    std::cout << fib1.get(7) << std::endl;
-    std::cout << fib2.get(7) << std::endl;
-    std::cout << fib3.get(7.) << std::endl;
+    int x = 7;
+    std::cout << "Get " << x << "th element from fibonacci sequence of type int" << std::endl;
+    std::cout << "" << fib1.get(x) << std::endl;
+    long y = 7;
+    std::cout << "Get " << y << "th element from fibonacci sequence of type long" << std::endl;
+    std::cout << fib2.get(y) << std::endl;
+    float z = 7.0;
+    std::cout << "Get " << z << "th element from fibonacci sequence of type float" << std::endl;
+    std::cout << fib3.get(z) << std::endl;
 
-    std::cout << fib1.contains(7) << std::endl;
-    std::cout << fib2.contains(13) << std::endl;
-    std::cout << fib3.contains(20.0) << std::endl;
+    x = 9;
+    std::cout << "Find if number: " << x << " is in fibonacci sequence of type int" << std::endl;
+    std::cout << fib1.find(x) << std::endl;
+    y = 13;
+    std::cout << "Find if number: " << y << " is in fibonacci sequence of type long" << std::endl;
+    std::cout << fib2.find(y) << std::endl;
+    z = 21;
+    std::cout << "Find if number: " << z << " is in fibonacci sequence of type float" << std::endl;
+    std::cout << fib3.find(z) << std::endl;
     return 0;
 }
