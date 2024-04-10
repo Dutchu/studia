@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  oracle-database:
+    image: gvenzl/oracle-xe:slim
+    environment:
+      ORACLE_PASSWORD: "admin"
+      ORACLE_ALLOW_REMOTE: true
+      ORACLE_DISABLE_ASYNCH_IO: true
+      ORACLE_ENABLE_XDB: true
+      ORACLE_MEMORY: 512
+    ports:
+      - "1521:1521"
+    networks:
+      - riobd-network
+    volumes:
+      - ./docker-data/test-db:/var/lib/oracle/data
+networks:
+  riobd-network:

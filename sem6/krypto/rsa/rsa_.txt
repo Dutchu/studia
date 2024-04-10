@@ -1,0 +1,48 @@
+#%%
+P = 17
+Q = 29
+N = 0
+Fi = 0
+e = 0
+d= 0
+#%%
+##algorytm euklidesa do NWD
+def find_nwd(a, b):
+    if b > 0:
+        return find_nwd(b, a%b)
+    else:
+        return a
+#%%
+nwd = find_nwd(P, Q)
+print('nwd = ' + str(nwd))
+#%%
+if nwd == 1:
+    N = P * Q
+    Fi = (P-1) * (Q-1)
+else:
+    print('NWD error')
+
+print('Fi = ' + str(Fi))
+#%%
+##e musi być względnie pierwsze z Fi
+for i in range(2, 100000000):
+    nwd = find_nwd(i,Fi)
+    if nwd == 1:
+        e = i
+        break
+
+print("e = " + str(e))
+#%%
+for i in range(1, Fi-1):
+    if (i*e) % Fi == 1:
+        d = i
+
+print('d = ' + str(d))
+#%%
+w = 100
+K = (w**e)%N
+print(K)
+#%%
+od_w = (K**d)%N
+print(od_w)
+#%%

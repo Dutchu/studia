@@ -4,7 +4,15 @@ package-lock.json
 .idea
 target
 *.iml
+/cache
 
+
+#My own
+*.jar
+*.zip
+/sem5
+/docker-data
+/docker-images
 
 # Compiled Object files
 **/.DS_Store
