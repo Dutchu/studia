@@ -68,3 +68,6 @@ include/*
 lib/*
 bin/*
 test/test_runner
+
+## Visual Paradigm
+*.vpp.*
