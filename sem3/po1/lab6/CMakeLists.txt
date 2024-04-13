@@ -14,8 +14,8 @@ set(CMAKE_CXX_STANDARD 17)
 #        structs/struct_utils/main.c
 #        structs/struct_utils/main.h)
 
-add_subdirectory("${PROJECT_SOURCE_DIR}/array" "${PROJECT_SOURCE_DIR}/array/cmake-build-debug")
-add_subdirectory("${PROJECT_SOURCE_DIR}/sequence" "${PROJECT_SOURCE_DIR}/sequence/cmake-build-debug")
+add_subdirectory("${PROJECT_SOURCE_DIR}/list" "${PROJECT_SOURCE_DIR}/list/cmake-build-debug")
+add_subdirectory("${PROJECT_SOURCE_DIR}/fibonacci" "${PROJECT_SOURCE_DIR}/fibonacci/cmake-build-debug")
 
 #add_subdirectory("${PROJECT_SOURCE_DIR}/test" "${PROJECT_SOURCE_DIR}/test/cmake-build-debug")
 #add_subdirectory("${PROJECT_SOURCE_DIR}/struct_utils" "${PROJECT_SOURCE_DIR}/struct_utils/cmake-build-debug")

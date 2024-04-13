@@ -28,7 +28,7 @@ public class Main {
 
         map.forEach((k, v) -> System.out.println(k.toString() + " " + v));
 
-        Map<PhoneNumber, Entity> uniqueMap =uniqueAddressMap(map);
+        Map<PhoneNumber, Entity> uniqueMap = uniqueAddressMap(map);
 
         uniqueMap.forEach((k, v) -> System.out.println(
                 "UNIQUE " + k.toString() + " " + v));

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <sstream>
 
 class Complex {
 private:
@@ -16,9 +17,9 @@ public:
         std::cout << this->re;
 
         if (this->im > 0) {
-            std::cout << " + " << this->im << "i";
+            std::cout << " + " << this->im << "i\n";
         } else {
-            std::cout << " - " << abs(this->im) << "i";
+            std::cout << " - " << abs(this->im) << "i\n";
         }
     }
 
@@ -52,10 +53,23 @@ public:
 
 
 int main() {
+
     Complex complex = Complex();
+    std::cout << "liczba: ";
+    complex.print();
+    std::cout << "dodawanie z Complex(1, 2): ";
     complex.add(Complex(1, 2));
+    complex.print();
+    std::cout << "odejmowanie z Complex(5, 5): ";
     complex.sub(Complex(5, 5));
+    complex.print();
+    std::cout << "mnozenie z Complex(20, -20): ";
     complex.mul(Complex(20, -20));
+    complex.print();
+    std::cout << "dzielenie z Complex(0,1): ";
+    complex.div(Complex(0,1));
+    complex.print();
+    std::cout << "dzielenie z Complex(0,0): ";
     complex.div(Complex(0,0));
     complex.print();
     return 0;

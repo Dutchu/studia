@@ -1,0 +1,27 @@
+USER SYMBOL by DSCH 3.8
+DATE 17.09.2022 07:41:10
+SYM  #42_NOR
+BB(0,0,40,30)
+TITLE 10 -7  #42_NOR
+MODEL 6000
+REC(5,5,30,20)
+PIN(0,10,0.00,0.00)B
+PIN(0,20,0.00,0.00)A
+PIN(40,10,2.00,1.00)Y
+LIG(0,10,5,10)
+LIG(0,20,5,20)
+LIG(35,10,40,10)
+LIG(5,5,5,25)
+LIG(5,5,35,5)
+LIG(35,5,35,25)
+LIG(35,25,5,25)
+VLG module 42_NOR( B,A,Y);
+VLG  input B,A;
+VLG  output Y;
+VLG  wire w5;
+VLG  nmos #(1) nmos_1(Y,vss,B); // 0.3u 0.05u
+VLG  nmos #(1) nmos_2(Y,vss,A); // 0.3u 0.05u
+VLG  pmos #(1) pmos_3(Y,w5,B); // 0.5u 0.05u
+VLG  pmos #(1) pmos_4(w5,vdd,A); // 0.5u 0.05u
+VLG endmodule
+FSYM

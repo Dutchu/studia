@@ -43,8 +43,8 @@ std::ostream &operator << (std::ostream &output, const Resistor &r) {
 }
 
 int main() {
-    auto res1 = Resistor(0);
-    auto res2 = Resistor(0);
+    auto res1 = Resistor(2);
+    auto res2 = Resistor(5);
 
     std::cout << res1 << "\n";
     std::cout << res2 << "\n";
