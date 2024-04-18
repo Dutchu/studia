@@ -69,7 +69,8 @@ lib/*
 bin/*
 test/test_runner
 
-##studia
-
-###visual paradigm temp files
+## Visual Paradigm
 *.vpp.*
+
+## Video Edditing
+*.mp4
