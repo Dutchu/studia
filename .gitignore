@@ -71,3 +71,6 @@ test/test_runner
 
 ## Visual Paradigm
 *.vpp.*
+
+## Video Edditing
+*.mp4
