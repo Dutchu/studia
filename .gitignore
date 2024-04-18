@@ -68,3 +68,8 @@ include/*
 lib/*
 bin/*
 test/test_runner
+
+##studia
+
+###visual paradigm temp files
+*.vpp.*
