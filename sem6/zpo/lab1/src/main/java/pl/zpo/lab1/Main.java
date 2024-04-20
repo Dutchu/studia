@@ -38,5 +38,6 @@ public class Main {
 
         Table.getInstance(2);
 
+        NumberConverter numberConverter = new NumberConverter();
     }
 }
