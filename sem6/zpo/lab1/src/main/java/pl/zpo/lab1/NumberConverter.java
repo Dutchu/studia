@@ -16,15 +16,20 @@ public class NumberConverter {
 
         int result = 0;
         int lastValue = 0;
-        for (int i = roman.length() - 1; i >= 0; i--) {
-            int value = romanValues.get(roman.charAt(i));
-            if (value >= lastValue) {
-                result += value;
-            } else {
-                result -= value;
+        try {
+            for (int i = roman.length() - 1; i >= 0; i--) {
+                int value = romanValues.get(roman.charAt(i));
+                if (value >= lastValue) {
+                    result += value;
+                } else {
+                    result -= value;
+                }
+                lastValue = value;
             }
-            lastValue = value;
+        } catch (NullPointerException e) {
+            throw new NumberFormatException("Liczba nie jest znakiem rzymskim");
         }
+
         return result;
     }
     public String arabic2roman(String roman) {

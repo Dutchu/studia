@@ -35,4 +35,12 @@ public class NumberConverterTest {
     public void arabic2roman() {
         fail("Niepowodzenie");
     }
+
+    @Test()
+    public void roman2arabicException() {
+        NumberFormatException thrown = assertThrows(NumberFormatException.class, () -> {
+            nc.roman2arabic("ala");
+        });
+        assertEquals("Liczba nie jest znakiem rzymskim", thrown.getMessage());
+    }
 }
