@@ -1,10 +1,13 @@
 package org.example;
 
-public class PeselParser {
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+public class PeselValidator {
 
     public boolean parse(String pesel) {
         if (pesel == null || pesel.length() != 11) {
-            return false;
+            throw new IllegalArgumentException("Invalid PESEL number");
         }
 
         int[] weights = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
@@ -15,7 +18,11 @@ public class PeselParser {
         }
 
         int checksum = (10 - (sum % 10)) % 10;
-        return checksum == Character.getNumericValue(pesel.charAt(10));
+        if (checksum != Character.getNumericValue(pesel.charAt(10))) {
+            throw new IllegalArgumentException("Invalid PESEL number");
+        }
+
+        return true;
     }
 
     public char getGender(String pesel) {
@@ -27,21 +34,18 @@ public class PeselParser {
         }
     }
 
-    public boolean validate(String pesel, String birthDate, char gender) {
+    public LocalDateTime getBirthDate(String pesel) {
         if (!parse(pesel)) {
             throw new IllegalArgumentException("Invalid PESEL number");
         }
 
         // Extract birth date from PESEL number
-        String year = pesel.substring(0, 2);
-        String month = pesel.substring(2, 4);
-        String day = pesel.substring(4, 6);
-        String peselBirthDate = "19" + year + "-" + month + "-" + day;
-
-        // Extract gender from PESEL number
-        char peselGender = getGender(pesel);
+        int year = Integer.parseInt(pesel.substring(0, 2));
+        int month = Integer.parseInt(pesel.substring(2, 4));
+        int day = Integer.parseInt(pesel.substring(4, 6));
+        LocalDateTime peselBirthDate = LocalDateTime.of(year, month, day, 0, 0);
 
         // Compare with input birth date and gender
-        return peselBirthDate.equals(birthDate) && peselGender == gender;
+        return peselBirthDate;
     }
 }

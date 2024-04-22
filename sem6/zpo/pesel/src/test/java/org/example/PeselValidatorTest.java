@@ -4,18 +4,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
+import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PeselParserTest {
+class PeselValidatorTest {
 
-    private PeselParser parser;
-    private static final Logger LOG =  Logger.getLogger(PeselParser.class.getName());
+    private PeselValidator parser;
+    private static final Logger LOG =  Logger.getLogger(PeselValidator.class.getName());
 
     @org.junit.jupiter.api.BeforeEach
     public void setUp() {
-        parser = new PeselParser();
+        parser = new PeselValidator();
     }
 
     @org.junit.jupiter.api.AfterEach
@@ -52,6 +53,6 @@ class PeselParserTest {
 
     @Test
     void validateReturnsTrueForCorrectBirthDateAndGender() {
-        assertTrue(parser.validate("97041123252", "1997-04-11", 'M')); // male, birth date: 1997-04-11
+        assertEquals(parser.getBirthDate("97041123252"), LocalDateTime.of(1997, 4, 11, 0, 0), "Should return correct birth date."); // male, birth date: 1997-04-11
     }
 }
