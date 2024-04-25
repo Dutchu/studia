@@ -27,22 +27,13 @@ class PeselValidatorTest {
     @ParameterizedTest
     @CsvFileSource(resources = "/pesele.csv", numLinesToSkip = 0)
     void parse(String pesel) {
-        assertTrue(parser.parse(pesel));
+        assertDoesNotThrow(() -> parser.parse(pesel), "Should not throw any Errors");
     }
 
     @Test
-    void parseThrowsExceptionForInvalidFormat() {
-        assertThrows(IllegalArgumentException.class, () -> parser.parse("invalidFormat"));
-    }
-
-    @Test
-    void parseReturnsTrueForValidPesel() {
-        assertTrue(parser.parse("97041123252"));
-    }
-
-    @Test
-    void parseReturnsFalseForInvalidPesel() {
-        assertFalse(parser.parse("97041123253")); // invalid PESEL but in correct format
+    void parseThrowsWrongPeselFormatException() {
+        assertThrows(WrongValuesPeselException.class, () -> parser.parse("97041223252"));
+        assertThrows(WrongValuesPeselException.class, () -> parser.parse("97041123253"));
     }
 
     @Test

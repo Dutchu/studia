@@ -5,9 +5,9 @@ import java.time.LocalDateTime;
 
 public class PeselValidator {
 
-    public boolean parse(String pesel) {
+    public void parse(String pesel) {
         if (pesel == null || pesel.length() != 11) {
-            throw new IllegalArgumentException("Invalid PESEL number");
+            throw new WrongValuesPeselException("Invalid PESEL number!");
         }
 
         int[] weights = {1, 3, 7, 9, 1, 3, 7, 9, 1, 3};
@@ -19,24 +19,27 @@ public class PeselValidator {
 
         int checksum = (10 - (sum % 10)) % 10;
         if (checksum != Character.getNumericValue(pesel.charAt(10))) {
-            throw new IllegalArgumentException("Invalid PESEL number");
+            throw new WrongValuesPeselException("Invalid PESEL number!");
         }
 
-        return true;
     }
 
     public char getGender(String pesel) {
-        if (parse(pesel)) {
-            int genderDigit = Character.getNumericValue(pesel.charAt(9));
-            return genderDigit % 2 == 0 ? 'K' : 'M';
-        } else {
-            throw new IllegalArgumentException("Invalid PESEL number");
+        try {
+            parse(pesel);
+        } catch (WrongValuesPeselException e) {
+            e.getMessage();
         }
+
+        int genderDigit = Character.getNumericValue(pesel.charAt(9));
+        return genderDigit % 2 == 0 ? 'K' : 'M';
     }
 
     public LocalDateTime getBirthDate(String pesel) {
-        if (!parse(pesel)) {
-            throw new IllegalArgumentException("Invalid PESEL number");
+        try {
+            parse(pesel);
+        } catch (WrongValuesPeselException e) {
+            e.getMessage();
         }
 
         // Extract birth date from PESEL number
