@@ -74,3 +74,6 @@ test/test_runner
 
 ## Video Edditing
 *.mp4
+
+## Zips
+*.zip
