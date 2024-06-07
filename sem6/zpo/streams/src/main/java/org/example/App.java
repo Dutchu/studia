@@ -5,6 +5,9 @@ import java.nio.CharBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Stream;
 
 /**
@@ -29,23 +32,51 @@ public class App {
     private static Stream<String> processFile(String fileName, String outputFileName) {
         Stream<String> resultingStream = null;
         Path path = Paths.get(fileName);
+        Map<String, Integer> freqMap = new HashMap<>();
+        // AtomicLong to hold the word count
+        AtomicLong wordCount = new AtomicLong();
         try (Stream<String> lines = Files.lines(path)) {
             resultingStream = lines
                     .map(String::toLowerCase)
                     .map(String::trim)
-                    .map(e -> e.replaceAll("[^a-z]+", " "));
-            bufferedWriteFile(outputFileName, resultingStream);
+                    .map(e -> e.replaceAll("[^a-z]+", " "))
+                    .flatMap(line -> Stream.of(line.split("\\s+")))
+                    .filter(word -> !word.isEmpty())
+                    .filter(word -> word.length() >= 3)
+                    .peek(word -> wordCount.incrementAndGet());
+
+            misraGries(resultingStream, 100)
+                    .flatMap(map -> map.entrySet().stream())
+                    .sorted(Map.Entry.<String, Integer>comparingByValue())
+                    .map(entry -> entry.getKey() + " " + entry.getValue())
+                    .forEach(System.out::println);
+
+//            bufferedWriteFile(outputFileName, resultingStream);
         } catch (IOException e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e);
         }
+        System.out.println("Words count: " + wordCount);
         return resultingStream;
+    }
+
+    public static <T> Stream<Map<T, Integer>> misraGries(Stream<T> input, int k) {
+        Map<T, Integer> map = new HashMap<>();
+
+        input.forEach(element -> {
+            map.put(element, map.getOrDefault(element, 0) + 1);
+            if (map.size() == k) {
+                map.entrySet().removeIf(entry -> entry.setValue(entry.getValue() - 1) == 1);
+            }
+        });
+
+
+        return Stream.of(map);
     }
 
     private static void bufferedWriteFile(String fileName, Stream<String> stringStream) {
 
         BufferedWriter writer = null;
         try {
-
             writer = new BufferedWriter(new FileWriter(fileName));
         } catch (IOException e) {
             throw new RuntimeException(e);
