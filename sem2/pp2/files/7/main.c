@@ -13,7 +13,7 @@ int LIMIT = 1000;
 int main() {
     int num;
     int n;
-    char buff[5];
+    char buff[10];
     char filename[10];
     char contents[10];
     char *endptr;
@@ -25,25 +25,26 @@ int main() {
     printf("Podaj liczbę liczb:\n");
     if (fgets(buff, sizeof(buff), stdin) == NULL) {
         fprintf(stderr, "Incorrect input");
-        return EXIT_FAILURE;
+        exit(1);
     }
+    *(buff + strcspn(buff, "\n")) = 0;
 
-    int len = strlen(buff);
-    if (len == 0 || len > 4) {
+    size_t len = strlen(buff);
+    if (len == 0 || len > 5) {
         fprintf(stderr, "Incorrect input");
-        return EXIT_FAILURE;
+        exit(1);
     }
 
     errno = 0;
     n = strtol(buff, &endptr, 10);
     if (errno != 0 || *endptr != '\0') {
         fprintf(stderr, "Incorrect input");
-        return EXIT_FAILURE;
+        exit(1);
     }
 
     if (n < 1 || n > 1000) {
         fprintf(stderr, "Incorrect input data");
-        return EXIT_FAILURE;
+        exit(2);
     }
 
     int next = 1;
@@ -59,7 +60,7 @@ int main() {
 
         if (fp == NULL) {
             fprintf(stderr, "Couldn't create file");
-            exit(EXIT_FAILURE);
+            exit(5);
         }
         sprintf(contents, "%d, ", num);
         fwrite(contents, sizeof(char), strlen(contents), fp);
