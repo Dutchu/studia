@@ -8,6 +8,7 @@
 #include "stdio.h"
 
 #define FILE_NAME_BUFFER_SIZE 999
+#define LOAD_DATA_BUFF_SIZE 0x12
 #define PROJECT_PATH "C:\\Users\\Bartek\\Desktop\\studia\\sem2\\pp2\\structs\\hidden_message_II\\file"
 #define FILES_NUMBER 5
 
@@ -35,5 +36,4 @@ void print_string_array(char **array, int size);
 int check_file_name(FILE *fp);
 int get_file_size(FILE *f_handle);
 int decode_message(const struct message_t *cp, int size, char *msg, int text_size);
-int load_data(struct message_t *cp, int size, const char *filename);
 #endif //STRUCT_UTILS_H
