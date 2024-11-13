@@ -46,6 +46,7 @@ target
 *.app
 
 **/cmake-build-debug
+**/cmake-build-debug-wsl
 **/CMakeCache.txt
 **/cmake_install.cmake
 **/install_manifest.txt

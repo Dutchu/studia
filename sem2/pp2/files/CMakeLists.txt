@@ -8,6 +8,7 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/2" "${PROJECT_SOURCE_DIR}/2/cmake-build-
 add_subdirectory("${PROJECT_SOURCE_DIR}/3" "${PROJECT_SOURCE_DIR}/3/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/4" "${PROJECT_SOURCE_DIR}/4/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/5" "${PROJECT_SOURCE_DIR}/5/cmake-build-debug")
+add_subdirectory("${PROJECT_SOURCE_DIR}/7" "${PROJECT_SOURCE_DIR}/7/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/21" "${PROJECT_SOURCE_DIR}/21/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/23" "${PROJECT_SOURCE_DIR}/23/cmake-build-debug")
 

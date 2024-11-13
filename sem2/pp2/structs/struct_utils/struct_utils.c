@@ -79,7 +79,7 @@ int get_file_size(FILE *f_handle) {
         printf("Handle is null");
         return -1;
     }
-    unsigned long l_file_size = 0;
+    unsigned long l_file_size;
 
     // obtain file size:
     fseek(f_handle, 0, SEEK_END);
@@ -124,53 +124,5 @@ void close_file(struct file_t *f) {
     fclose(f->f);
 }
 
-int read_to_newline(int buffer_size, char * buffer) {
 
-    int loop = 0;
-    while (1) {
-        if (fgets(buffer, FILE_NAME_BUFFER_SIZE, stdin) == NULL) {
-        }
-        if (*buffer == '\n') {
-            break;
-        }
-
-        char *pos;
-//        long long length;
-        if ((pos = strchr(buffer, '\n')) != NULL) {
-            *pos = '\0';
-        }
-//        length = pos - buffer;
-        loop++;
-    }
-
-    return 0;
-}
-
-int load_data(struct message_t *cp, int size, const char *filename) {
-    static const unsigned int BUFF_SIZE = 0x12;
-
-    if (cp == NULL || filename == NULL) return -1;
-    if (size < 0) return -1;
-
-    FILE *f;
-    f = fopen(filename, "r");
-    if (f == NULL) return -2;
-
-    const char buffer[BUFF_SIZE];
-    size_t elements_num;
-    elements_num = fread(buffer, sizeof(char), BUFF_SIZE, f);
-
-    printf("[load data] buffer : %s\n", buffer);
-    printf( "Dlugosc tekstu = %d\n", strlen( buffer ) );
-    printf( "Zapisanych elementow = %d\n", elements_num );
-
-    if( ferror( f ) != 0 )
-        printf( "Blad zapisu danych do pliku.\n" );
-
-    return 0;
-}
-
-int decode_message(const struct message_t *cp, int size, char *msg, int text_size) {
-
-}
 

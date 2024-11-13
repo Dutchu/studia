@@ -16,7 +16,7 @@ set(CMAKE_C_STANDARD 11)
 #        structs/struct_utils/main.c
 #        structs/struct_utils/main.h)
 
-add_subdirectory("${PROJECT_SOURCE_DIR}/1" "${PROJECT_SOURCE_DIR}/1/cmake-build-debug")
+add_subdirectory("${PROJECT_SOURCE_DIR}/point" "${PROJECT_SOURCE_DIR}/point/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/file_struct" "${PROJECT_SOURCE_DIR}/file_struct/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/hidden_message_II" "${PROJECT_SOURCE_DIR}/hidden_message_II/cmake-build-debug")
 #add_subdirectory("${PROJECT_SOURCE_DIR}/test" "${PROJECT_SOURCE_DIR}/test/cmake-build-debug")
