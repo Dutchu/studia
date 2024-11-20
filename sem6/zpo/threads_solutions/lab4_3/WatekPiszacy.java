@@ -11,7 +11,7 @@ import java.util.concurrent.BlockingQueue;
 public class WatekPiszacy implements Runnable {
     private final TextArea textArea;
     private final Stage stage;
-    private static final BlockingQueue<String> sharedBuffer = SharedBuffer.getBuffer(); // Wspólny bufor dla znaków
+    private static final BlockingQueue<String> sharedBuffer = SharedBuffer.getBuffer();
 
     public WatekPiszacy() {
         this.textArea = new TextArea();
@@ -29,14 +29,14 @@ public class WatekPiszacy implements Runnable {
             System.out.println("[WatekPiszacy] Wątek konsumenta uruchomiony.");
 
             while (true) {
-                String line = sharedBuffer.take(); // Pobieranie linii z bufora
+                String line = sharedBuffer.take();
                 System.out.println("[WatekPiszacy] Odebrano linię: " + line);
 
                 Platform.runLater(() -> textArea.appendText(line + "\n"));
                 writer.write(line + "\n");
                 writer.flush();
 
-                Thread.sleep(100); // Symulacja opóźnienia
+                Thread.sleep(100);
 
                 if (SharedBuffer.isAllProducersFinished() && sharedBuffer.isEmpty()) {
                     System.out.println("[WatekPiszacy] Wątek konsumenta zakończony.");

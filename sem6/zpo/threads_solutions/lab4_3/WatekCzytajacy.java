@@ -57,7 +57,8 @@ public class WatekCzytajacy implements Runnable {
                 String finalLine = line;
                 Platform.runLater(() -> textArea.appendText(finalLine + "\n"));
                 System.out.println("[" + fileName + "] Sent line: " + line);
-                Thread.sleep(100); // Simulate delay
+                Thread.sleep(100);
+
 
                 SharedBuffer.switchToNextProducer();
             }

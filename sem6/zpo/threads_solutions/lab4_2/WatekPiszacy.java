@@ -5,13 +5,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
+import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
 public class WatekPiszacy implements Runnable {
-    private final TextArea textArea;
-    private final Stage stage;
-    private static final BlockingQueue<String> sharedBuffer = SharedBuffer.getBuffer(); // Wspólny bufor dla znaków
+    private TextArea textArea;
+    private Stage stage;
+    private static BlockingQueue<Character> sharedBuffer = SharedBuffer.getBuffer(); // Wspólny bufor dla znaków
 
     public WatekPiszacy() {
         this.textArea = new TextArea();
@@ -26,20 +28,19 @@ public class WatekPiszacy implements Runnable {
     @Override
     public void run() {
         try (FileWriter writer = new FileWriter("wynik.txt")) {
-            System.out.println("[WatekPiszacy] Wątek konsumenta uruchomiony.");
-
             while (true) {
-                String line = sharedBuffer.take(); // Pobieranie linii z bufora
-                System.out.println("[WatekPiszacy] Odebrano linię: " + line);
+                char character = sharedBuffer.take(); // Pobieranie znaku z bufora
 
-                Platform.runLater(() -> textArea.appendText(line + "\n"));
-                writer.write(line + "\n");
+                // Aktualizacja UI musi być wykonana na Platform.runLater
+                Platform.runLater(() -> textArea.appendText(String.valueOf(character)));
+
+                writer.write(character);
                 writer.flush();
 
                 Thread.sleep(100); // Symulacja opóźnienia
 
+                // Sprawdzanie warunków zakończenia działania
                 if (SharedBuffer.isAllProducersFinished() && sharedBuffer.isEmpty()) {
-                    System.out.println("[WatekPiszacy] Wątek konsumenta zakończony.");
                     break;
                 }
             }
