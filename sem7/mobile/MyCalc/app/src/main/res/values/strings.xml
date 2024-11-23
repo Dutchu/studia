@@ -3,5 +3,7 @@
     <string name="click_me">Click Me</string>
     <string name="decrease">Decrease</string>
     <string name="increase">Increase</string>
-    <string name="init_val">0</string>
+    <string name="init_val">Result 0</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="result">Result %1$d</string>
 </resources>

@@ -1,8 +1,6 @@
 package lol.dutchu.mycalc
 
-import android.view.View
-
-data class Action (
-    val label: String,
-    val clickListener: View.OnClickListener
-)
+sealed class ButtonAction {
+    data class Number(val value: Int) : ButtonAction()
+    data class Function(val label: String, val operation: () -> Unit) : ButtonAction()
+}
