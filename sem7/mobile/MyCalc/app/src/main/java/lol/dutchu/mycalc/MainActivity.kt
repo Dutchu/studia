@@ -6,14 +6,16 @@ import android.view.View
 import android.widget.HorizontalScrollView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
-import androidx.lifecycle.MutableLiveData
+import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.Int
+import kotlin.collections.joinToString
+import kotlin.math.floor
 
 class MainActivity : ComponentActivity() {
-    private var result = 0
-    private val stack = MutableLiveData<MutableList<Int>>(mutableListOf())
+    private val viewModel: CalculatorViewModel by viewModels()
     private val rowsNum: Int = 4
     private lateinit var calculatedValue: TextView
     private lateinit var formulaInputScrollView: HorizontalScrollView
@@ -21,27 +23,11 @@ class MainActivity : ComponentActivity() {
     private lateinit var adapter: ActionAdapter
     private lateinit var recyclerView: RecyclerView
 
-
-    //TODO: Czy to potrzebne wciąż?
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         setLayoutManager()
         adaptButtons()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt("result", this.result)
-        outState.putIntArray("stack", stack.value?.toIntArray() ?: IntArray(0))
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        this.result = savedInstanceState.getInt("result", 0)
-        val savedStack = savedInstanceState.getIntArray("stack")?.toMutableList() ?: mutableListOf()
-        stack.value = savedStack
-        displayResult()
-        displayUpdatedFormula(stack.value ?: mutableListOf())
+        recyclerView.adapter = this.adapter
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,139 +40,106 @@ class MainActivity : ComponentActivity() {
         this.formulaInputScrollView = findViewById<HorizontalScrollView>(R.id.formulaInputScrollView)
         recyclerView.layoutManager = GridLayoutManager(this, rowsNum)
 
-        adaptButtons()
+        this.adapter = adaptButtons()
 
         recyclerView.adapter = this.adapter
         setLayoutManager()
 
-        stack.observe(this, Observer {
-            newStack ->
+        viewModel.expressionStack.observe(this, Observer { newStack ->
             displayUpdatedFormula(newStack)
+
+        })
+
+        viewModel.result.observe(this, Observer {
+            result ->
+            displayResult(result)
         })
     }
 
     private fun initVerticalButtons():List<ButtonAction> {
         //Order is Crucial
         return listOf(
-            ButtonAction.Number(1),
-            ButtonAction.Number(2),
-            ButtonAction.Number(3),
-            ButtonAction.Function("") { },
-            ButtonAction.Number(4),
-            ButtonAction.Number(5),
-            ButtonAction.Number(6),
-            ButtonAction.Function("") { },
-            ButtonAction.Number(7),
-            ButtonAction.Number(8),
-            ButtonAction.Number(9),
-            ButtonAction.Function("") { },
-            ButtonAction.Function("+") { add() },
-            ButtonAction.Number(0),
-            ButtonAction.Function("-") { subtract() },
-            ButtonAction.Function("=") {
-                calculateResult()
-                displayResult()
-            }
+            ButtonAction.Symbol(Buttons.ONE.label, Buttons.ONE.ordinal),
+            ButtonAction.Symbol(Buttons.TWO.label, Buttons.TWO.ordinal),
+            ButtonAction.Symbol(Buttons.THREE.label, Buttons.THREE.ordinal),
+            ButtonAction.Function(Buttons.CLEAR, Buttons.CLEAR.ordinal),
+            ButtonAction.Symbol(Buttons.FOUR.label, Buttons.FOUR.ordinal),
+            ButtonAction.Symbol(Buttons.FIVE.label, Buttons.FOUR.ordinal),
+            ButtonAction.Symbol(Buttons.SIX.label, Buttons.SIX.ordinal),
+            ButtonAction.Symbol(Buttons.PARENTHESIS_LEFT.label, Buttons.PARENTHESIS_LEFT.ordinal),
+            ButtonAction.Symbol(Buttons.SEVEN.label, Buttons.SEVEN.ordinal),
+            ButtonAction.Symbol(Buttons.EIGHT.label, Buttons.EIGHT.ordinal),
+            ButtonAction.Symbol(Buttons.NINE.label, Buttons.NINE.ordinal),
+            ButtonAction.Symbol(Buttons.PARENTHESIS_RIGHT.label, Buttons.PARENTHESIS_RIGHT.ordinal),
+            ButtonAction.Symbol(Buttons.ADD.label, Buttons.ADD.ordinal),
+            ButtonAction.Symbol(Buttons.ZERO.label, Buttons.ZERO.ordinal),
+            ButtonAction.Symbol(Buttons.SUBTRACT.label, Buttons.SUBTRACT.ordinal),
+            ButtonAction.Function(Buttons.EVALUATE, Buttons.EVALUATE.ordinal),
+            ButtonAction.Symbol(Buttons.MULTIPLY.label, Buttons.MULTIPLY.ordinal),
+            ButtonAction.Symbol(Buttons.DIVIDE.label, Buttons.DIVIDE.ordinal),
+            ButtonAction.Symbol(Buttons.DOT.label, Buttons.DOT.ordinal),
         )
     }
     private fun initHorizontalButtons():List<ButtonAction> {
         //Order is Crucial
         return listOf(
-            ButtonAction.Number(1),
-            ButtonAction.Number(2),
-            ButtonAction.Number(3),
-//            ButtonAction.Function("") { },
-            ButtonAction.Number(4),
-            ButtonAction.Number(5),
-            ButtonAction.Number(6),
-//            ButtonAction.Function("") { },
-            ButtonAction.Number(7),
-            ButtonAction.Number(8),
-            ButtonAction.Number(9),
-//            ButtonAction.Function("") { },
-            ButtonAction.Function("+") { add() },
-            ButtonAction.Number(0),
-            ButtonAction.Function("-") { subtract() },
-            ButtonAction.Function("=") {
-                calculateResult()
-                displayResult()
-            }
+            ButtonAction.Symbol(Buttons.ONE.label, Buttons.ONE.ordinal),
+            ButtonAction.Symbol(Buttons.TWO.label, Buttons.TWO.ordinal),
+            ButtonAction.Symbol(Buttons.THREE.label, Buttons.THREE.ordinal),
+            ButtonAction.Function(Buttons.CLEAR, Buttons.CLEAR.ordinal),
+            ButtonAction.Symbol(Buttons.FOUR.label, Buttons.FOUR.ordinal),
+            ButtonAction.Symbol(Buttons.FIVE.label, Buttons.FOUR.ordinal),
+            ButtonAction.Symbol(Buttons.SIX.label, Buttons.SIX.ordinal),
+            ButtonAction.Symbol(Buttons.PARENTHESIS_LEFT.label, Buttons.PARENTHESIS_LEFT.ordinal),
+            ButtonAction.Symbol(Buttons.SEVEN.label, Buttons.SEVEN.ordinal),
+            ButtonAction.Symbol(Buttons.EIGHT.label, Buttons.EIGHT.ordinal),
+            ButtonAction.Symbol(Buttons.NINE.label, Buttons.NINE.ordinal),
+            ButtonAction.Symbol(Buttons.PARENTHESIS_RIGHT.label, Buttons.PARENTHESIS_RIGHT.ordinal),
+            ButtonAction.Symbol(Buttons.ADD.label, Buttons.ADD.ordinal),
+            ButtonAction.Symbol(Buttons.ZERO.label, Buttons.ZERO.ordinal),
+            ButtonAction.Symbol(Buttons.SUBTRACT.label, Buttons.SUBTRACT.ordinal),
+            ButtonAction.Function(Buttons.EVALUATE, Buttons.EVALUATE.ordinal)
         )
     }
 
-    private fun pushToStack(value: Int) {
-        val currentStack = this.stack.value ?: mutableListOf()
-        currentStack.add(value)
-        stack.value = currentStack
-    }
-
-    private fun popFromStack(): Int? {
-        val currentStack = this.stack.value ?: mutableListOf()
-        return if (currentStack.isNotEmpty()) {
-            val value = currentStack.removeAt(currentStack.lastIndex)
-            stack.value = currentStack
-            value
-        } else {
-            null
-        }
-    }
-
-    private fun adaptButtons() {
+    private fun adaptButtons() : ActionAdapter {
         val orientation = resources.configuration.orientation
-
         val buttonActions = if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             initHorizontalButtons()
         } else {
             initVerticalButtons()
         }
 
-        this.adapter = ActionAdapter(
+        return ActionAdapter(
             buttonActions,
-            onNumberClick = { value ->
-                pushToStack(value)
-                println("Stack after adding $value: $stack")
+            onSymbolClick = { symbol ->
+                viewModel.insertSymbol(symbol.label)
             },
-            onFunctionClick = { operation ->
-                operation()
-                println("Stack after operation: $stack")
+            onFunctionClick = { button ->
+                when (button) {
+                    ButtonAction.Function(Buttons.EVALUATE, Buttons.EVALUATE.ordinal) -> viewModel.evaluateExpression()
+                    ButtonAction.Function(Buttons.CLEAR, Buttons.CLEAR.ordinal) -> viewModel.clearExpression()
+                    else -> println("Unknown function: $button")
+                }
+            },
+            onEmptyClick = {
+                //TODO: Lol
             }
         )
     }
 
-    private fun add() {
-        val b = popFromStack()
-        val a = popFromStack()
-        if (a != null && b != null) {
-           pushToStack(a + b)
+    private fun displayResult(value: Double) {
+        //TODO: Animate Result Display
+        if (value == floor(value)) {
+            this.calculatedValue.text = getString(R.string.result_int, value.toInt())
         } else {
-            println("Not enough operands to perform addition.")
+            this.calculatedValue.text = getString(R.string.result_double, value)
         }
     }
 
-    private fun subtract() {
-        val b = popFromStack()
-        val a = popFromStack()
-        if (a != null && b != null) {
-            pushToStack(a - b)
-        } else {
-            println("Not enough operands to perform subtraction.")
-        }
-    }
+    private fun displayUpdatedFormula(newStack: List<String>) {
+        this.formulaInput.text = newStack.joinToString(" ")
 
-    private fun calculateResult() {
-        val result = stack.value?.lastOrNull() ?: 0
-        println("calculated result is: $result")
-        this.result = result
-    }
-
-    private fun displayResult() {
-        this.calculatedValue.text = getString(R.string.result, result)
-    }
-
-    private fun displayUpdatedFormula(newStack: MutableList<Int>) {
-        this.formulaInput.text = newStack.toString()
-
-        // Scroll to the end of the HorizontalScrollView
         formulaInputScrollView.post {
             formulaInputScrollView.fullScroll(View.FOCUS_RIGHT)
         }
@@ -201,5 +154,4 @@ class MainActivity : ComponentActivity() {
         }
         recyclerView.layoutManager = GridLayoutManager(this, spanCount)
     }
-
 }

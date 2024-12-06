@@ -1,6 +1,7 @@
 package lol.dutchu.mycalc
 
 sealed class ButtonAction {
-    data class Number(val value: Int) : ButtonAction()
-    data class Function(val label: String, val operation: () -> Unit) : ButtonAction()
+    data class Symbol(val label: String, val id: Int) : ButtonAction()
+    data class Function(val button: Buttons, val id: Int) : ButtonAction()
+    object Empty : ButtonAction()
 }
