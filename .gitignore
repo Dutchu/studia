@@ -10,7 +10,6 @@ target
 #My own
 *.jar
 *.zip
-/sem5
 /docker-data
 /docker-images
 
