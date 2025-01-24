@@ -6,6 +6,10 @@ target
 *.iml
 /cache
 
+#STM32 cubeIDE
+.metadata/
+.settings/
+*.Id
 
 #My own
 *.jar
@@ -59,11 +63,8 @@ include/divisible/*
 
 
 ## Local 
-
 .idea/*.xml
-
 build/**/*
-
 include/*
 lib/*
 bin/*
