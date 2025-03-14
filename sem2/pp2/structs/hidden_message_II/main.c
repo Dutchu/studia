@@ -24,6 +24,7 @@ int load_data(struct message_t *cp, int size, const char *filename);
 int main() {
 
     int res;
+
     char filename_buff[FILENAME_BUFF_SIZE];
     struct message_t cryptogram_buff[CRYPTO_BUFF_SIZE];
     char decrypt_message[DEC_MESSAGE_BUFF_SIZE];
@@ -41,7 +42,7 @@ int main() {
     printf("%s", decrypt_message);
 
     return 0;
-}
+ }
 
 int load_data(struct message_t *cp, int size, const char *filename) {
     if (cp == NULL || filename == NULL) return -1;
