@@ -54,22 +54,29 @@ int main() {
         if (next == 1) {
             sprintf(filename, "%d", i / 10);
             strcat(filename, ".txt");
-            printf("%s\n", filename);
             fp = fopen(filename, "w+");
         }
 
         if (fp == NULL) {
-            fprintf(stderr, "Couldn't create file");
+            printf("Couldn't create file");
             exit(5);
         }
+
         sprintf(contents, "%d, ", num);
         fwrite(contents, sizeof(char), strlen(contents), fp);
 
         if ((i % 10) == 9) {
             next = 1;
+            printf("%s\n", filename);
             fclose(fp);
+            fp = NULL;
         } else {
             next = 0;
         }
+    }
+    if (fp != NULL) {
+        printf("%s\n", filename);
+        fclose(fp);
+        fp = NULL; // Good practice
     }
 }
