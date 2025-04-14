@@ -82,23 +82,37 @@ int decode_message(const struct message_t *cp, int size, char *msg, int text_siz
     int b_offset = offsetof(struct message_t, b);
     int c_offset = offsetof(struct message_t, c);
 
-    char *temp_char;
-    int curr_add;
+    size_t current_len = 0;
+    size_t remaining_space = text_size - current_len;
+
+    char dec_char;
     for(int i = 0; i < size; i++) {
         for (int j = a_offset + a_size; j < b_offset; j++) {
             dec_char = *((char *)(cp + i) + j);
+            printf("Loop(i=%d < size=%d), j=%d < b_offset=%d, a_offset:%d, a_size:%d DECODED TO = c:%c, d:%d\n", i, size, j, b_offset, a_offset, a_size, dec_char, dec_char);
 //            printf("%c", *((char *)(cp + i) + j) );
-            strcat(msg, &dec_char);
+
+            snprintf(msg + current_len, remaining_space, "%c", dec_char);
+            current_len = current_len + sizeof(char);
+            remaining_space = text_size - current_len;
         }
         for (int j = b_offset + b_size; j < c_offset; j++) {
             dec_char = *((char *)(cp + i) + j);
+            printf("Loop(i=%d < size=%d), j=%d < c_offset=%d, b_offset:%d, b_size:%d DECODED TO = c:%c, d:%d\n", i, size, j, c_offset, b_offset, b_size, dec_char, dec_char);
 //            printf("%c", *((char *)(cp + i) + j) );
-            strcat(msg, &dec_char);
+
+            snprintf(msg + current_len, remaining_space, "%c", dec_char);
+            current_len = current_len + sizeof(char);
+            remaining_space = text_size - current_len;
         }
         for (int j = c_offset + c_size; j < STRUCT_SIZE; j++) {
             dec_char = *((char *)(cp + i) + j);
+            printf("Loop(i=%d < size=%d), j=%d < STRUCT_SIZE=%d, c_offset:%d, c_size:%d DECODED TO = c:%c, d:%d\n", i, size, j, STRUCT_SIZE, c_offset, c_size, dec_char, dec_char);
 //            printf("%c", *((char *)(cp + i) + j) );
-            strcat(msg, &dec_char);
+
+            snprintf(msg + current_len, remaining_space, "%c", dec_char);
+            current_len = current_len + sizeof(char);
+            remaining_space = text_size - current_len;
         }
     }
     return 0;
