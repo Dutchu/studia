@@ -35,7 +35,8 @@ int main() {
     }
     *(filename_buff + strcspn(filename_buff, "\n")) = 0;
 
-    res = load_data(cryptogram_buff, STRUCT_SIZE * N_STRUCT_IN_BUFF, filename_buff);
+    res = load_data(cryptogram_buff, CRYPTO_BUFF_SIZE, filename_buff);
+    printf("load_data result: %d\n", res);
     if (res < 0) exit(4);
 
     decode_message(cryptogram_buff, N_STRUCT_IN_BUFF, decrypt_message, DEC_MESSAGE_BUFF_SIZE);
@@ -49,13 +50,19 @@ int load_data(struct message_t *cp, int size, const char *filename) {
     if (size < 0) return -1;
 
     FILE *f;
-    f = fopen(filename, "r");
+    f = fopen(filename, "rb");
     if (f == NULL) return -2;
 
-    int res = fread(cp, STRUCT_SIZE * N_STRUCT_IN_BUFF, N_STRUCT_IN_BUFF, f);
+    size_t items_read = fread(cp, sizeof(struct message_t), (size_t)size, f);
+
+    if (items_read < (size_t)size && ferror(f)) {
+        fclose(f);
+        return -3;
+    }
+
     fclose(f);
 
-    return res;
+    return (int)items_read;
 }
 
 int decode_message(const struct message_t *cp, int size, char *msg, int text_size) {
@@ -68,9 +75,14 @@ int decode_message(const struct message_t *cp, int size, char *msg, int text_siz
     if (msg == NULL) {
         return 1;
     }
+
+//    Result of operation is garbage or undefined 8
+//←
+//The left operand of '!=' is a garbage value
     if (*msg != '\0') {
         *msg = '\0';
     }
+
     if (text_size < 1) {
         return 1;
     }
@@ -89,8 +101,6 @@ int decode_message(const struct message_t *cp, int size, char *msg, int text_siz
     for(int i = 0; i < size; i++) {
         for (int j = a_offset + a_size; j < b_offset; j++) {
             dec_char = *((char *)(cp + i) + j);
-            printf("Loop(i=%d < size=%d), j=%d < b_offset=%d, a_offset:%d, a_size:%d DECODED TO = c:%c, d:%d\n", i, size, j, b_offset, a_offset, a_size, dec_char, dec_char);
-//            printf("%c", *((char *)(cp + i) + j) );
 
             snprintf(msg + current_len, remaining_space, "%c", dec_char);
             current_len = current_len + sizeof(char);
@@ -98,8 +108,6 @@ int decode_message(const struct message_t *cp, int size, char *msg, int text_siz
         }
         for (int j = b_offset + b_size; j < c_offset; j++) {
             dec_char = *((char *)(cp + i) + j);
-            printf("Loop(i=%d < size=%d), j=%d < c_offset=%d, b_offset:%d, b_size:%d DECODED TO = c:%c, d:%d\n", i, size, j, c_offset, b_offset, b_size, dec_char, dec_char);
-//            printf("%c", *((char *)(cp + i) + j) );
 
             snprintf(msg + current_len, remaining_space, "%c", dec_char);
             current_len = current_len + sizeof(char);
@@ -107,8 +115,6 @@ int decode_message(const struct message_t *cp, int size, char *msg, int text_siz
         }
         for (int j = c_offset + c_size; j < STRUCT_SIZE; j++) {
             dec_char = *((char *)(cp + i) + j);
-            printf("Loop(i=%d < size=%d), j=%d < STRUCT_SIZE=%d, c_offset:%d, c_size:%d DECODED TO = c:%c, d:%d\n", i, size, j, STRUCT_SIZE, c_offset, c_size, dec_char, dec_char);
-//            printf("%c", *((char *)(cp + i) + j) );
 
             snprintf(msg + current_len, remaining_space, "%c", dec_char);
             current_len = current_len + sizeof(char);
