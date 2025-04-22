@@ -6,13 +6,15 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-#define PHONE_BOOK_SIZE 8
+#define PHONE_BOOK_SIZE 10
 #define MAX_PHONE_NUMBER_SIZE 9
 #define NAME_SIZE 20
 #define LASTNAME_SIZE 40
 #define COL_DIV_SIZE 3
 #define LINE_END_SIZE 2
 #define INPUT_BUFFER_SIZE 100
+#define FILE_NAME "2415test.txt"
+#define LAST_NAME "Murray'Abraham"
 
 struct entry_t {
     char name[NAME_SIZE];
@@ -22,6 +24,11 @@ struct entry_t {
 
 const struct entry_t *find_by_last_name(const struct entry_t *p, int size, const char *last_name);
 
+int remove_entry_by_last_name(struct entry_t *p, int size, const char *last_name);
+
+int find_position_by_last_name(const struct entry_t *p, int size, const char *last_name);
+
+int save_phonebook_t(const char *filename, const struct entry_t *p, int size);
 
 void display(const struct entry_t *p);
 
@@ -42,38 +49,81 @@ int main() {
     char *lastname;
     char input_buffer[INPUT_BUFFER_SIZE];
     struct entry_t phone_book[PHONE_BOOK_SIZE];
-    int result;
+    int phone_book_size = 0;
 
-    printf("Enter file name: ");
-    result = read_input_from_user(input_buffer, INPUT_BUFFER_SIZE);
-    if (result == 1) return 1;
-    trim_whitespace(input_buffer);
-    filename = input_buffer;
+//    printf("Enter file name: ");
+//    result = read_input_from_user(input_buffer, INPUT_BUFFER_SIZE);
+//    if (result == 1) return 1;
+//    trim_whitespace(input_buffer);
+//    filename = input_buffer;
+    filename = FILE_NAME;
 
-    result = load_phonebook_t(filename, phone_book, sizeof(phone_book) / sizeof(*phone_book));
-    if (result < 0) {
+    phone_book_size = load_phonebook_t(filename, phone_book, sizeof(phone_book) / sizeof(*phone_book));
+    if (phone_book_size < 0) {
         printf("Couldn't open file");
         return 4;
-    } else if (result == 0) {
+    } else if (phone_book_size == 0) {
         printf("File corrupted");
         return 6;
     }
 
-    printf("Enter last name: ");
-    result = read_input_from_user(input_buffer, INPUT_BUFFER_SIZE);
-    if (result == 1) return 1;
-    trim_whitespace(input_buffer);
-    lastname = input_buffer;
+//    printf("Enter last name: ");
+//    result = read_input_from_user(input_buffer, INPUT_BUFFER_SIZE);
+//    if (result == 1) return 1;
+//    trim_whitespace(input_buffer);
+//    lastname = input_buffer;
+    lastname = LAST_NAME;
 
-    const struct entry_t *found = find_by_last_name(phone_book, sizeof(*phone_book), lastname);
-    if (found == NULL) {
-        printf("Couldn't find name");
-        return 0;
+    const struct entry_t *found = find_by_last_name(phone_book, phone_book_size, lastname);
+//    if (found == NULL) {
+//        printf("Couldn't find name");
+//        return 0;
+//    }
+
+//    display(found);
+
+    printf("\nphone_book_size: %d\n", phone_book_size);
+    for (int i = 0; i < phone_book_size; ++i) {
+        printf("%d: ", i);
+        display(phone_book+i);
+        printf("\n");
     }
 
-    display(found);
+    phone_book_size = remove_entry_by_last_name(phone_book, phone_book_size, lastname);
+    if (phone_book_size < 0) printf("Invalid input data");
+    else printf("\nphone_book_size: %d\n", phone_book_size);
+
+    for (int i = 0; i < phone_book_size; ++i) {
+        printf("%d: ", i);
+        display(phone_book+i);
+        printf("\n");
+    }
+
 
     return 0;
+}
+
+int save_phonebook_t(const char *filename, const struct entry_t* p, int size) {
+    return 0;
+}
+
+int remove_entry_by_last_name(struct entry_t *p, int size, const char *last_name) {
+    if (!p || !last_name || size <= 0) return -1;
+
+    int found_pos = find_position_by_last_name(p, size, last_name);
+    if (found_pos < 0) { return size; }
+
+    if (found_pos == size-1) {
+        return size-1;
+    }
+
+    struct entry_t temp;
+    for (int i = 0; i < size - (found_pos+1); i++) {
+        temp = *((p+found_pos+i)+1);
+        *(p+found_pos+i) = temp;
+    }
+
+    return size-1;
 }
 
 void display(const struct entry_t *p) {
@@ -258,6 +308,32 @@ int validate_number(char *str) {
     return result;
 }
 
+int find_position_by_last_name(const struct entry_t *p, int size, const char *last_name) {
+    if (!p || !last_name) return -1;
+
+    int found_pos = -1;
+    int found = 0;
+    size_t lastname_len = strlen(last_name);
+
+    for (int i = 0; i < size; i++) {
+        if (found) break;
+        if (*(p + i)->last_name != *last_name) continue;
+        if (strlen((p + i)->last_name) != strlen(last_name)) continue;
+
+        for (size_t last_name_idx = 0; last_name_idx < lastname_len; last_name_idx++) {
+            if (*((p + i)->last_name + last_name_idx) != *(last_name + last_name_idx)) {
+                break;
+            }
+            if (last_name_idx == lastname_len - 1) {
+                found_pos = i;
+                found = 1;
+            }
+        }
+    }
+
+    return found_pos;
+}
+
 const struct entry_t *find_by_last_name(const struct entry_t *p, int size, const char *last_name) {
     if (!p || !last_name) return NULL;
 
@@ -268,6 +344,7 @@ const struct entry_t *find_by_last_name(const struct entry_t *p, int size, const
     for (int i = 0; i < size; i++) {
         if (found) break;
         if (*(p + i)->last_name != *last_name) continue;
+        if (strlen((p + i)->last_name) != strlen(last_name)) continue;
 
         for (size_t last_name_idx = 0; last_name_idx < lastname_len; last_name_idx++) {
             if (*((p + i)->last_name + last_name_idx) != *(last_name + last_name_idx)) {
@@ -275,7 +352,7 @@ const struct entry_t *find_by_last_name(const struct entry_t *p, int size, const
                 break;
             }
             found_entry = p + i;
-            if (last_name_idx == lastname_len -1) found = 1;
+            if (last_name_idx == lastname_len - 1) found = 1;
         }
     }
 
