@@ -1,112 +1,89 @@
 //
 // Created by Bartek on 15.04.2025.
 //
-
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #define PHONE_BOOK_SIZE 8
 #define MAX_PHONE_NUMBER_SIZE 9
-#define FILE_NAME "2415test.txt"
+#define NAME_SIZE 20
+#define LASTNAME_SIZE 40
+#define COL_DIV_SIZE 3
+#define LINE_END_SIZE 2
+#define INPUT_BUFFER_SIZE 100
 
 struct entry_t {
-    char name[20];
-    char last_name[40];
+    char name[NAME_SIZE];
+    char last_name[LASTNAME_SIZE];
     int number;
 };
-const struct entry_t* find_by_last_name(const struct entry_t* p, int size, const char *last_name);
+
+const struct entry_t *find_by_last_name(const struct entry_t *p, int size, const char *last_name);
+
 
 void display(const struct entry_t *p);
 
 int load_phonebook_t(const char *filename, struct entry_t *p, int size);
 
-void for_strcpy(struct entry_t *p, const char *str);
+int read_input_from_user(char *buffer, int buff_size);
 
-void while_strcpy(struct entry_t *p, const char *str);
+int parse_line_to_entry(char *line, struct entry_t *entry);
+
+int validate_name(char *str);
+
+int validate_number(char *str);
+
+char *trim_whitespace(char *str);
 
 int main() {
-    char *str_name = "name test";
-    char *str_lastname = "lastname test";
-    int phone_no = 451227189;
+    char *filename;
+    char *lastname;
+    char input_buffer[INPUT_BUFFER_SIZE];
+    struct entry_t phone_book[PHONE_BOOK_SIZE];
+    int result;
 
-    char *filename = FILE_NAME;
-    struct entry_t test = {};
-    struct entry_t *test_ptr = &test;
-    struct entry_t phone_book[PHONE_BOOK_SIZE] = {};
+    printf("Enter file name: ");
+    result = read_input_from_user(input_buffer, INPUT_BUFFER_SIZE);
+    if (result == 1) return 1;
+    trim_whitespace(input_buffer);
+    filename = input_buffer;
 
-    if (strlen(str_name) < sizeof(test_ptr->name)) {
-        strcpy(test_ptr->name, str_name);
-    } else {
-        printf("Error: Source string too long (this should ideally never happen).\n");
+    result = load_phonebook_t(filename, phone_book, sizeof(phone_book) / sizeof(*phone_book));
+    if (result < 0) {
+        printf("Couldn't open file");
+        return 4;
+    } else if (result == 0) {
+        printf("File corrupted");
+        return 6;
     }
 
-    if (strlen(str_lastname) < sizeof(test_ptr->last_name)) {
-        strcpy(test_ptr->last_name, str_lastname);
-    } else {
-        printf("Error: Source string too long (this should ideally never happen).\n");
+    printf("Enter last name: ");
+    result = read_input_from_user(input_buffer, INPUT_BUFFER_SIZE);
+    if (result == 1) return 1;
+    trim_whitespace(input_buffer);
+    lastname = input_buffer;
+
+    const struct entry_t *found = find_by_last_name(phone_book, sizeof(*phone_book), lastname);
+    if (found == NULL) {
+        printf("Couldn't find name");
+        return 0;
     }
 
-    printf("sizeof(test): %lu \t sizeof(*test): %lu\n", sizeof(test), sizeof(test_ptr));
-
-    load_phonebook_t(filename, phone_book, 5);
-
-//    while_strcpy(test_ptr, str_name);
-//    for_strcpy(test_ptr, str_lastname);
-    test.number = phone_no;
-
-    display(test_ptr);
-    printf("\n");
-    display(phone_book + 0);
-    printf("\n");
-    display(phone_book + 1);
-    printf("\n");
-    display(phone_book + 2);
-    printf("\n");
-    display(phone_book + 3);
-    printf("\n");
-    display(phone_book + 4);
-    printf("\n");
-
-    const struct entry_t *found = find_by_last_name(phone_book, sizeof(*phone_book), "TylerMoore");
-
-    printf("======found:\t=======\n");
     display(found);
-    printf("\n");
 
     return 0;
-}
-
-void for_strcpy(struct entry_t *p, const char *str) {
-    for (int i = 0; i < strlen(str); i++) {
-        *(p->last_name + i) = *(str + i);
-    }
-}
-
-void while_strcpy(struct entry_t *p, const char *str) {
-    char *dest_ptr = p->name; // Pointer to the beginning of the name array
-    int i = 0;
-
-    // Loop through the source string and copy characters to the struct's name
-    while (*str != '\0' && i < sizeof(p->name) - 1) {
-        *dest_ptr = *str; // Dereference pointers to copy the character
-        dest_ptr++;          // Move the destination pointer to the next character
-        str++;           // Move the source pointer to the next character
-        i++;
-    }
-
-    // Ensure null termination of the name in the struct
-    *dest_ptr = '\0';
 }
 
 void display(const struct entry_t *p) {
     if (p == NULL) return;
 
     printf("Name: ");
-    for (int i = 0; i < sizeof(p->name); i++) {
+    for (size_t i = 0; i < sizeof(p->name); i++) {
         char curr_char = *(p->name + i);
 
-        if (curr_char == '\n') {
+        if (curr_char == '\n' || curr_char == '\0') {
             break;
         }
 
@@ -114,10 +91,10 @@ void display(const struct entry_t *p) {
     }
     printf("\n");
     printf("Last name: ");
-    for (int i = 0; i < sizeof(p->last_name); i++) {
+    for (size_t i = 0; i < sizeof(p->last_name); i++) {
         char curr_char = *(p->last_name + i);
 
-        if (curr_char == '\n') {
+        if (curr_char == '\n' || curr_char == '\0') {
             break;
         }
 
@@ -127,107 +104,178 @@ void display(const struct entry_t *p) {
     printf("Phone number: %d", p->number);
 }
 
+int read_input_from_user(char *buffer, int buff_size) {
+
+    if (!fgets(buffer, buff_size, stdin)) {
+        return 1;
+    }
+
+    return 0;
+}
+
 int load_phonebook_t(const char *filename, struct entry_t *p, int size) {
     if (filename == NULL || p == NULL || size < 1) {
         return -1;
     }
 
-    int result = 0;
     FILE *fp;
-    size_t read_no;
-    char phone_str[MAX_PHONE_NUMBER_SIZE];
+    size_t read_no = 0;
+    const int ROW_SIZE =
+            NAME_SIZE + COL_DIV_SIZE + LASTNAME_SIZE + COL_DIV_SIZE + MAX_PHONE_NUMBER_SIZE + LINE_END_SIZE;
+    char line_buff[NAME_SIZE + COL_DIV_SIZE + LASTNAME_SIZE + COL_DIV_SIZE + MAX_PHONE_NUMBER_SIZE + LINE_END_SIZE];
+    char *row;
 
     if ((fp = fopen(filename, "r")) == NULL) {
         return -2;
     }
 
-    int next;
-    for (int index = 0; index < size; index++) {
-        next = 0;
+    for (int r = 0; r < size; r++) {
+        row = fgets(line_buff, ROW_SIZE, fp);
 
-        int i = 0;
-        do {
-            char c = fgetc(fp);
-
-            // Checking for end of file
-            if (feof(fp))
-                break;
-            // Checking for end of file
-            if (c == '\0') break;
-            if (c == '|')
-                break;
-            if (c == '\n' || c == '\r') {
-                next = 1;
-                break;
-            }
-//            if (i > (sizeof(p->name) - 1)) break;
-            if (c == ' ') continue;
-
-            *((p + index)->name + i) = c;
-            i++;
-//        printf("\n%c,", c);
-
-        } while (1);
-
-        int j = 0;
-        do {
-            // Taking input single character at a time
-            char c = fgetc(fp);
-
-            // Checking for end of file
-            if (feof(fp))
-                break;
-            // Checking for end of file
-            if (c == '|')
-                break;
-            if (c == '\n' || c == '\r') {
-                next = 1;
-                break;
-            }
-//            if (i > (sizeof(p->last_name) - 1)) break;
-            if (c == ' ') continue;
-            if (c == '\0') break;
-
-
-            *((p + index)->last_name + j) = c;
-            j++;
-//        printf("\n%c,", c);
-        } while (1);
-
-        //don't read number end line character was reached
-        if (next) continue;
-
-        fseek(fp, 1, SEEK_CUR);
-
-        read_no = fread(phone_str, sizeof(char), sizeof(phone_str), fp);
-        if (read_no != sizeof(phone_str)) {
-            printf("Wrong number of read structures! read_no = %zu, size = %lu\n", read_no, sizeof(phone_str));
+        if (parse_line_to_entry(row, p + read_no)) {
+            read_no++;
         }
-
-        char *end_ptr;
-        printf("ftell(fp): %ld, j+i+fread(): %d\n", ftell(fp), j + i + (int) read_no);
-        (p + index)->number = (int) strtol(phone_str, &end_ptr, 0);
-
-        fseek(fp, 2, SEEK_CUR);
     }
 
     fclose(fp);
+    return (int) read_no;
+}
+
+char *trim_whitespace(char *str) {
+
+    if (str == NULL) return NULL;
+
+    while (isspace((unsigned char) *str)) str++;
+
+    if (*str == 0)
+        return str;
+
+    char *end = str + strlen(str) - 1;
+    while (end > str && isspace((unsigned char) *end)) {
+
+        end--;
+    }
+
+    *(end + 1) = '\0';
+
+    return str;
+}
+
+int parse_line_to_entry(char *line, struct entry_t *entry) {
+    if (!line || !entry) return 0;
+
+    char *trimmed_line = trim_whitespace(line);
+
+    if (trimmed_line == NULL || strlen(trimmed_line) == 0) {
+        return 0;
+    }
+
+    int field_count = 0;
+    char *field_saveptr = NULL;
+    char *name_str = NULL;
+    char *lastname_str = NULL;
+    char *number_str = NULL;
+
+    char *field = strtok_r(trimmed_line, "|", &field_saveptr);
+    while (field != NULL) {
+        char *trimmed_field = trim_whitespace(field);
+        int non_empty = (strlen(trimmed_field) > 0);
+
+        if (non_empty) {
+            field_count++;
+
+            switch (field_count) {
+                case 1:
+                    name_str = trimmed_field;
+                    break;
+                case 2:
+                    lastname_str = trimmed_field;
+                    break;
+                case 3:
+                    number_str = trimmed_field;
+                    break;
+                default:
+//                    printf("Skipping line (Unexpected field count): %s\n", line);
+                    return 0;
+            }
+        } else {
+//            printf("Skipping line (empty field detected): %s\n", line);
+            return 0;
+        }
+
+        field = strtok_r(NULL, "|", &field_saveptr);
+    }
+
+    int is_valid_name = validate_name(name_str);
+    int is_valid_lastname = validate_name(lastname_str);
+    int is_valid_number = validate_number(number_str);
+
+    if (!is_valid_name || !is_valid_lastname || !is_valid_number) {
+//        printf("Validation of fields in a row failed!");
+        return 0;
+    }
+
+    snprintf(entry->name, NAME_SIZE, "%s", name_str);
+    snprintf(entry->last_name, LASTNAME_SIZE, "%s", lastname_str);
+
+    char *endptr;
+    long phone_number;
+    if ((phone_number = strtol(number_str, &endptr, 10)) < 1 || *endptr != '\0') {
+//        printf("Phone number conversion to a number failed");
+        return 0;
+    }
+    entry->number = (int) phone_number;
+
+    return 1;
+}
+
+int validate_name(char *str) {
+    if (!str || strlen(str) == 0) return 0;
+    int result = 1;
+
+//    for (char *c = str; *c != '\0'; c++) {
+//        if (!isalpha((unsigned char) *c) && *c != ' ' && *c != '-' && *c != '\'' && *c != '.') {
+//            result = 0;
+//        }
+//    }
+
     return result;
 }
 
-const struct entry_t* find_by_last_name(const struct entry_t* p, int size, const char *last_name) {
+int validate_number(char *str) {
+    if (!str || strlen(str) == 0) return 0;
+    int result = 1;
+
+    int i = 0;
+    for (char *c = str; *c != '\0'; c++) {
+        if (!isdigit((unsigned char) *c) || i > MAX_PHONE_NUMBER_SIZE - 1) {
+            result = 0;
+        }
+
+        i++;
+    }
+
+    return result;
+}
+
+const struct entry_t *find_by_last_name(const struct entry_t *p, int size, const char *last_name) {
+    if (!p || !last_name) return NULL;
+
     const struct entry_t *found_entry = NULL;
+    int found = 0;
+    size_t lastname_len = strlen(last_name);
 
-    for(int i = 0; i < size; i++) {
-        if (*(p+i)->last_name != *last_name) continue;
+    for (int i = 0; i < size; i++) {
+        if (found) break;
+        if (*(p + i)->last_name != *last_name) continue;
 
-        for (int last_name_idx = 0; last_name_idx < strlen(last_name); last_name_idx++) {
-            if (*((p+i)->last_name + last_name_idx) != *(last_name+last_name_idx)) {
+        for (size_t last_name_idx = 0; last_name_idx < lastname_len; last_name_idx++) {
+            if (*((p + i)->last_name + last_name_idx) != *(last_name + last_name_idx)) {
                 found_entry = NULL;
                 break;
             }
-
-            found_entry = p+i;
+            found_entry = p + i;
+            if (last_name_idx == lastname_len -1) found = 1;
         }
     }
 
