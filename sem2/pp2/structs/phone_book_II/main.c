@@ -13,8 +13,6 @@
 #define COL_DIV_SIZE 3
 #define LINE_END_SIZE 2
 #define INPUT_BUFFER_SIZE 100
-#define FILE_NAME "2415test.txt"
-#define LAST_NAME "Murray'Abraham"
 
 struct entry_t {
     char name[NAME_SIZE];
@@ -45,18 +43,18 @@ int validate_number(char *str);
 char *trim_whitespace(char *str);
 
 int main() {
-    char *filename;
-    char *lastname;
+    char filename[FILENAME_MAX];
+    char lastname[LASTNAME_SIZE];
     char input_buffer[INPUT_BUFFER_SIZE];
     struct entry_t phone_book[PHONE_BOOK_SIZE];
     int phone_book_size = 0;
+    int result;
 
-//    printf("Enter file name: ");
-//    result = read_input_from_user(input_buffer, INPUT_BUFFER_SIZE);
-//    if (result == 1) return 1;
-//    trim_whitespace(input_buffer);
-//    filename = input_buffer;
-    filename = FILE_NAME;
+    printf("Enter file name: ");
+    result = read_input_from_user(input_buffer, INPUT_BUFFER_SIZE);
+    if (result == 1) return 1;
+    trim_whitespace(input_buffer);
+    strncpy(filename, input_buffer, strlen(input_buffer));
 
     phone_book_size = load_phonebook_t(filename, phone_book, sizeof(phone_book) / sizeof(*phone_book));
     if (phone_book_size < 0) {
@@ -67,63 +65,75 @@ int main() {
         return 6;
     }
 
-//    printf("Enter last name: ");
-//    result = read_input_from_user(input_buffer, INPUT_BUFFER_SIZE);
-//    if (result == 1) return 1;
-//    trim_whitespace(input_buffer);
-//    lastname = input_buffer;
-    lastname = LAST_NAME;
+    printf("Enter last name: ");
+    result = read_input_from_user(input_buffer, INPUT_BUFFER_SIZE);
+    if (result == 1) return 1;
+    trim_whitespace(input_buffer);
+    strncpy(lastname, input_buffer, strlen(input_buffer));
 
-    const struct entry_t *found = find_by_last_name(phone_book, phone_book_size, lastname);
-//    if (found == NULL) {
-//        printf("Couldn't find name");
-//        return 0;
-//    }
+    int new_size = remove_entry_by_last_name(phone_book, phone_book_size, lastname);
+    if (phone_book_size == new_size) {
+        printf("Couldn't find name");
+        return 0;
+    }
+    phone_book_size = new_size;
+    printf("Entry removed\n");
 
-//    display(found);
-
-    printf("\nphone_book_size: %d\n", phone_book_size);
-    for (int i = 0; i < phone_book_size; ++i) {
-        printf("%d: ", i);
-        display(phone_book+i);
-        printf("\n");
+    int saved_entries = save_phonebook_t(filename, phone_book, phone_book_size);
+    if (saved_entries < 0) {
+        printf("Couldn't create file");
+        return 6;
     }
 
-    phone_book_size = remove_entry_by_last_name(phone_book, phone_book_size, lastname);
-    if (phone_book_size < 0) printf("Invalid input data");
-    else printf("\nphone_book_size: %d\n", phone_book_size);
-
-    for (int i = 0; i < phone_book_size; ++i) {
-        printf("%d: ", i);
-        display(phone_book+i);
-        printf("\n");
-    }
-
+    printf("File saved");
 
     return 0;
 }
 
-int save_phonebook_t(const char *filename, const struct entry_t* p, int size) {
-    return 0;
+int save_phonebook_t(const char *filename, const struct entry_t *p, int size) {
+    if (!filename || !p || size < 0) return -1;
+
+    FILE *fp = fopen(filename, "w");
+    if (!fp) return -2;
+
+    int entries = 0;
+
+    for (int i = 0; i < size; ++i) {
+        int chars_written = fprintf(fp, "%s | %s | %d\n",
+                                    (p + i)->name,
+                                    (p + i)->last_name,
+                                    (p + i)->number);
+
+        // Check if fprintf encountered an error
+        if (chars_written < 0) {
+            fclose(fp); // Attempt to close file before exiting
+            return 0;
+        } else {
+            entries++;
+        }
+    }
+
+    fclose(fp);
+    return entries;
 }
 
 int remove_entry_by_last_name(struct entry_t *p, int size, const char *last_name) {
-    if (!p || !last_name || size <= 0) return -1;
+    if (!p || !last_name || size < 0) return size;
 
     int found_pos = find_position_by_last_name(p, size, last_name);
     if (found_pos < 0) { return size; }
 
-    if (found_pos == size-1) {
-        return size-1;
+    if (found_pos == size - 1) {
+        return size - 1;
     }
 
     struct entry_t temp;
-    for (int i = 0; i < size - (found_pos+1); i++) {
-        temp = *((p+found_pos+i)+1);
-        *(p+found_pos+i) = temp;
+    for (int i = 0; i < size - (found_pos + 1); i++) {
+        temp = *((p + found_pos + i) + 1);
+        *(p + found_pos + i) = temp;
     }
 
-    return size-1;
+    return size - 1;
 }
 
 void display(const struct entry_t *p) {
