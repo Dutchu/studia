@@ -11,7 +11,8 @@ set(UTILS_SOURCES
 set(PROJECT_SOURCES
         main.c
         ${UTILS_SOURCES}/utils.c
-        translator.c)
+        translator.c
+        test.c)
 
 #add directory of utils
 include_directories("${UTILS_SOURCES}")
