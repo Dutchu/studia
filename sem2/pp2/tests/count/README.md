@@ -4,7 +4,9 @@
 
 # Kolokwium 1
 
----Podstawowe zadanie (ocena 3,0)---
+---
+Podstawowe zadanie (ocena 3,0)
+---
 
 Napisz program, który wczyta z plików wyrazy i obliczy ich liczbę wystąpień. Przygotuj
 funkcje zgodnie z poniższą specyfikacją. Kod przygotowanych funkcji umieść w pliku `defs.c`,
@@ -18,7 +20,7 @@ struct word_t
     char* word;
     int count;
 };
-
+```
 
 gdzie:
 
@@ -219,7 +221,9 @@ Uwagi
 
 ---
 
----Rozszerz poprzednie zadanie o następującą funkcje (ocena 4,0)---
+---
+Rozszerz poprzednie zadanie o następującą funkcje (ocena 4,0)
+---
 
 ```c
 void words_sort (struct file_t** files, enum error_code_t* error);
@@ -282,8 +286,8 @@ Uwagi
     ```
 
 ---
-
----Rozszerz poprzednie zadanie o następującą funkcje (ocena 5,0)---
+Rozszerz poprzednie zadanie o następującą funkcje (ocena 5,0)
+---
 
 ```c
 void words_save (const char* filename, const struct file_t** files,
