@@ -1,7 +1,4 @@
 <div style="display: flex;">
-    <div style="width: 150px; background-color: #800000; color: white; text-align: center;">
-       <img src="https://weeia.edu.p.lodz.pl/pluginfile.php/1/theme_modernwikamp/logo1/1744357698/logo_pl.png" alt="logo" width="500px" />
-    </div>
     <div>
        <div style="display: flex; justify-content: space-between; align-items: center;">
          <div style="padding: 10px; font-size: 16px;">Politechnika Łódzka</div>
