@@ -1,9 +1,6 @@
-<div style="display: flex;">
-    <div>
-       <div style="display: flex; justify-content: space-between; align-items: center;">
-         <div style="padding: 10px; font-size: 16px;">Politechnika Łódzka</div>
-          <div><img src="https://weeia.p.lodz.pl/themes/custom/tul_faculty/img/logos/weeia.svg" alt="logo" width="200px" /></div>
-       </div>
+<div style="display: flex; justify-content: space-between; align-items: center;">
+   <div><img src="https://weeia.p.lodz.pl/themes/custom/tul_faculty/img/logos/weeia.svg" alt="logo" width="200px" /></div>
+</div>
 
 # Kolokwium 1
 
@@ -340,6 +337,3 @@ Uwagi
     ```c
     char text[31];
     ```
-    
-</div>
-```
