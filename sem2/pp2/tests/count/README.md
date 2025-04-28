@@ -1,14 +1,12 @@
-```md
 <div style="display: flex;">
     <div style="width: 150px; background-color: #800000; color: white; text-align: center;">
-       <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Herb_Lodz.svg/120px-Herb_Lodz.svg.png" alt="logo" width="100px" />
+       <img src="https://weeia.edu.p.lodz.pl/pluginfile.php/1/theme_modernwikamp/logo1/1744357698/logo_pl.png" alt="logo" width="500px" />
     </div>
     <div>
        <div style="display: flex; justify-content: space-between; align-items: center;">
          <div style="padding: 10px; font-size: 16px;">Politechnika Łódzka</div>
-          <div><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/WEEIA_logo.svg/200px-WEEIA_logo.svg.png" alt="logo" width="200px" /></div>
+          <div><img src="https://weeia.p.lodz.pl/themes/custom/tul_faculty/img/logos/weeia.svg" alt="logo" width="200px" /></div>
        </div>
-
 
 # Kolokwium 1
 
@@ -26,7 +24,7 @@ struct word_t
     char* word;
     int count;
 };
-```
+
 
 gdzie:
 
