@@ -141,8 +141,9 @@ void free_words_array(struct word_t **words, size_t count) {
         return; // Nothing to free
     }
     for (size_t i = 0; i < count; ++i) {
-        if (words[i]) {
-            free(words[i]->text_pl); // Free Polish string (strdup'd)
+
+        if (*(words+i)) {
+            free((*(words+i))->text_pl); // Free Polish string (strdup'd)
             free(words[i]->text_en); // Free English string (strdup'd)
             free(words[i]);          // Free the struct word_t itself
         }
