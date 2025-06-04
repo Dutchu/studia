@@ -1,0 +1,18 @@
+extensions(
+	Logger: Ustawić w kompozycie driverów jako dodatkowy driver.
+		DriverComposite
+			Symulator linii  + Logger. Dodać dowolny driver do listy 
+Extensions
+Add Extension jak add Driver. Jak dodam Logger to będę mieć opcję włączania i wyłączania go. Dodatkowy driver.
+Driver Decorator.
+Realtime też mógłby implementować ten interfejs Decoratora. Checkbox  decoratora musiałby zostać nałożony 
+	Real-Time
+)
+Implement:
+- C:\Users\Bartek\work\projects\studia\powp\powp_jobs2d_projects\src\main\java\edu\kis\powp\jobs2d\drivers\adapter\DriverDecorator.java
+
+Chwilowo RealTimeDrawingDriverDecorator nie implementuje DriverDecorator a powinien działać jak CanvasRestrictionDriverDecorator.
++ DriverManager i DriverComposite i DriverFeature
+
+
+Wykorzystać mechanizm observera żeby pobrać zmianę canvasu. Get current command against canvas.getCurrentCanvas, są 

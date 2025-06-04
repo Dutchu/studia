@@ -1,0 +1,23 @@
+1. Technologia.
+2. Rozwiązanie problemu.
+3. 1+2.
+
+- 1. Nie wskazywać unikalnych technologii.
+- Kubernetes i Broker wiadomości. Asynchroniczne przetwarzanie wiadomości. 
+
+Portale start-up'owe.
+	- Startup.pl
+Challenge online.
+	- 
+
+Propozycja tematu z tłumaczeniem na angielski. 
+Zgłoszenie do katedry -> komisja wydziałowa.
+
+a) Napisanie softu
+ 1) Założenia 
+ 2) Pisanie kodu
+ 3) 80% -> pisanie pracy
+ 4) Opis ciekawych technologii (bez super wprowadzenia teoretycznego) -> Przedstawienie rozwiązanie od każdej strony.
+40 stron minimum. 50 stron dobrze by było.
+
+Publikacje naukowe.
