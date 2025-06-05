@@ -21,5 +21,6 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/file_struct" "${PROJECT_SOURCE_DIR}/file
 add_subdirectory("${PROJECT_SOURCE_DIR}/hidden_message_II" "${PROJECT_SOURCE_DIR}/hidden_message_II/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/phone_book" "${PROJECT_SOURCE_DIR}/phone_book/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/phone_book_II" "${PROJECT_SOURCE_DIR}/phone_book_II/cmake-build-debug")
+add_subdirectory("${PROJECT_SOURCE_DIR}/student_record" "${PROJECT_SOURCE_DIR}/student_record/cmake-build-debug")
 #add_subdirectory("${PROJECT_SOURCE_DIR}/test" "${PROJECT_SOURCE_DIR}/test/cmake-build-debug")
 #add_subdirectory("${PROJECT_SOURCE_DIR}/struct_utils" "${PROJECT_SOURCE_DIR}/struct_utils/cmake-build-debug")
