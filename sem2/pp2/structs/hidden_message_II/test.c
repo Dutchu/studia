@@ -1,3 +1,6 @@
+//
+// Created by Bartek on 14.04.2025.
+//
 #include <stdio.h>
 #include <stdlib.h> // For EXIT_SUCCESS, EXIT_FAILURE
 
