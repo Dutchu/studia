@@ -5,3 +5,4 @@ set(CMAKE_C_STANDARD 11)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/fill" "${PROJECT_SOURCE_DIR}/fill/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/allovarone" "${PROJECT_SOURCE_DIR}/allovarone/cmake-build-debug-wsl")
+add_subdirectory("${PROJECT_SOURCE_DIR}/cyclic_buffer" "${PROJECT_SOURCE_DIR}/cyclic_buffer/cmake-build-debug-wsl")
