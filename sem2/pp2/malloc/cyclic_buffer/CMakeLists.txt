@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.17)
 project(cyclic_buffer C)
 
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
 
 #define path to the utils
 set(UTILS_SOURCES
@@ -16,4 +17,4 @@ set(PROJECT_SOURCES
 include_directories("${UTILS_SOURCES}")
 
 #create executable from sources
-add_executable(cyclic_buffer ${PROJECT_SOURCES})
+add_executable(cyclic_buffer circular_buffer.c ${PROJECT_SOURCES})
