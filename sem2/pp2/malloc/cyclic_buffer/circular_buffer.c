@@ -65,14 +65,51 @@ int circular_buffer_push_back(struct circular_buffer_t *cb, int value) {
         return 1;
     }
 
-    *(cb->ptr + (cb->end % cb->capacity)) = value;
-    cb->end++;
+    int full_state_change = 0;
+    int is_eq_before = cb->begin == cb->end;
+
+
+    *(cb->ptr + (cb->end % (cb->capacity))) = value;
+    cb->end = (cb->end % (cb->capacity));
+
+    int is_eq_after = cb->begin == cb->end;
+
+    //ignore incrementing because end variable change was controlled with % calculation
+    // for end == capacity
+    // and adding incrementation is outside the order.
+    if (cb->end != cb->capacity) {
+        cb->end++;
+    }
+
+    if (is_eq_before == 0 && is_eq_after == 1) {
+        full_state_change = 1;
+    }
+
+    if (full_state_change) {
+        cb->full = 1;
+    }
+    if (circular_buffer_full(cb)) {
+        cb->begin = (cb->begin % cb->capacity);
+        cb->begin++;
+    }
 
     return 0;
 }
 
 int circular_buffer_pop_front(struct circular_buffer_t *a, int *err_code) {
-    return 0;
+    if (a == NULL) {
+        return 1;
+    }
+    int err;
+    if (err_code == NULL) {
+        err_code = &err;
+    }
+
+    int result = *(a->ptr + a->begin);
+    a->begin--;
+
+    *err_code = 0;
+    return result;
 }
 
 int circular_buffer_pop_back(struct circular_buffer_t *a, int *err_code) {
@@ -87,8 +124,7 @@ int circular_buffer_full(const struct circular_buffer_t *a) {
     if (a == NULL) {
         return -1;
     }
-
-    if (a->end == a->capacity) {
+    if (a->full) {
         return 1;
     } else {
         return 0;
@@ -99,8 +135,15 @@ void circular_buffer_display(const struct circular_buffer_t *a) {
     if (a == NULL) {
         return;
     }
-    for (int i = 0; i < a->capacity; i++) {
-        printf("%d ", *(a->ptr + i));
+
+    if (circular_buffer_full(a)) {
+        for (int i = 0; i < a->capacity; i++) {
+            printf("%d ", *(a->ptr + i));
+        }
+    } else {
+        for (int i = a->begin; i < a->end; i++) {
+            printf("%d ", *(a->ptr + i));
+        }
     }
     printf("\n");
 }

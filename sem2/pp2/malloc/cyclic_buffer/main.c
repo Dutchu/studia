@@ -18,6 +18,9 @@ int main() {
         circular_buffer_display(ptr_cb);
     }
 
+    circular_buffer_pop_front(ptr_cb, NULL);
+    circular_buffer_display(ptr_cb);
+
     circular_buffer_destroy_struct(&ptr_cb);
 
     return 0;
