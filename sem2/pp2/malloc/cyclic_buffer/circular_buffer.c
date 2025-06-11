@@ -104,9 +104,19 @@ int circular_buffer_pop_front(struct circular_buffer_t *a, int *err_code) {
     if (err_code == NULL) {
         err_code = &err;
     }
+    if (!a->full && (a->begin == a->end)) {
+        err = 2;
+        return 2;
+    }
 
+    if (a->begin == a->capacity) {
+        a->begin = 1;
+    } else {
+        a->begin++;
+    }
+
+    a->full = 0;
     int result = *(a->ptr + a->begin);
-    a->begin--;
 
     *err_code = 0;
     return result;
@@ -136,14 +146,29 @@ void circular_buffer_display(const struct circular_buffer_t *a) {
         return;
     }
 
+    int count = 0;
+
     if (circular_buffer_full(a)) {
         for (int i = 0; i < a->capacity; i++) {
             printf("%d ", *(a->ptr + i));
+            count++;
         }
-    } else {
+    } else if (a->begin > a->end) {
+        for (int i = a->begin; i < a->capacity; i++) {
+            printf("%d ", *(a->ptr + i));
+            count++;
+
+        }
+        for (int i = 0; i < a->end; i++) {
+            printf("%d ", *(a->ptr + i));
+            count++;
+        }
+    } else if (a->begin < a->end) {
         for (int i = a->begin; i < a->end; i++) {
             printf("%d ", *(a->ptr + i));
+            count++;
         }
     }
+    printf(" | count = %d", count);
     printf("\n");
 }
