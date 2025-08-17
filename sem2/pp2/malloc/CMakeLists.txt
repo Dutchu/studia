@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.21)
 project(malloc C)
 
-set(CMAKE_C_STANDARD 11)
+set(CMAKE_C_STANDARD 99)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/fill" "${PROJECT_SOURCE_DIR}/fill/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/allovarone" "${PROJECT_SOURCE_DIR}/allovarone/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/cyclic_buffer" "${PROJECT_SOURCE_DIR}/cyclic_buffer/cmake-build-debug-wsl")
+add_subdirectory("${PROJECT_SOURCE_DIR}/vector" "${PROJECT_SOURCE_DIR}/vector/cmake-build-debug-wsl")
