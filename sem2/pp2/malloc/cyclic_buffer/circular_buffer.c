@@ -1,6 +1,13 @@
+//
+// Created by Bartek on 07.06.2025.
+//
+
 #include <stdlib.h>
 #include <stdio.h>
+#include <stddef.h>
 #include "circular_buffer.h"
+
+int circular_buffer_validate(const struct circular_buffer_t *cb);
 
 int circular_buffer_create(struct circular_buffer_t *a, int N) {
     if (a == NULL || N < 1) {
@@ -25,7 +32,7 @@ int circular_buffer_create_struct(struct circular_buffer_t **cb, int N) {
         return 1;
     }
 
-    *cb = malloc(sizeof(struct circular_buffer_t));
+    *cb = calloc(1,sizeof(struct circular_buffer_t));
     if (*cb == NULL) {
         return 2;
     }
@@ -46,8 +53,7 @@ void circular_buffer_destroy(struct circular_buffer_t *a) {
     }
 
     free(a->ptr);
-
-    free(a);
+    a->ptr = NULL;
 }
 
 void circular_buffer_destroy_struct(struct circular_buffer_t **a) {
@@ -56,82 +62,79 @@ void circular_buffer_destroy_struct(struct circular_buffer_t **a) {
     }
 
     circular_buffer_destroy(*a);
-
+    free(*a);
     *a = NULL;
 }
 
 int circular_buffer_push_back(struct circular_buffer_t *cb, int value) {
-    if (cb == NULL) {
+    if (circular_buffer_validate(cb) != 0) {
         return 1;
     }
 
-    int full_state_change = 0;
-    int is_eq_before = cb->begin == cb->end;
+    *(cb->ptr + cb->end) = value;
 
-
-    *(cb->ptr + (cb->end % (cb->capacity))) = value;
-    cb->end = (cb->end % (cb->capacity));
-
-    int is_eq_after = cb->begin == cb->end;
-
-    //ignore incrementing because end variable change was controlled with % calculation
-    // for end == capacity
-    // and adding incrementation is outside the order.
-    if (cb->end != cb->capacity) {
-        cb->end++;
+    if (cb->full) {
+        cb->begin = (cb->begin + 1) % cb->capacity;
     }
 
-    if (is_eq_before == 0 && is_eq_after == 1) {
-        full_state_change = 1;
-    }
+    cb->end = (cb->end + 1) % cb->capacity;
 
-    if (full_state_change) {
-        cb->full = 1;
-    }
-    if (circular_buffer_full(cb)) {
-        cb->begin = (cb->begin % cb->capacity);
-        cb->begin++;
-    }
+    cb->full = (cb->begin == cb->end);
 
     return 0;
 }
 
 int circular_buffer_pop_front(struct circular_buffer_t *a, int *err_code) {
-    if (a == NULL) {
-        return 1;
-    }
-    int err;
-    if (err_code == NULL) {
-        err_code = &err;
-    }
-    if (!a->full && (a->begin == a->end)) {
-        err = 2;
-        return 2;
+    if (circular_buffer_validate(a) != 0) {
+        if (err_code) *err_code = 1;
+        return -1;
     }
 
-    if (a->begin == a->capacity) {
-        a->begin = 1;
-    } else {
-        a->begin++;
+    if (circular_buffer_empty(a)) {
+        if (err_code) *err_code = 2;
+        return -1;
     }
 
-    a->full = 0;
     int result = *(a->ptr + a->begin);
 
-    *err_code = 0;
+    a->begin = (a->begin + 1) % a->capacity;
+
+    a->full = 0;
+    if (err_code) *err_code = 0;
     return result;
 }
 
 int circular_buffer_pop_back(struct circular_buffer_t *a, int *err_code) {
-    return 0;
+    if (circular_buffer_validate(a) != 0) {
+        if (err_code) *err_code = 1;
+        return -1;
+    }
+
+    if (circular_buffer_empty(a)) {
+        if (err_code) *err_code = 2;
+        return -1;
+    }
+
+    a->end = (a->end - 1 + a->capacity) % a->capacity;
+
+    int result = *(a->ptr + a->end);
+
+    a->full = 0;
+    if (err_code) *err_code = 0;
+
+    return result;
 }
 
 int circular_buffer_empty(const struct circular_buffer_t *a) {
-    return 0;
+    if (circular_buffer_validate(a) != 0) {
+        return -1;
+    }
+
+    return (!a->full && (a->end == a->begin));
 }
 
 int circular_buffer_full(const struct circular_buffer_t *a) {
-    if (a == NULL) {
+    if (circular_buffer_validate(a) != 0) {
         return -1;
     }
     if (a->full) {
@@ -142,33 +145,51 @@ int circular_buffer_full(const struct circular_buffer_t *a) {
 }
 
 void circular_buffer_display(const struct circular_buffer_t *a) {
-    if (a == NULL) {
+    if (circular_buffer_validate(a) != 0) {
+        return;
+    }
+    if (circular_buffer_empty(a)) {
         return;
     }
 
-    int count = 0;
+    int current = a->begin;
+    while (1) {
 
-    if (circular_buffer_full(a)) {
-        for (int i = 0; i < a->capacity; i++) {
-            printf("%d ", *(a->ptr + i));
-            count++;
+        if (current == a->end && !a->full) {
+            break;
         }
-    } else if (a->begin > a->end) {
-        for (int i = a->begin; i < a->capacity; i++) {
-            printf("%d ", *(a->ptr + i));
-            count++;
 
-        }
-        for (int i = 0; i < a->end; i++) {
-            printf("%d ", *(a->ptr + i));
-            count++;
-        }
-    } else if (a->begin < a->end) {
-        for (int i = a->begin; i < a->end; i++) {
-            printf("%d ", *(a->ptr + i));
-            count++;
+        printf("%d ", *(a->ptr + current));
+        current = (current + 1) % a->capacity;
+
+        if (current == a->begin) {
+            break;
         }
     }
-    printf(" | count = %d", count);
+
     printf("\n");
+}
+
+int circular_buffer_validate(const struct circular_buffer_t *cb) {
+    if (cb == NULL) {
+        return 1;
+    }
+
+    if (cb->ptr == NULL) {
+        return 1;
+    }
+
+    if (cb->capacity <= 0) {
+        return 1;
+    }
+
+    if (cb->begin < 0 || cb->begin >= cb->capacity) {
+        return 1;
+    }
+
+    if (cb->end < 0 || cb->end >= cb->capacity) {
+        return 1;
+    }
+
+    return 0;
 }
