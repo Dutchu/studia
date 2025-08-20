@@ -11,7 +11,8 @@ set(UTILS_SOURCES
 #define files to compile
 set(PROJECT_SOURCES
         main.c
-        ${UTILS_SOURCES}/utils.c)
+        ${UTILS_SOURCES}/utils.c
+        vector.c)
 
 #add directory of utils
 include_directories("${UTILS_SOURCES}")

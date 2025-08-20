@@ -9,28 +9,17 @@
 #define VALUE 42
 
 int main() {
-    struct vector_t* p_vector;
+    struct vector_t *p_vector = NULL;
 
-    printf("Hello world, from Vector!");
+    printf("Hello world, from Vector!\n");
 
-//    int vector_create_struct(struct vector_t **a, int N);
     vector_create_struct(&p_vector, SIZE);
 
-//    void vector_destroy_struct(struct vector_t **a);
-    vector_destroy_struct(&p_vector);
-
-//    int vector_create(struct vector_t *a, int N);
-    vector_create(p_vector, SIZE);
-
-//    void vector_destroy(struct vector_t *a);
-    vector_destroy(p_vector);
-
-//    void vector_display(const struct vector_t *a);
-    vector_display(p_vector);
-
-//    int vector_push_back(struct vector_t *a, int value);
     vector_push_back(p_vector, VALUE);
 
-//    int vector_erase(struct vector_t *a, int value);
-    vector_erase(p_vector, VALUE);
+    vector_display(p_vector);
+
+    vector_destroy_struct(&p_vector);
+
+    return 0;
 }
