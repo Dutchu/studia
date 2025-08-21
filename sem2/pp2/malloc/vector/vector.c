@@ -20,9 +20,6 @@ int vector_create_struct(struct vector_t **a, int N) {
         return 2;
     }
 
-    (v)->size = 0;
-    (v)->capacity = N;
-    
     *a = v;
 
     return 0;
@@ -44,6 +41,9 @@ int vector_create(struct vector_t *a, int N) {
     a->ptr = malloc(N * sizeof(int));
     if (a->ptr == NULL) return 2;
 
+    (a)->size = 0;
+    (a)->capacity = N;
+
     return 0;
 }
 
@@ -55,7 +55,8 @@ void vector_destroy(struct vector_t *a) {
 }
 
 void vector_display(const struct vector_t *a) {
-    for (int i = 0; i <= a->size; i++) {
+    if (a == NULL ||  a->ptr == NULL || a->size < 1 || a->capacity < 1 || a->size > a->capacity) return;
+    for (int i = 0; i < a->size; i++) {
         printf("%d ", *(a->ptr + i));
     }
     printf("\n");
@@ -69,21 +70,48 @@ int vector_push_back(struct vector_t *a, int value) {
         int new_capacity = 2 * a->capacity;
         int *new_vector = realloc(a->ptr, 2 * a->capacity * sizeof(int));
 
-        if (new_vector == NULL) return 1;
+        if (new_vector == NULL) return 2;
 
         a->ptr = new_vector;
         a->capacity = new_capacity;
     }
 
-    *(a->ptr + a->size) =  value;
+    *(a->ptr + a->size) = value;
     a->size++;
 
     return 0;
 }
 
 int vector_erase(struct vector_t *a, int value) {
+    if (!is_valid(a)) return -1;
 
-    return 0;
+    float threshold = 0.25f;
+    int *values = a->ptr;
+    int current;
+    int count = 0;
+
+    for (int i = 0; i < a->size;) {
+        current = *(values + i);
+        if (current == value) {
+            for (int j = i; j < a->size - 1; j++) {
+                *(values + j) = *(values + j + 1);
+            }
+            a->size--;
+            count++;
+        } else {
+            i++;
+        }
+    }
+
+
+    float occupied = (float) a->size / a->capacity;
+
+    if (occupied < threshold) {
+        a->capacity = a->capacity / 2;
+    }
+    if (a->capacity < 1) a->capacity = 1;
+
+    return count;
 }
 
 int is_valid(struct vector_t *a) {
