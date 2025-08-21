@@ -7,3 +7,4 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/fill" "${PROJECT_SOURCE_DIR}/fill/cmake-
 add_subdirectory("${PROJECT_SOURCE_DIR}/allovarone" "${PROJECT_SOURCE_DIR}/allovarone/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/cyclic_buffer" "${PROJECT_SOURCE_DIR}/cyclic_buffer/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/vector" "${PROJECT_SOURCE_DIR}/vector/cmake-build-debug-wsl")
+add_subdirectory("${PROJECT_SOURCE_DIR}/safe_array" "${PROJECT_SOURCE_DIR}/safe_array/cmake-build-debug-wsl")
