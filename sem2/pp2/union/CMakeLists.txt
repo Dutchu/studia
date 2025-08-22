@@ -5,4 +5,5 @@ set(CMAKE_C_STANDARD 99)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/inttobytes" "${PROJECT_SOURCE_DIR}/inttobytes/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/wordstoint" "${PROJECT_SOURCE_DIR}/wordstoint/cmake-build-debug")
+add_subdirectory("${PROJECT_SOURCE_DIR}/bytetobits" "${PROJECT_SOURCE_DIR}/bytetobits/cmake-build-debug")
 #add_subdirectory("${PROJECT_SOURCE_DIR}/utils" "${PROJECT_SOURCE_DIR}/utils/cmake-build-debug")
