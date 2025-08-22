@@ -8,3 +8,4 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/allovarone" "${PROJECT_SOURCE_DIR}/allov
 add_subdirectory("${PROJECT_SOURCE_DIR}/cyclic_buffer" "${PROJECT_SOURCE_DIR}/cyclic_buffer/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/vector" "${PROJECT_SOURCE_DIR}/vector/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/safe_array" "${PROJECT_SOURCE_DIR}/safe_array/cmake-build-debug-wsl")
+add_subdirectory("${PROJECT_SOURCE_DIR}/safe_array_II" "${PROJECT_SOURCE_DIR}/safe_array_II/cmake-build-debug-wsl")
