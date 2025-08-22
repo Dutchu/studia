@@ -10,3 +10,4 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/vector" "${PROJECT_SOURCE_DIR}/vector/cm
 add_subdirectory("${PROJECT_SOURCE_DIR}/safe_array" "${PROJECT_SOURCE_DIR}/safe_array/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/safe_array_II" "${PROJECT_SOURCE_DIR}/safe_array_II/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/allocate_function" "${PROJECT_SOURCE_DIR}/allocate_function/cmake-build-debug-wsl")
+add_subdirectory("${PROJECT_SOURCE_DIR}/allocate_function_II" "${PROJECT_SOURCE_DIR}/allocate_function_II/cmake-build-debug-wsl")
