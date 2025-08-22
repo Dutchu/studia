@@ -8,4 +8,5 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/wordstoint" "${PROJECT_SOURCE_DIR}/words
 add_subdirectory("${PROJECT_SOURCE_DIR}/bytetobits" "${PROJECT_SOURCE_DIR}/bytetobits/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/int4ways" "${PROJECT_SOURCE_DIR}/int4ways/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/bit_parity" "${PROJECT_SOURCE_DIR}/bit_parity/cmake-build-debug")
+add_subdirectory("${PROJECT_SOURCE_DIR}/bitmap" "${PROJECT_SOURCE_DIR}/bitmap/cmake-build-debug")
 #add_subdirectory("${PROJECT_SOURCE_DIR}/utils" "${PROJECT_SOURCE_DIR}/utils/cmake-build-debug")
