@@ -19,4 +19,8 @@ void array_display(const struct array_t *a);
 
 void array_destroy(struct array_t *a);
 
+int array_separate(const struct array_t *a, struct array_t *odd, struct array_t *even);
+
+int array_copy(const struct array_t *src, struct array_t *dest);
+
 #endif //MALLOC_ARRAY_H

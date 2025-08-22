@@ -2,79 +2,59 @@
 // Created by Bartek on 21.08.2025.
 //
 
+/**
+ * @file main.c
+ * @brief Main program for advanced array manipulation.
+ *
+ * Kopiowanie gĹÄbokie (deep copy) oznacza tworzenie caĹkowicie nowej,
+ * niezaleĹźnej kopii obiektu. W kontekĹcie struktury array_t,
+ * nie wystarczy skopiowaÄ wartoĹci pĂłl (size, capacity, ptr).
+ * NaleĹźy zaalokowaÄ nowy, oddzielny blok pamiÄci na dane i skopiowaÄ
+ * do niego zawartoĹÄ oryginalnej tablicy. DziÄki temu modyfikacje
+ * w jednej tablicy (oryginalnej lub kopii) nie wpĹywajÄ na drugÄ.
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <limits.h>
 #include "array.h"
+#include "tested_declarations.h"
+#include "rdebug.h"
 
-// Define a reasonable buffer size for reading a single integer from the user.
 #define USER_INPUT_BUFFER_SIZE 12
 
-/**
- * @brief Reads a line of text from stdin and safely converts it to an integer.
- *
- * This function handles various input errors, such as non-numeric characters,
- * values outside the integer range, and input lines that are too long.
- *
- * @param input_buffer A character buffer to store the user's input line.
- * @param number_read A pointer to an integer where the result will be stored.
- * @return 0 on success, 1 on any conversion or input error.
- */
-int read_user_int(char *input_buffer, int *number_read) {
-    // Read a line from standard input.
-    if (fgets(input_buffer, USER_INPUT_BUFFER_SIZE, stdin) == NULL) {
-        return 1; // fgets failed
-    }
-
-    // If the input string does not contain a newline, it means the input was
-    // too long for the buffer. We must clear the rest of the line from stdin.
-    if (strchr(input_buffer, '\n') == NULL) {
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF);
-    }
-
-    // Use strtol for robust string-to-long conversion.
-    errno = 0;
-    char *end_ptr;
-    long value = strtol(input_buffer, &end_ptr, 10);
-
-    // Check for conversion errors.
-    if (end_ptr == input_buffer) return 1; // No digits were found.
-    if (*end_ptr != '\n' && *end_ptr != '\0') return 1; // Extra non-numeric characters found.
-    if (errno == ERANGE || value > INT_MAX || value < INT_MIN) return 1; // Value out of int range.
-
-    *number_read = (int)value;
-    return 0;
-}
+int read_user_int(char *input_buffer, int *number_read);
 
 /**
  * @brief Main function to drive the dynamic array program.
  *
- * This program prompts the user for an array capacity, creates the array,
- * reads integers to add to it until 0 is entered or the array is full,
- * and finally displays the contents.
+ * This program prompts for an array capacity, fills the array with user input,
+ * separates the numbers into odd and even arrays, and displays the results.
  *
- * @return 0 on success, or a non-zero error code (1, 2, or 8) on failure.
+ * @return 0 on success, or a non-zero error code (1, 2, 3, or 8) on failure.
  */
 int main() {
-    struct array_t arr;
+    struct array_t main_arr, odd_arr, even_arr;
     int capacity;
     int return_code = 0;
-    int is_created = 0; // Flag to prevent destroying an uninitialized array.
-    char* input_buff = malloc(USER_INPUT_BUFFER_SIZE);
-    if (input_buff == NULL) {
-        // A very basic failure, unlikely to happen but good practice to check.
-        return 8;
-    }
 
-    // 1. Get the initial capacity from the user.
-    printf("Podaj rozmiar tablicy: ");
-    if (read_user_int(input_buff, &capacity) != 0) {
-        printf("Incorrect input\n");
-        return_code = 1;
-        goto cleanup;
+    int is_main_created = 0;
+    int is_odd_created = 0;
+    int is_even_created = 0;
+
+    char input_buff[USER_INPUT_BUFFER_SIZE];
+
+    printf("Podaj liczbÄ elementĂłw tablicy: ");
+    int read_res = read_user_int(input_buff, &capacity);
+    if (read_res != 0) {
+        if (read_res == 1) {
+            printf("Incorrect input\n");
+            return 1;
+        } else { // read_res == 2, an I/O error occurred
+            printf("Failed to allocate memory\n");
+            return 8;
+        }
     }
 
     if (capacity <= 0) {
@@ -83,51 +63,92 @@ int main() {
         goto cleanup;
     }
 
-    // 2. Create the array structure.
-    if (array_create(&arr, capacity) != 0) {
+    if (array_create(&main_arr, capacity) != 0) {
         printf("Failed to allocate memory\n");
         return_code = 8;
         goto cleanup;
     }
-    is_created = 1; // Mark that creation was successful.
+    is_main_created = 1;
 
-    // 3. Read numbers from the user and add them to the array.
-    printf("Podaj liczby do zapisania:\n");
+    printf("Podaj kolejne liczby, ktĂłre majÄ zostaÄ dodane do tablicy: ");
     while (1) {
         int value;
-        if (read_user_int(input_buff, &value) != 0) {
+        read_res = read_user_int(input_buff, &value);
+        if (read_res != 0) {
             printf("Incorrect input\n");
             return_code = 1;
             goto cleanup;
         }
 
-        // The number 0 is the sentinel value to stop input.
         if (value == 0) {
             break;
         }
 
-        // Try to add the value to the array.
-        int push_result = array_push_back(&arr, value);
-        if (push_result != 0) {
-            // A non-zero result means the element could not be added,
-            // which implies the buffer is full in this context.
+        if (array_push_back(&main_arr, value) != 0) {
             printf("Buffer is full\n");
             break;
         }
     }
 
-    // 4. Display the final contents of the array.
-    if (arr.size == 0) {
-        printf("Buffer is empty\n");
-    } else {
-        array_display(&arr);
+    if (main_arr.size == 0) {
+        printf("Not enough data available\n");
+        return_code = 3;
+        goto cleanup;
     }
 
-// 5. Centralized cleanup point.
-    cleanup:
-    if (is_created) {
-        array_destroy(&arr);
+    int separate_result = array_separate(&main_arr, &odd_arr, &even_arr);
+
+    if (separate_result <= 0) {
+        printf("Failed to allocate memory\n");
+        return_code = 8;
+        goto cleanup;
     }
-    free(input_buff);
+
+    if (separate_result & 1) is_odd_created = 1;
+    if (separate_result & 2) is_even_created = 1;
+
+    array_display(&main_arr);
+    printf("\n");
+
+    if (is_odd_created) {
+        array_display(&odd_arr);
+    } else {
+        printf("Buffer is empty");
+    }
+    printf("\n");
+
+    if (is_even_created) {
+        array_display(&even_arr);
+    } else {
+        printf("Buffer is empty");
+    }
+    printf("\n");
+
+    cleanup:
+    if (is_main_created) array_destroy(&main_arr);
+    if (is_odd_created) array_destroy(&odd_arr);
+    if (is_even_created) array_destroy(&even_arr);
     return return_code;
+}
+
+int read_user_int(char *input_buffer, int *number_read) {
+    if (fgets(input_buffer, USER_INPUT_BUFFER_SIZE, stdin) == NULL) {
+        return ferror(stdin) ? 2 : 1;
+    }
+
+    if (strchr(input_buffer, '\n') == NULL) {
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+    }
+
+    errno = 0;
+    char *end_ptr;
+    long value = strtol(input_buffer, &end_ptr, 10);
+
+    if (end_ptr == input_buffer) return 1;
+
+    if (errno == ERANGE || value > INT_MAX || value < INT_MIN) return 1;
+
+    *number_read = (int) value;
+    return 0;
 }
