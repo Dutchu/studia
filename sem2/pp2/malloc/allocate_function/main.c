@@ -17,25 +17,25 @@ int main() {
     int N;
     printf("Podaj rozmiar tablicy: ");
     if (scanf("%d", &N) != 1) {
-        fprintf(stderr, "Incorrect input\n");
+        printf( "Incorrect input\n");
         return 1;
     }
 
     if (N <= 0) {
-        fprintf(stderr, "Incorrect input data\n");
+        printf( "Incorrect input data\n");
         return 2;
     }
 
     float* array = create_array(N);
     if (array == NULL) {
-        fprintf(stderr, "Failed to allocate memory\n");
+        printf( "Failed to allocate memory\n");
         return 8;
     }
 
     printf("Podaj liczby: ");
     for (int i = 0; i < N; ++i) {
         if (scanf("%f", array + i) != 1) {
-            fprintf(stderr, "Incorrect input\n");
+            printf( "Incorrect input\n");
             free(array);
             return 1;
         }
