@@ -10,4 +10,5 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/int4ways" "${PROJECT_SOURCE_DIR}/int4way
 add_subdirectory("${PROJECT_SOURCE_DIR}/bit_parity" "${PROJECT_SOURCE_DIR}/bit_parity/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/bitmap" "${PROJECT_SOURCE_DIR}/bitmap/cmake-build-debug")
 add_subdirectory("${PROJECT_SOURCE_DIR}/figures" "${PROJECT_SOURCE_DIR}/figures/cmake-build-debug")
+add_subdirectory("${PROJECT_SOURCE_DIR}/hidden_message" "${PROJECT_SOURCE_DIR}/hidden_message/cmake-build-debug")
 #add_subdirectory("${PROJECT_SOURCE_DIR}/utils" "${PROJECT_SOURCE_DIR}/utils/cmake-build-debug")
