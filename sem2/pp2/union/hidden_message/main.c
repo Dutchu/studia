@@ -12,17 +12,19 @@
  * stosowania złożonej logiki manipulacji bitami.
  */
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "bit_set.h"
 
 #define MAX_MSG_LEN 1024
 #define MAX_FILENAME_LEN 51
+#define MAX_IMAGE_SIZE 1048576
 
-// Prototypy funkcji
-int read_image_data(const char *filename, unsigned char **data, long *size);
-int encode();
-int decode();
+
+int read_image_data(const char *filename, unsigned char *data, long *size, long max_size);
+
+int encode(const char *input, char *txt, const char *output);
+
+int decode(const char *filename, char *txt, int size);
 
 int main() {
     char choice;
@@ -33,9 +35,68 @@ int main() {
     }
 
     if (choice == 'E' || choice == 'e') {
-        return encode();
+        char message[MAX_MSG_LEN];
+        char in_filename[MAX_FILENAME_LEN];
+        char out_filename[MAX_FILENAME_LEN];
+
+        printf("Enter a message to be encoded:: ");
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF);
+        scanf("%[^\n]", message);
+
+        printf("Enter input file name: ");
+        scanf("%50s", in_filename);
+
+        printf("Enter output file name: ");
+        scanf("%50s", out_filename);
+
+        int result = encode(in_filename, message, out_filename);
+
+
+        switch (result) {
+            case 2:
+                printf("Couldn't open file\n");
+                result = 4;
+                break;
+            case 3:
+                printf("File corrupted\n");
+                result = 6;
+                break;
+            case 4:
+                printf("Couldn't create file\n");
+                result = 5;
+                break;
+            case 0:
+                printf("File saved\n");
+                break;
+        }
+        return result;
+
     } else if (choice == 'D' || choice == 'd') {
-        return decode();
+        char decoded_message[MAX_MSG_LEN];
+        char in_filename[MAX_FILENAME_LEN];
+
+        printf("Enter input file name: ");
+        scanf("%50s", in_filename);
+
+        int result = decode(in_filename, decoded_message, MAX_MSG_LEN);
+
+
+        switch (result) {
+            case 2:
+                printf("Couldn't open file\n");
+                result = 4;
+                break;
+            case 3:
+                printf("File corrupted\n");
+                result = 6;
+                break;
+            case 0:
+                printf("%s", decoded_message);
+                break;
+        }
+        return result;
+
     } else {
         printf("Incorrect input data\n");
         return 1;
@@ -44,37 +105,22 @@ int main() {
 
 
 /**
- * @brief Wczytuje szesnastkowe dane obrazu z pliku tekstowego do dynamicznego bufora.
- * @param filename Nazwa pliku wejściowego.
- * @param data Wskaźnik do bufora, w którym będą przechowywane dane obrazu.
- * @param size Wskaźnik do zmiennej przechowującej liczbę wczytanych bajtów.
- * @return 0 w przypadku sukcesu, 1 w przypadku błędu otwarcia pliku, 8 w przypadku błędu alokacji pamięci.
+ * @brief Wczytuje szesnastkowe dane obrazu z pliku tekstowego do dostarczonego bufora.
  */
-int read_image_data(const char *filename, unsigned char **data, long *size) {
+int read_image_data(const char *filename, unsigned char *data, long *size, long max_size) {
     FILE *fp = fopen(filename, "r");
     if (fp == NULL) {
         return 1;
     }
 
-    fseek(fp, 0, SEEK_END);
-    long file_size = ftell(fp);
-    rewind(fp);
-
-    long estimated_bytes = file_size / 3 + 1;
-    *data = (unsigned char *)malloc(estimated_bytes);
-    if (*data == NULL) {
-        fclose(fp);
-        return 8;
-    }
-
     *size = 0;
     unsigned int temp;
-    // Podejście dwuprzebiegowe: pierwszy przebieg do zliczenia, drugi do wczytania.
-    while (fscanf(fp, "%x", &temp) == 1) {
-        if (*size >= estimated_bytes) {
-            break;
+    while (fscanf(fp, "%u", &temp) == 1) {
+        if (*size >= max_size) {
+            fclose(fp);
+            return 2;
         }
-        *(*data + *size) = (unsigned char)temp;
+        *(data + *size) = (unsigned char) temp;
         (*size)++;
     }
 
@@ -82,158 +128,194 @@ int read_image_data(const char *filename, unsigned char **data, long *size) {
     return 0;
 }
 
-/**
- * @brief Obsługuje proces kodowania wiadomości.
- * @return 0 w przypadku sukcesu, wartość niezerowa w przypadku błędu.
- */
-int encode() {
-    char *message = (char *)malloc(MAX_MSG_LEN);
-    char *in_filename = (char *)malloc(MAX_FILENAME_LEN);
-    char *out_filename = (char *)malloc(MAX_FILENAME_LEN);
-
-    if (message == NULL || in_filename == NULL || out_filename == NULL) {
-        printf("Failed to allocate memory\n");
-        free(message); free(in_filename); free(out_filename);
-        return 8;
+int encode(const char *input, char *txt, const char *output) {
+    if (input == NULL || txt == NULL || output == NULL) return 1;
+    FILE *fp;
+    if ((fp = fopen(input, "r")) == NULL) return 2;
+    fseek(fp, 0L, SEEK_END);
+    long len = ftell(fp);
+    long size = (long) strlen(txt);
+    if (len / 8 < size) {
+        fclose(fp);
+        return 3;
     }
-
-    printf("Enter a message to be encoded:: ");
-    int c;
-    // Pobranie znaku nowej linii pozostawionego przez poprzednie wywołanie scanf
-    while ((c = getchar()) != '\n' && c != EOF);
-    // Wczytanie całej linii, łącznie ze spacjami
-    scanf("%[^\n]", message);
-
-    printf("Enter input file name: ");
-    scanf("%50s", in_filename);
-
-    printf("Enter output file name: ");
-    scanf("%50s", out_filename);
-
-    unsigned char *image_data = NULL;
-    long image_size = 0;
-    int read_res = read_image_data(in_filename, &image_data, &image_size);
-    if (read_res == 1) {
-        printf("Couldn't open file\n");
-        free(message); free(in_filename); free(out_filename);
-        return 1;
+    rewind(fp);
+    FILE *fp_out;
+    if ((fp_out = fopen(output, "w")) == NULL) {
+        fclose(fp);
+        return 4;
     }
-    if (read_res == 8) {
-        printf("Failed to allocate memory\n");
-        free(message); free(in_filename); free(out_filename);
-        return 8;
-    }
+    int i = 0;
+    while (!feof(fp)) {
+        unsigned char num;
+        char c;
+        union bit_set msg_char_converter;
+        if (i < size) {
+            msg_char_converter.byte_value = *(txt + i);
+            if (fscanf(fp, "%hhu%c", &num, &c) == 0) {
+                fclose(fp);
+                fclose(fp_out);
+                return 3;
+            }
+            if (msg_char_converter.bits.bit7) num = num | 1;
+            else num = num & ~1;
+            fprintf(fp_out, "%d%c", num, c);
 
-    long msg_len_with_null = strlen(message) + 1;
-    if (image_size < msg_len_with_null * 8) {
-        // Niewystarczająca ilość miejsca w obrazie
-        printf("File corrupted\n");
-        free(message); free(in_filename); free(out_filename); free(image_data);
-        return 1;
-    }
+            if (fscanf(fp, "%hhu", &num) == 0) {
+                fclose(fp);
+                fclose(fp_out);
+                return 3;
+            }
+            if (msg_char_converter.bits.bit6) num = num | 1;
+            else num = num & ~1;
+            fprintf(fp_out, "%d%c", num, c);
 
-    union bit_set msg_char_converter, img_byte_converter;
+            if (fscanf(fp, "%hhu", &num) == 0) {
+                fclose(fp);
+                fclose(fp_out);
+                return 3;
+            }
+            if (msg_char_converter.bits.bit5) num = num | 1;
+            else num = num & ~1;
+            fprintf(fp_out, "%d%c", num, c);
 
-    for (long i = 0; i < msg_len_with_null; ++i) {
-        msg_char_converter.byte_value = *(message + i);
-        unsigned char bits_to_hide[8];
-        bits_to_hide[0] = msg_char_converter.bits.bit0;
-        bits_to_hide[1] = msg_char_converter.bits.bit1;
-        bits_to_hide[2] = msg_char_converter.bits.bit2;
-        bits_to_hide[3] = msg_char_converter.bits.bit3;
-        bits_to_hide[4] = msg_char_converter.bits.bit4;
-        bits_to_hide[5] = msg_char_converter.bits.bit5;
-        bits_to_hide[6] = msg_char_converter.bits.bit6;
-        bits_to_hide[7] = msg_char_converter.bits.bit7;
+            if (fscanf(fp, "%hhu", &num) == 0) {
+                fclose(fp);
+                fclose(fp_out);
+                return 3;
+            }
+            if (msg_char_converter.bits.bit4) num = num | 1;
+            else num = num & ~1;
+            fprintf(fp_out, "%d%c", num, c);
 
-        for (int j = 0; j < 8; ++j) {
-            long byte_pos = i * 8 + j;
-            img_byte_converter.byte_value = *(image_data + byte_pos);
-            img_byte_converter.bits.bit0 = bits_to_hide[j];
-            *(image_data + byte_pos) = img_byte_converter.byte_value;
+            if (fscanf(fp, "%hhu", &num) == 0) {
+                fclose(fp);
+                fclose(fp_out);
+                return 3;
+            }
+            if (msg_char_converter.bits.bit3) num = num | 1;
+            else num = num & ~1;
+            fprintf(fp_out, "%d ", num);
+
+            if (fscanf(fp, "%hhu", &num) == 0) {
+                fclose(fp);
+                fclose(fp_out);
+                return 3;
+            }
+            if (msg_char_converter.bits.bit2) num = num | 1;
+            else num = num & ~1;
+            fprintf(fp_out, "%d ", num);
+
+            if (fscanf(fp, "%hhu", &num) == 0) {
+                fclose(fp);
+                fclose(fp_out);
+                return 3;
+            }
+            if (msg_char_converter.bits.bit1) num = num | 1;
+            else num = num & ~1;
+            fprintf(fp_out, "%d ", num);
+
+            if (fscanf(fp, "%hhu", &num) == 0) {
+                fclose(fp);
+                fclose(fp_out);
+                return 3;
+            }
+            if (msg_char_converter.bits.bit0) num = num | 1;
+            else num = num & ~1;
+            fprintf(fp_out, "%d ", num);
+            i++;
+
+        } else {
+            if (fscanf(fp, "%hhu", &num) == 0) {
+                fclose(fp);
+                fclose(fp_out);
+                return 3;
+            }
+            if (feof(fp) != 0) break;
+            num = num & ~1;
+            fprintf(fp_out, "%d ", num);
         }
     }
 
-    FILE *out_fp = fopen(out_filename, "w");
-    if (out_fp == NULL) {
-        printf("Couldn't create file\n");
-        free(message); free(in_filename); free(out_filename); free(image_data);
-        return 5;
+    rewind(fp);
+    rewind(fp_out);
+
+    int ch, k = 2;
+    while (!feof(fp_out) && !feof(fp)) {
+        ch = getc(fp);
+        if (ch == '\n') {
+            fseek(fp_out, ftell(fp) - k, SEEK_SET);
+            putc(ch, fp_out);
+            k++;
+        }
     }
-
-    for (long i = 0; i < image_size; ++i) {
-        fprintf(out_fp, "%02x ", *(image_data + i));
-    }
-
-    fclose(out_fp);
-    printf("File saved\n");
-
-    free(message); free(in_filename); free(out_filename); free(image_data);
+    fclose(fp);
+    fclose(fp_out);
     return 0;
 }
 
 /**
- * @brief Obsługuje proces dekodowania wiadomości.
- * @return 0 w przypadku sukcesu, wartość niezerowa w przypadku błędu.
+ * @brief Dekoduje ukrytą wiadomość z pliku obrazu.
  */
-int decode() {
-    char *in_filename = (char *)malloc(MAX_FILENAME_LEN);
-    if (in_filename == NULL) {
-        printf("Failed to allocate memory\n");
-        return 8;
-    }
-
-    printf("Enter input file name: ");
-    scanf("%50s", in_filename);
-
-    unsigned char *image_data = NULL;
-    long image_size = 0;
-    int read_res = read_image_data(in_filename, &image_data, &image_size);
-    if (read_res == 1) {
-        printf("Couldn't open file\n");
-        free(in_filename);
+int decode(const char *filename, char *txt, int size) {
+    if (filename == NULL || txt == NULL || size <= 0) {
         return 1;
     }
-    if (read_res == 8) {
-        printf("Failed to allocate memory\n");
-        free(in_filename);
-        return 8;
-    }
 
-    union bit_set img_byte_converter, decoded_char_converter;
+    static unsigned char image_data[MAX_IMAGE_SIZE];
+    long image_size = 0;
 
-    for (long i = 0; ; ++i) {
-        long byte_pos = i * 8;
-        if (byte_pos + 7 >= image_size) {
-            printf("File corrupted\n");
-            free(in_filename); free(image_data);
-            return 1;
-        }
+    int read_res = read_image_data(filename, image_data, &image_size, MAX_IMAGE_SIZE);
+    if (read_res == 1) return 2;
+    if (read_res == 2) return 3;
 
-        img_byte_converter.byte_value = *(image_data + byte_pos + 0);
-        decoded_char_converter.bits.bit0 = img_byte_converter.bits.bit0;
-        img_byte_converter.byte_value = *(image_data + byte_pos + 1);
-        decoded_char_converter.bits.bit1 = img_byte_converter.bits.bit0;
-        img_byte_converter.byte_value = *(image_data + byte_pos + 2);
-        decoded_char_converter.bits.bit2 = img_byte_converter.bits.bit0;
-        img_byte_converter.byte_value = *(image_data + byte_pos + 3);
-        decoded_char_converter.bits.bit3 = img_byte_converter.bits.bit0;
-        img_byte_converter.byte_value = *(image_data + byte_pos + 4);
-        decoded_char_converter.bits.bit4 = img_byte_converter.bits.bit0;
-        img_byte_converter.byte_value = *(image_data + byte_pos + 5);
-        decoded_char_converter.bits.bit5 = img_byte_converter.bits.bit0;
-        img_byte_converter.byte_value = *(image_data + byte_pos + 6);
-        decoded_char_converter.bits.bit6 = img_byte_converter.bits.bit0;
-        img_byte_converter.byte_value = *(image_data + byte_pos + 7);
-        decoded_char_converter.bits.bit7 = img_byte_converter.bits.bit0;
+    union bit_set decoded_char_converter;
+    int char_index = 0;
 
-        if (decoded_char_converter.byte_value == '\0') {
+    for (long i = 0;; ++i) {
+        if (char_index >= size) {
+            *(txt + size - 1) = '\0';
             break;
         }
-        printf("%c", decoded_char_converter.byte_value);
-    }
-    printf("\n");
 
-    free(in_filename); free(image_data);
+        long byte_pos = i * 8;
+        if (byte_pos + 7 >= image_size) {
+            *(txt + char_index) = '\0';
+            return 3;
+        }
+
+        decoded_char_converter.byte_value = 0;
+
+        decoded_char_converter.bits.bit7 = *(image_data + byte_pos + 0) & 1;
+        decoded_char_converter.bits.bit6 = *(image_data + byte_pos + 1) & 1;
+        decoded_char_converter.bits.bit5 = *(image_data + byte_pos + 2) & 1;
+        decoded_char_converter.bits.bit4 = *(image_data + byte_pos + 3) & 1;
+        decoded_char_converter.bits.bit3 = *(image_data + byte_pos + 4) & 1;
+        decoded_char_converter.bits.bit2 = *(image_data + byte_pos + 5) & 1;
+        decoded_char_converter.bits.bit1 = *(image_data + byte_pos + 6) & 1;
+        decoded_char_converter.bits.bit0 = *(image_data + byte_pos + 7) & 1;
+
+        char decoded_char = decoded_char_converter.byte_value;
+
+        if (char_index < size) {
+            *(txt + char_index) = decoded_char;
+        } else {
+
+            *(txt + size - 1) = '\0';
+            break;
+        }
+
+        if (decoded_char == '\0') {
+            break;
+        }
+
+        char_index++;
+    }
+
+
+    if (char_index >= size && size > 0) {
+        *(txt + size - 1) = '\0';
+    }
+
     return 0;
 }
