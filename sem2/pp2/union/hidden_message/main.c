@@ -1,17 +1,15 @@
-//
-// Created by Bartek on 22.08.2025.
-//
 /**
  * @file main.c
- * @brief A steganography tool to encode and decode messages in grayscale images.
+ * @brief Narzędzie steganograficzne do kodowania i dekodowania wiadomości w obrazach w skali szarości.
  *
- * --- Bit Order Justification ---
- * The program encodes and decodes the bits of a message character sequentially,
- * from the character's least significant bit (bit0) to its most significant bit (bit7).
- * Each of these 8 bits is hidden in the least significant bit of 8 consecutive
- * image bytes. This LSB-to-MSB order is chosen for its simplicity and direct
- * mapping to the bit-field struct in the union, making the implementation
- * straightforward and easy to debug without requiring complex bit manipulation logic.
+ * --- Uzasadnienie kolejności bitów ---
+ * Program koduje i dekoduje bity znaku wiadomości sekwencyjnie,
+ * od najmniej znaczącego bitu (bit0) do najbardziej znaczącego bitu (bit7).
+ * Każdy z tych 8 bitów jest ukryty w najmniej znaczącym bicie 8 kolejnych
+ * bajtów obrazu. Taka kolejność (od LSB do MSB) została wybrana ze względu
+ * na jej prostotę i bezpośrednie odwzorowanie na strukturę pól bitowych w unii,
+ * co czyni implementację prostą i łatwą do debugowania bez potrzeby
+ * stosowania złożonej logiki manipulacji bitami.
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -21,7 +19,7 @@
 #define MAX_MSG_LEN 1024
 #define MAX_FILENAME_LEN 51
 
-// Function Prototypes
+// Prototypy funkcji
 int read_image_data(const char *filename, unsigned char **data, long *size);
 int encode();
 int decode();
@@ -46,11 +44,11 @@ int main() {
 
 
 /**
- * @brief Reads hexadecimal image data from a text file into a dynamic buffer.
- * @param filename The name of the input file.
- * @param data A pointer to the buffer that will store the image data.
- * @param size A pointer to store the number of bytes read.
- * @return 0 on success, 1 on file open error, 8 on memory allocation error.
+ * @brief Wczytuje szesnastkowe dane obrazu z pliku tekstowego do dynamicznego bufora.
+ * @param filename Nazwa pliku wejściowego.
+ * @param data Wskaźnik do bufora, w którym będą przechowywane dane obrazu.
+ * @param size Wskaźnik do zmiennej przechowującej liczbę wczytanych bajtów.
+ * @return 0 w przypadku sukcesu, 1 w przypadku błędu otwarcia pliku, 8 w przypadku błędu alokacji pamięci.
  */
 int read_image_data(const char *filename, unsigned char **data, long *size) {
     FILE *fp = fopen(filename, "r");
@@ -71,6 +69,7 @@ int read_image_data(const char *filename, unsigned char **data, long *size) {
 
     *size = 0;
     unsigned int temp;
+    // Podejście dwuprzebiegowe: pierwszy przebieg do zliczenia, drugi do wczytania.
     while (fscanf(fp, "%x", &temp) == 1) {
         if (*size >= estimated_bytes) {
             break;
@@ -84,8 +83,8 @@ int read_image_data(const char *filename, unsigned char **data, long *size) {
 }
 
 /**
- * @brief Handles the message encoding process.
- * @return 0 on success, non-zero on error.
+ * @brief Obsługuje proces kodowania wiadomości.
+ * @return 0 w przypadku sukcesu, wartość niezerowa w przypadku błędu.
  */
 int encode() {
     char *message = (char *)malloc(MAX_MSG_LEN);
@@ -100,7 +99,9 @@ int encode() {
 
     printf("Enter a message to be encoded:: ");
     int c;
+    // Pobranie znaku nowej linii pozostawionego przez poprzednie wywołanie scanf
     while ((c = getchar()) != '\n' && c != EOF);
+    // Wczytanie całej linii, łącznie ze spacjami
     scanf("%[^\n]", message);
 
     printf("Enter input file name: ");
@@ -125,6 +126,7 @@ int encode() {
 
     long msg_len_with_null = strlen(message) + 1;
     if (image_size < msg_len_with_null * 8) {
+        // Niewystarczająca ilość miejsca w obrazie
         printf("File corrupted\n");
         free(message); free(in_filename); free(out_filename); free(image_data);
         return 1;
@@ -171,8 +173,8 @@ int encode() {
 }
 
 /**
- * @brief Handles the message decoding process.
- * @return 0 on success, non-zero on error.
+ * @brief Obsługuje proces dekodowania wiadomości.
+ * @return 0 w przypadku sukcesu, wartość niezerowa w przypadku błędu.
  */
 int decode() {
     char *in_filename = (char *)malloc(MAX_FILENAME_LEN);
