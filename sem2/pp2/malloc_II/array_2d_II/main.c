@@ -1,19 +1,22 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int read_row(int *row_ptr, int width);
+int create_array_2d_2(int ***ptr, int width, int height);
 
-int **create_array_2d(int width, int height);
+void destroy_array_2d(int ***ptr, int height);
 
 void display_array_2d(int **ptr, int width, int height);
 
-void destroy_array_2d(int **ptr, int height);
+int sum_array_2d(int **ptr, int width, int height);
 
-void destroy(int **arr, int how_many);
+int sum_row(int *ptr, int width);
+
+int read_row_from_user(int *row_ptr, int width);
+
 
 int main(void) {
-    int width = 0, height = 0;
-    int **arr_2d;
+    int width, height;
+    int **my_array = NULL;
 
     printf("Podaj szerokość i wysokość: ");
     if (scanf("%d %d", &width, &height) != 2) {
@@ -21,94 +24,118 @@ int main(void) {
         return 1;
     }
 
-    if (height < 1 || width < 1) {
-        printf("incorrect input data");
+    int create_status = create_array_2d_2(&my_array, width, height);
+    if (create_status == 1) {
+        printf("incorrect input data\n");
         return 2;
     }
-
-    if ((arr_2d = create_array_2d(width, height)) == NULL) {
-        printf("Failed to allocate memory");
+    if (create_status == 2) {
+        printf("Failed to allocate memory\n");
         return 8;
     }
 
-    printf("Podaj liczby: \n");
-    // Wczytywanie danych od użytkownika
+    printf("Podaj liczby:\n");
     for (int i = 0; i < height; ++i) {
-        if (read_row(*(arr_2d + i), width) != 0) {
+        if (read_row_from_user(*(my_array + i), width) != 0) {
             printf("incorrect input\n");
-            destroy_array_2d(arr_2d, height);
+            destroy_array_2d(&my_array, height);
             return 1;
         }
     }
 
+    display_array_2d(my_array, width, height);
 
-    display_array_2d(arr_2d, width, height);
 
-    destroy_array_2d(arr_2d, height);
+    for (int i = 0; i < height; ++i) {
+        printf("%d\n", sum_row(*(my_array + i), width));
+    }
+
+
+    printf("%d\n", sum_array_2d(my_array, width, height));
+
+
+    destroy_array_2d(&my_array, height);
+
     return 0;
 }
 
-int **create_array_2d(int width, int height) {
-    if (width < 1 || height < 1) return NULL;
-
-    int **arr_2d = malloc(sizeof(int *) * height);
-    if (arr_2d == NULL) {
-        return NULL;
+int create_array_2d_2(int ***ptr, int width, int height) {
+    if (ptr == NULL || width < 1 || height < 1) {
+        return 1;
     }
 
-    for (int row = 0; row < height; row++) {
-        int *p_row = malloc(sizeof(int) * width);
-        if (p_row == NULL) {
-            for (int j = 0; j < row; ++j) {
-                free(*(arr_2d + j));
+    int **array = (int **) malloc(height * sizeof(int *));
+    if (array == NULL) {
+        return 2;
+    }
+
+    for (int i = 0; i < height; ++i) {
+        *(array + i) = (int *) malloc(width * sizeof(int));
+        if (*(array + i) == NULL) {
+
+            for (int j = 0; j < i; ++j) {
+                free(*(array + j));
             }
-            free(arr_2d);
-            return NULL;
+            free(array);
+            return 2;
         }
-        *(arr_2d + row) = p_row;
     }
 
-    return arr_2d;
+    *ptr = array;
+    return 0;
+}
+
+void destroy_array_2d(int ***ptr, int height) {
+    if (ptr == NULL || *ptr == NULL) {
+        return;
+    }
+
+    for (int i = 0; i < height; ++i) {
+        free(*(*ptr + i));
+    }
+    free(*ptr);
+    *ptr = NULL;
 }
 
 void display_array_2d(int **ptr, int width, int height) {
-    if (ptr == NULL) return;
-    if (height < 1 || width < 1) return;
-
-    int curr;
-    for (int row = 0; row < height; row++) {
-        if (*(ptr + row) == NULL) continue;
-
-        for (int col = 0; col < width; col++) {
-            curr = *(*(ptr + row) + col);
-            if (curr < 10) {
-                printf("  %d ", curr);
-            } else if (curr == 100) {
-                printf("%d", curr);
-            } else {
-                printf(" %d ", curr);
-            }
+    if (ptr == NULL || width < 1 || height < 1) {
+        return;
+    }
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            printf("%d ", *(*(ptr + i) + j));
         }
         printf("\n");
     }
 }
 
-void destroy_array_2d(int **ptr, int height) {
-    if (ptr == NULL) return;
-    if (height < 1) return;
-
-    for (int i = 0; i < height; i++) {
-        free(*(ptr + i));
-        *(ptr + i) = NULL;
+int sum_row(int *ptr, int width) {
+    if (ptr == NULL || width < 1) {
+        return -1;
     }
-    free(ptr);
+    int sum = 0;
+    for (int i = 0; i < width; ++i) {
+        sum += *(ptr + i);
+    }
+    return sum;
 }
 
-int read_row(int *row_ptr, int width) {
+int sum_array_2d(int **ptr, int width, int height) {
+    if (ptr == NULL || width < 1 || height < 1) {
+        return -1;
+    }
+    int total_sum = 0;
+    for (int i = 0; i < height; ++i) {
+        total_sum += sum_row(*(ptr + i), width);
+    }
+    return total_sum;
+}
+
+int read_row_from_user(int *row_ptr, int width) {
     for (int i = 0; i < width; ++i) {
         if (scanf("%d", row_ptr + i) != 1) {
-            return 1; // Błąd wczytywania
+            return 1;
         }
     }
-    return 0; // Sukces
+    return 0;
 }
