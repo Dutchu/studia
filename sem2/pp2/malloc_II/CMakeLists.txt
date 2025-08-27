@@ -6,3 +6,4 @@ set(CMAKE_C_STANDARD 99)
 
 add_subdirectory("${PROJECT_SOURCE_DIR}/multiplication" "${PROJECT_SOURCE_DIR}/multiplication/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/array_2d" "${PROJECT_SOURCE_DIR}/array_2d/cmake-build-debug-wsl")
+add_subdirectory("${PROJECT_SOURCE_DIR}/array_2d_II" "${PROJECT_SOURCE_DIR}/array_2d_II/cmake-build-debug-wsl")
