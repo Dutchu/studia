@@ -19,4 +19,4 @@ int matrix_save_b(const struct matrix_t *m, const char *filename);
 
 int matrix_save_t(const struct matrix_t *m, const char *filename);
 
-#endif 
+#endif //MALLOC_II_MATRIX_UTILS_H
