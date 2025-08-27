@@ -1,8 +1,5 @@
 #include <stdio.h>
-#include <errno.h>
 #include <stdlib.h>
-
-#define BUFF_SIZE 1024
 
 int read_row(int *row_ptr, int width);
 
