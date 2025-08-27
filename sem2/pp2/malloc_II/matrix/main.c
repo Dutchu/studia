@@ -1,22 +1,23 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int create_array_2d_2(int ***ptr, int width, int height);
 
-void destroy_array_2d(int ***ptr, int height);
+struct matrix_t {
+    int **ptr;
+    int width;
+    int height;
+};
 
-void display_array_2d(int **ptr, int width, int height);
 
-int sum_array_2d(int **ptr, int width, int height);
-
-int sum_row(int *ptr, int width);
-
-int read_row_from_user(int *row_ptr, int width);
+int matrix_create(struct matrix_t *m, int width, int height);
+int matrix_read(struct matrix_t *m);
+void matrix_display(const struct matrix_t *m);
+void matrix_destroy(struct matrix_t *m);
 
 
 int main(void) {
+    struct matrix_t matrix;
     int width, height;
-    int **my_array = NULL;
 
     printf("Podaj szerokość i wysokość: ");
     if (scanf("%d %d", &width, &height) != 2) {
@@ -24,7 +25,8 @@ int main(void) {
         return 1;
     }
 
-    int create_status = create_array_2d_2(&my_array, width, height);
+    
+    int create_status = matrix_create(&matrix, width, height);
     if (create_status == 1) {
         printf("incorrect input data\n");
         return 2;
@@ -34,108 +36,95 @@ int main(void) {
         return 8;
     }
 
-    printf("Podaj liczby:\n");
-    for (int i = 0; i < height; ++i) {
-        if (read_row_from_user(*(my_array + i), width) != 0) {
-            printf("incorrect input\n");
-            destroy_array_2d(&my_array, height);
-            return 1;
-        }
-    }
-
-    display_array_2d(my_array, width, height);
-
-
-    for (int i = 0; i < height; ++i) {
-        printf("%d\n", sum_row(*(my_array + i), width));
-    }
-
-
-    printf("%d\n", sum_array_2d(my_array, width, height));
-
-
-    destroy_array_2d(&my_array, height);
-
-    return 0;
-}
-
-int create_array_2d_2(int ***ptr, int width, int height) {
-    if (ptr == NULL || width < 1 || height < 1) {
+    
+    printf("Podaj wartości: \n");
+    int read_status = matrix_read(&matrix);
+    if (read_status != 0) {
+        printf("incorrect input\n");
+        matrix_destroy(&matrix);
         return 1;
     }
 
-    int **array = (int **) malloc(height * sizeof(int *));
-    if (array == NULL) {
-        return 2;
-    }
+    
+    matrix_display(&matrix);
+    matrix_destroy(&matrix);
 
-    for (int i = 0; i < height; ++i) {
-        *(array + i) = (int *) malloc(width * sizeof(int));
-        if (*(array + i) == NULL) {
-
-            for (int j = 0; j < i; ++j) {
-                free(*(array + j));
-            }
-            free(array);
-            return 2;
-        }
-    }
-
-    *ptr = array;
     return 0;
 }
 
-void destroy_array_2d(int ***ptr, int height) {
-    if (ptr == NULL || *ptr == NULL) {
-        return;
+int matrix_create(struct matrix_t *m, int width, int height) {
+    if (m == NULL || width < 1 || height < 1) {
+        return 1; 
     }
 
-    for (int i = 0; i < height; ++i) {
-        free(*(*ptr + i));
+    m->width = width;
+    m->height = height;
+    m->ptr = (int **)malloc(height * sizeof(int *));
+
+    if (m->ptr == NULL) {
+        return 2; 
     }
-    free(*ptr);
-    *ptr = NULL;
+
+    
+    for (int i = 0; i < height; ++i) {
+        *(m->ptr + i) = (int *)malloc(width * sizeof(int));
+
+        
+        if (*(m->ptr + i) == NULL) {
+            
+            m->height = i;
+            
+            matrix_destroy(m);
+            return 2; 
+        }
+    }
+
+    return 0; 
 }
 
-void display_array_2d(int **ptr, int width, int height) {
-    if (ptr == NULL || width < 1 || height < 1) {
-        return;
+int matrix_read(struct matrix_t *m) {
+    if (m == NULL || m->ptr == NULL || m->width < 1 || m->height < 1) {
+        return 1; 
     }
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            printf("%d ", *(*(ptr + i) + j));
+
+    for (int i = 0; i < m->height; ++i) {
+        for (int j = 0; j < m->width; ++j) {
+            
+            if (scanf("%d", (*(m->ptr + i) + j)) != 1) {
+                return 2; 
+            }
+        }
+    }
+    return 0; 
+}
+
+void matrix_display(const struct matrix_t *m) {
+    if (m == NULL || m->ptr == NULL || m->width < 1 || m->height < 1) {
+        return; 
+    }
+
+    for (int i = 0; i < m->height; ++i) {
+        for (int j = 0; j < m->width; ++j) {
+            printf("%d ", *(*(m->ptr + i) + j));
         }
         printf("\n");
     }
 }
 
-int sum_row(int *ptr, int width) {
-    if (ptr == NULL || width < 1) {
-        return -1;
+void matrix_destroy(struct matrix_t *m) {
+    if (m == NULL || m->ptr == NULL) {
+        return; 
     }
-    int sum = 0;
-    for (int i = 0; i < width; ++i) {
-        sum += *(ptr + i);
-    }
-    return sum;
-}
 
-int sum_array_2d(int **ptr, int width, int height) {
-    if (ptr == NULL || width < 1 || height < 1) {
-        return -1;
+    
+    for (int i = 0; i < m->height; ++i) {
+        free(*(m->ptr + i));
     }
-    int total_sum = 0;
-    for (int i = 0; i < height; ++i) {
-        total_sum += sum_row(*(ptr + i), width);
-    }
-    return total_sum;
-}
+    
+    free(m->ptr);
 
-int read_row_from_user(int *row_ptr, int width) {
-    for (int i = 0; i < width; ++i) {
-        if (scanf("%d", row_ptr + i) != 1) {
-            return 1;
-        }
-    }
-    return 0;
+    
+    m->ptr = NULL;
+    m->width = 0;
+    m->height = 0;
 }
