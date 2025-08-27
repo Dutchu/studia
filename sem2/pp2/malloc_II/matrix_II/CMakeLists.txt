@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.17)
-project(matrix C)
+project(matrix_II C)
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
@@ -8,4 +8,4 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
 set(PROJECT_SOURCES main.c)
 
 #create executable from sources
-add_executable(matrix ${PROJECT_SOURCES})
+add_executable(matrix_II matrix_utils.c ${PROJECT_SOURCES})
