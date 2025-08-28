@@ -11,3 +11,4 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/matrix" "${PROJECT_SOURCE_DIR}/matrix/cm
 add_subdirectory("${PROJECT_SOURCE_DIR}/matrix_II" "${PROJECT_SOURCE_DIR}/matrix_II/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/matrix_ops" "${PROJECT_SOURCE_DIR}/matrix_ops/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/img_in_img" "${PROJECT_SOURCE_DIR}/img_in_img/cmake-build-debug-wsl")
+add_subdirectory("${PROJECT_SOURCE_DIR}/statistics" "${PROJECT_SOURCE_DIR}/statistics/cmake-build-debug-wsl")
