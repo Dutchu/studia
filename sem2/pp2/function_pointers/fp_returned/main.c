@@ -27,10 +27,23 @@ int mul_int(int a, int b) {
     return a * b;
 }
 
-typedef int (*binary_operation)(int, int);
-
 int calculate(int a, int b, binary_operation op) {
     return op(a, b);
+}
+
+binary_operation get_function(enum operations_t op) {
+    switch (op) {
+        case op_add:
+            return add_int;
+        case op_sub:
+            return sub_int;
+        case op_div:
+            return div_int;
+        case op_mul:
+            return mul_int;
+        default:
+            return NULL;
+    }
 }
 
 int main(void) {
@@ -68,18 +81,19 @@ int main(void) {
     }
 
     int result;
+    enum operations_t;
     switch (operation) {
         case 0:
-            result = calculate(a, b, add_int);
+            result =  get_function(op_add)(a, b);
             break;
         case 1:
-            result = calculate(a, b, sub_int);
+            result =  get_function(op_sub)(a, b);
             break;
         case 2:
-            result = calculate(a, b, div_int);
+            result =  get_function(op_div)(a, b);
             break;
         case 3:
-            result = calculate(a, b, mul_int);
+            result =  get_function(op_mul)(a, b);
             break;
         default:
             printf("Incorrect input data");
