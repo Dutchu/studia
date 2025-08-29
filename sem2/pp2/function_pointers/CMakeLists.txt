@@ -7,3 +7,4 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/fp_param" "${PROJECT_SOURCE_DIR}/fp_para
 add_subdirectory("${PROJECT_SOURCE_DIR}/fp_returned" "${PROJECT_SOURCE_DIR}/fp_returned/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/fp_struct" "${PROJECT_SOURCE_DIR}/fp_struct/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/sort" "${PROJECT_SOURCE_DIR}/sort/cmake-build-debug-wsl")
+add_subdirectory("${PROJECT_SOURCE_DIR}/moving_point" "${PROJECT_SOURCE_DIR}/moving_point/cmake-build-debug-wsl")
