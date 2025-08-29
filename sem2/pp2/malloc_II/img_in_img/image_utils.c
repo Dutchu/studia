@@ -54,7 +54,7 @@ struct image_t* load_image_t(const char *filename, int *err_code) {
     // --- SINGLE, COMBINED MEMORY ALLOCATION ---
     size_t struct_size = sizeof(struct image_t);
     size_t row_pointers_size = height * sizeof(int*);
-    size_t pixel_data_size = height * width * sizeof(int);
+    size_t pixel_data_size = (size_t)height * (size_t)width * sizeof(int);
 
     // Allocate a single contiguous block for the struct, the row pointers, and all pixel data.
     char *buffer = (char*)malloc(struct_size + row_pointers_size + pixel_data_size);
@@ -76,7 +76,6 @@ struct image_t* load_image_t(const char *filename, int *err_code) {
     *(img->type + 2) = '\0';
     img->width = width;
     img->height = height;
-    img->max_val = max_val;
 
     // Set up the row pointers to point into the pixel data area
     for (int i = 0; i < img->height; ++i) {
@@ -87,7 +86,7 @@ struct image_t* load_image_t(const char *filename, int *err_code) {
     for (int i = 0; i < img->height; ++i) {
         for (int j = 0; j < img->width; ++j) {
             int pixel_value;
-            if (fscanf(f, "%d", &pixel_value) != 1 || pixel_value < 0 || pixel_value > img->max_val) {
+            if (fscanf(f, "%d", &pixel_value) != 1 || pixel_value < 0 || pixel_value > max_val) {
                 if (err_code) *err_code = 3;
                 free(img); // Cleanup: free the single buffer
                 fclose(f);
@@ -114,7 +113,7 @@ struct image_t* load_image_t(const char *filename, int *err_code) {
 
 
 int save_image_t(const char *filename, const struct image_t *m1) {
-    if (filename == NULL || m1 == NULL || m1->ptr == NULL) {
+    if (filename == NULL || m1 == NULL || m1->ptr == NULL || m1->width <= 0 || m1->height <= 0) {
         return 1;
     }
 
@@ -125,7 +124,8 @@ int save_image_t(const char *filename, const struct image_t *m1) {
 
     if (fprintf(f, "%s\n", m1->type) < 0) { fclose(f); return 3; }
     if (fprintf(f, "%d %d\n", m1->width, m1->height) < 0) { fclose(f); return 3; }
-    if (fprintf(f, "%d\n", m1->max_val) < 0) { fclose(f); return 3; }
+    // As per task, we don't store max value in struct; write a standard 255.
+    if (fprintf(f, "%d\n", 255) < 0) { fclose(f); return 3; }
 
     for (int i = 0; i < m1->height; ++i) {
         for (int j = 0; j < m1->width; ++j) {
@@ -160,6 +160,9 @@ int* image_set_pixel(struct image_t *img, int x, int y) {
 
 int draw_image(struct image_t *img, const struct image_t *src, int destx, int desty) {
     if (img == NULL || src == NULL || img->ptr == NULL || src->ptr == NULL) {
+        return 1;
+    }
+    if (img->width <= 0 || img->height <= 0 || src->width <= 0 || src->height <= 0) {
         return 1;
     }
     if (destx < 0 || desty < 0 || destx + src->width > img->width || desty + src->height > img->height) {

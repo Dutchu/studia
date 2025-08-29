@@ -1,0 +1,206 @@
+Napisz program, który umożliwi rysowanie obrazu w obrazie. Formatem wejściowym będzie PNM.
+
+Format PNM (ang. Portable anymap) jest formatem zapisu grafiki rastrowej. Zapoznaj się ze specyfikacją formatu i na podstawie tego przygotuj strukturę image_t do przechowywania obrazu o następującej postaci:
+
+struct image_t {
+  char type[3];
+  int **ptr;
+  int width;
+  int height;
+};
+gdzie:
+
+type - informacje o typie pliku (np. P2 - sprawdź dokumentację formatu PNM)
+ptr - dwuwymiarowa tablica pikseli
+width, height - szerokość oraz wysokość.
+Przygotuj następujące funkcje:
+
+struct image_t* load_image_t(const char *filename, int *err_code);
+int save_image_t(const char * filename, const struct image_t *m1);
+
+void destroy_image(struct image_t **m)
+
+const int* image_get_pixel(const struct image_t *img, int x, int y);
+int* image_set_pixel(struct image_t *img, int x, int y);
+
+int draw_image(struct image_t *img, const struct image_t *src, int destx, int desty);
+Funkcje load_image_t oraz save_image_t służą do wczytywania oraz zapisywania obrazów w odcieniach szarości w formacie PGM, w pliku tekstowym. Struktura takiego pliku wygląda następująco:
+
+Pierwsza linia zawiera typ formatu pliku, tutaj P2 (patrz dokumentacja oraz pole type struktury image_t.
+Druga linia zawiera szerokość oraz wysokość w postaci dwóch liczb całkowitych, oddzielonych spacją.
+Trzecia linia zawiera maksymalną wartość składową poziomu szarości, w postaci liczby całkowitej (np. 255).
+Czwarta linia i dalej zawierają wartości poziomu szarości poszczególnych punktów. Wartości powinny być z zakresu <0, 255>. Jeden wiersz w pliku to jeden wiersz w obrazie.
+Przykład obrazu - biały znak zapytania na czarnym tle:
+
+P2
+6 10
+255
+0   0   0   0   0   0
+0   0 255 255   0   0
+0 255   0   0 255   0
+0 255   0   0 255   0
+0   0   0   0 255   0
+0   0   0 255   0   0
+0   0 255   0   0   0
+0   0   0   0   0   0
+0   0 255   0   0   0
+0   0   0   0   0   0
+int save_image_t(const char * filename, const struct image_t *m1);
+Funkcja save_image_t powinna przyjąć nazwę pliku filename oraz wskaźnik na strukturę obrazu m1 a następnie zapisać go na dysk w formie tekstowej.
+
+Wartość zwracana:
+
+0 - w przypadku powodzenia operacji zapisu,
+1 - w przypadku błędnych danych wejściowych,
+2 - jeżeli nie udało się utworzyć pliku,
+3 - jeżeli nie udało się zapisać wszystkich danych do pliku.
+void destroy_image(struct image_t **m)
+Funkcja zwalniania pamięć przydzieloną na obraz (zarówno na strukturę jak i na dane) i przypisuje wartość NULL pod wskaźnik. W przypadku podania nieprawidłowych danych wejściowych funkcja ma niepodajmować jakichkolwiek akcji.
+
+struct image_t* load_image_t(const char *filename, int *err_code);
+Funkcja load_image_t powinna przyjąć nazwę pliku filename do wczytania oraz ewentualny wskaźnik err_code na zmienną do umieszczenia kodu błędu operacji (lub NULL jeśli program wywołujący nie jest zainteresowany kodem błędu).
+
+W przypadku pomyślnego wczytania obrazu z dysku funkcja powinna zwrócić odpowiedni wskaźnik na strukturę image_t oraz ustawić kod błędu err_code na 0.
+
+W przypadku niepowodzenia należy zwrócić wskaźnik NULL oraz ustawić kod błędu err_code na:
+
+1 - w przypadku błędnych danych wejściowych funkcji,
+2 - jeżeli nie udało się otworzyć pliku,
+3 - w przypadku kiedy plik jest uszkodzony, np. format jest niezgodny z oczekiwanym (nagłówek inny niż P2),
+4 - jeżeli nie uda się przydzielić pamięci.
+const int* image_get_pixel(const struct image_t *img, int x, int y);
+int* image_set_pixel(struct image_t *img, int x, int y);
+Funkcje zwracają wskaźnik na pixel o współrzędnych (x, y) z obrazu img lub NULL w przypadku błędnych danych.
+
+int draw_image(struct image_t *img, const struct image_t *src, int destx, int desty);
+Funkcja wstawia obraz przekazany w strukturze src do obrazu img pod współrzędne (destx, desty). Wartości współrzędnych destx oraz desty są poprawne tylko wtedy, gdy obraz src da się narysować w całości na obrazie img.
+
+Wartość zwracana:
+
+1 - w przypadku błędnych danych
+0 - w przypadku sukcesu 0.
+Napisz program, który pobierze od użytkownika nazwę pliku (tablica na nazwę pliku powinna być alokowana dynamicznie na 40 znaków) i wczyta z niego obraz, w formacie PGM. Obraz ten będzie obrazem docelowym - na nim rysowane będą obrazy składowe.
+
+W przypadku kiedy nie uda się otworzyć podanego pliku, program powinien wyświetlić komunikat Couldn't open file i zakończyć działanie z kodem błędu 4.
+
+Jeżeli dane zapisane w pliku są niepoprawne należy wyświetlić komunikat File corrupted i zakończyć działanie z kodem błędu 6.
+
+Jeżeli nie uda się przydzielić pamięci (dla bufora nazwy pliku lub w toku działania funkcji load_image_t) to program należy niezwłocznie przerwać, wyświetlając komunikat Failed to allocate memory i zwracając kod błędu 8. Pamiętaj, że pytanie o nazwę pliku nie ma sensu, jeśli nie udało się zaalokować pamięci na bufor, do którego owa nazwa ma być zapisana.
+
+Po poprawnym wczytaniu obrazu program powinien zapytać użytkownika o liczbę obrazów składowych, które ten chce narysować na obrazie wejściowym (co najmniej jeden).
+
+W przypadku podania błędnych danych program powinien wyświetlić komunikat Incorrect input data i zakończyć działanie z kodem błędu 2.
+W przypadku wprowadzenia błędnych znaków przez użytkownika program powinien wyświetlić komunikat Incorrect input i zakończyć działanie z kodem błędu 1.
+Jeżeli podana wartość jest prawidłowa to program powinien pobierać od użytkownika nazwę pliku (nazwa pliku nie przekroczy 39 znaków, pamięć ma być alokowana dynamicznie przed przystąpieniem do wczytywania plików) z obrazem składowym i wczytać go. Należy uwzględnić możliwość braku pliku lub błędu w jego formacie w sposób podobny jak przy wczytywaniu obrazu docelowego (Couldn't open file oraz File corrupted). W takim przypadku program powinien zignorować podany plik i kontynuować pytania o pozostałe pliki.
+
+Jeżeli nie uda się przydzielić pamięci (czy to na bufor nazwy pliku czy w toku działania funkcji load_image_t), należy wyświetlić komunikat Failed to allocate memory i zakończyć działanie programu z kodem błędu 8.
+
+Po pomyślnym wczytaniu każdego obrazu składowego program powinien zapytać użytkownika o współrzędne docelowe destx oraz desty (lewy górny róg), w których narysowany ma być obraz składowy. W przypadku kiedy niemożliwe będzie wrysowanie obrazu składowego, w miejsce podane przez użytkownika, program powinien wyświetlić komunikat Incorrect input data i kontynuować działanie, pytając o pozostałe pliki. W przypadku wprowadzenia błędnych znaków przez użytkownika program powinien wyświetlić komunikat Incorrect input i zakończyć działanie z kodem błędu 1.
+
+Po pobraniu i wstawieniu wszystkich obrazów składowych do obrazu docelowego program powinien zapisać obraz do pliku o nazwie składającej się z nazwy oryginalnej oraz przyrostka _modified (np. dla pliku obraz.pgm będzie to obraz_modified.pgm).
+
+W przypadku nieudanego zapisu program powinien wyświetlić komunikat Couldn't create file i zakończyć działanie z kodem błędu 5
+
+Ostatecznie, jeżeli udało się zapisać obraz do pliku program powinien zakończyć się z komunikatem File saved.
+
+Przykładowa interakcja z programem -- sukces:
+
+Enter destination image file name: de.jpg.txt⏎
+How many subimages you want to draw: 5⏎
+Enter a name of a subimage: imagepv-3233.png.txt⏎
+Enter coordinates (x, y): 470 305⏎
+Enter a name of a subimage: imagepv-3233.png.txt⏎
+Enter coordinates (x, y): 234 66⏎
+Enter a name of a subimage: imagepv-3489.png.txt⏎
+Enter coordinates (x, y): 397 84⏎
+Enter a name of a subimage: imagepv-3233.png.txt⏎
+Enter coordinates (x, y): 565 139⏎
+Incorrect input data⏎
+Enter a name of a subimage: eued_qu.jpg.txt⏎
+Enter coordinates (x, y): 230 86⏎
+File saved
+Pliki: wejście, obraz 1, obraz 2, obraz 3, obraz 4, obraz 5, wyjście.
+Obrazy poglądowe: wejście, wyjście.
+Enter destination image file name: 5.bmp.txt⏎
+How many subimages you want to draw: 4⏎
+Enter a name of a subimage: 2005.jpg.txt⏎
+Enter coordinates (x, y): 36 152⏎
+Enter a name of a subimage: imagepv-3233.png.txt⏎
+Enter coordinates (x, y): 322 125⏎
+Enter a name of a subimage: 2005.jpg.txt⏎
+Enter coordinates (x, y): 17 127⏎
+Enter a name of a subimage: america.jpg.txt⏎
+Enter coordinates (x, y): 7 110⏎
+File saved
+Pliki: wejście, obraz 1, obraz 2, obraz 3, obraz 4, wyjście.
+Obrazy poglądowe: wejście, wyjście.
+Przykładowa interakcja z programem -- błąd tworzenia pliku wynikowego:
+
+Enter destination image file name: red.txt⏎
+How many subimages you want to draw: 1⏎
+Enter a name of a subimage: red.txt⏎
+Enter coordinates (x, y): 0 0⏎
+Couldn't create file⏎
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit sterty: 40 bajtów
+
+Enter destination image file name: red.txt⏎
+Failed to allocate memory⏎
+Przykładowa interakcja z programem -- błąd danych wejściowych:
+
+Enter destination image file name: pa.jpg.txt⏎
+How many subimages you want to draw: 5⏎
+Enter a name of a subimage: IMG_0372.jpg.txt⏎
+Enter coordinates (x, y): 352 145⏎
+Enter a name of a subimage: schuykil.jpg.txt⏎
+Enter coordinates (x, y): 493 198⏎
+Enter a name of a subimage: imagepv-3233.png.txt⏎
+Enter coordinates (x, y): 210 21⏎
+Enter a name of a subimage: imagepv-1229.png.txt⏎
+Enter coordinates (x, y): 497 129⏎
+Enter a name of a subimage: Telan.png.txt⏎
+Enter coordinates (x, y): ZDAwOY⏎
+Incorrect input⏎
+Enter destination image file name: wa.jpg.txt⏎
+How many subimages you want to draw: -7⏎
+Incorrect input data⏎
+Enter destination image file name: 6.bmp.txt⏎
+How many subimages you want to draw: eEY⏎
+Incorrect input⏎
+Przykładowa interakcja z programem -- uszkodzone pliki:
+
+Enter destination image file name: wa.jpg.txt⏎
+File corrupted
+Enter destination image file name: 1.bmp.txt⏎
+How many subimages you want to draw: 3⏎
+Enter a name of a subimage: imagepv-3489.png.txt⏎
+File corrupted⏎
+Enter a name of a subimage: 2005.jpg.txt⏎
+Enter coordinates (x, y): 87 6⏎
+Enter a name of a subimage: 100_0129.jpg.txt⏎
+Enter coordinates (x, y): 252 92⏎
+File saved
+Przykładowa interakcja z programem -- brak pliku:
+
+Enter destination image file name: 4.bmp.txt⏎
+Couldn't open file
+Przykładowa interakcja z programem -- pięć plików, jeden uszkodzony, jednego brak, użytkownik podał złe współrzędne:
+
+Podaj nazwe: de.jpg.txt⏎
+Podaj ile obrazow chcesz dodac: 5⏎
+Podaj nazwe: 8593441.jpg.txt⏎
+File not found⏎
+Podaj nazwe: IMG_0372.jpg.txt⏎
+Podaj wspolrzedne: 18 330⏎
+Incorrect input⏎
+Podaj nazwe: imagepv-3251.png.txt⏎
+Podaj wspolrzedne: 279 104⏎
+Podaj nazwe: 100_0129.jpg.txt⏎
+File corrupted⏎
+Podaj nazwe: imagepv-3489.png.txt⏎
+Podaj wspolrzedne: 278 157⏎
+File saved
+Uwagi
+W programie nie wolno używać operatora '[]', oprócz deklaracji tablicy type w strukturze image_t.
+Deklaracje funkcji oraz definicję struktury umieść w pliku nagłówkowym image_utils.h, a definicje funkcji w pliku image_utils.c!

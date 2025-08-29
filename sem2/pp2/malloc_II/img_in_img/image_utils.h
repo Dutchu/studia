@@ -10,7 +10,6 @@ struct image_t {
     int **ptr;
     int width;
     int height;
-    int max_val;
 };
 
 struct image_t* load_image_t(const char *filename, int *err_code);
