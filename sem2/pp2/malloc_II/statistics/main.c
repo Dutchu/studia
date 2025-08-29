@@ -63,160 +63,129 @@ void cleanup_on_error(int ***ptr, int rows_to_free) {
 
 int load(const char *filename, int ***ptr, enum save_format_t format) {
     if (filename == NULL || ptr == NULL) {
-        return 1;
+        return 1; // invalid input
     }
 
-    const char *mode = (format == fmt_text) ? "r" : "rb";
-    FILE *f = fopen(filename, mode);
-    if (f == NULL) {
-        return 2;
+    // validate format flag explicitly
+    if (!(format == fmt_text || format == fmt_binary)) {
+        return 1; // invalid input
     }
 
     *ptr = NULL;
 
-    if (format == fmt_text) {
-        int rows = 0;
-        char ch;
-
-        while ((ch = fgetc(f)) != EOF) {
-            if (ch == '\n') {
-                rows++;
-            }
-        }
-
-        fseek(f, -1, SEEK_END);
-        if (fgetc(f) != '\n') rows++;
-
-        rewind(f);
-
-        *ptr = (int **) malloc((rows + 1) * sizeof(int *));
-        if (*ptr == NULL) {
-            fclose(f);
-            return 4;
-        }
-
-        for (int i = 0; i < rows; ++i) {
-            long pos = ftell(f);
-            int count = 0;
-            int num;
-            int scan_result;
-
-            // Count numbers in this row until we hit -1 or end of line
-            while ((scan_result = fscanf(f, "%d", &num)) == 1 && num != -1) {
-                count++;
-            }
-
-            // Check if we ended properly with -1
-            if (scan_result == 1 && num == -1) {
-                // Good - we found the -1 terminator
-            } else if (scan_result == 0 || scan_result == EOF) {
-                // Failed to read - might be end of line without -1
-                // This could be valid depending on format expectations
-                // Let's assume it's valid for now
-            } else {
-                // We read a number but it wasn't -1, which might be an error
-                // But let's be permissive and allow it
-            }
-
-            fseek(f, pos, SEEK_SET);
-
-            *(*ptr + i) = (int *) malloc((count + 1) * sizeof(int));
-            if (*(*ptr + i) == NULL) {
-                cleanup_on_error(ptr, i);
-                fclose(f);
-                return 4;
-            }
-
-            // Read the actual data
-            for (int j = 0; j < count; ++j) {
-                if (fscanf(f, "%d", &num) != 1) {
-                    cleanup_on_error(ptr, i + 1);
-                    fclose(f);
-                    return 31;
-                }
-                *(*(*ptr + i) + j) = num;
-            }
-
-            // Try to read the terminator (-1), but don't fail if it's not there
-            fscanf(f, "%d", &num);
-            *(*(*ptr + i) + count) = -1;
-        }
-        *(*ptr + rows) = NULL;
-
-    } else {
-        // Binary format handling
-        fseek(f, 0, SEEK_END);
-        long file_size = ftell(f);
-        rewind(f);
-
-        if (file_size == 0 || file_size % sizeof(int) != 0) {
-            fclose(f);
-            return 32;
-        }
-
-        // First pass: count rows without loading all data
-        int rows = 0;
-        int buffer;
-        while (fread(&buffer, sizeof(int), 1, f) == 1) {
-            if (buffer == -1) {
-                rows++;
-            }
-        }
-
-        if (rows == 0) {
-            fclose(f);
-            return 33;
-        }
-
-        rewind(f);
-
-        *ptr = (int **) malloc((rows + 1) * sizeof(int *));
-        if (*ptr == NULL) {
-            fclose(f);
-            return 4;
-        }
-
-        // Second pass: read and allocate row by row
-        for (int i = 0; i < rows; ++i) {
-            // Count numbers in this row
-            long pos = ftell(f);
-            int count = 0;
-            while (fread(&buffer, sizeof(int), 1, f) == 1 && buffer != -1) {
-                count++;
-            }
-
-            fseek(f, pos, SEEK_SET);
-
-            *(*ptr + i) = (int *) malloc((count + 1) * sizeof(int));
-            if (*(*ptr + i) == NULL) {
-                cleanup_on_error(ptr, i);
-                fclose(f);
-                return 4;
-            }
-
-            // Read the actual row data
-            for (int j = 0; j < count; ++j) {
-                if (fread(&buffer, sizeof(int), 1, f) != 1) {
-                    cleanup_on_error(ptr, i + 1);
-                    fclose(f);
-                    return 34;
-                }
-                *(*(*ptr + i) + j) = buffer;
-            }
-
-            // Read and skip the -1 terminator
-            if (fread(&buffer, sizeof(int), 1, f) != 1 || buffer != -1) {
-                cleanup_on_error(ptr, i + 1);
-                fclose(f);
-                return 35;
-            }
-
-            *(*(*ptr + i) + count) = -1;
-        }
-
-        *(*ptr + rows) = NULL;
+    const char *mode = (format == fmt_text) ? "r" : "rb";
+    FILE *f = fopen(filename, mode);
+    if (f == NULL) {
+        return 2; // file open error
     }
 
+    // Pass 1: count rows (every -1 closes one row). Validate structure.
+    int rows = 0;
+    int inrow_count = 0;
+    int val;
+    if (format == fmt_text) {
+        while (1) {
+            int r = fscanf(f, "%d", &val);
+            if (r == 1) {
+                if (val == -1) { rows++; inrow_count = 0; }
+                else { inrow_count++; }
+            } else if (r == EOF) {
+                if (inrow_count != 0) { fclose(f); return 3; } // unfinished row
+                break;
+            } else {
+                fclose(f); return 3; // invalid token
+            }
+        }
+    } else { // binary
+        while (fread(&val, sizeof(int), 1, f) == 1) {
+            if (val == -1) { rows++; inrow_count = 0; }
+            else { inrow_count++; }
+        }
+        if (!feof(f)) { fclose(f); return 3; }
+        if (inrow_count != 0) { fclose(f); return 3; } // missing final -1
+    }
+
+    if (rows == 0) { // no rows found => corrupted
+        fclose(f);
+        return 3;
+    }
+
+    // Allocate top-level pointer array
+    int **arr = (int **) malloc(((size_t) rows + 1) * sizeof(int *));
+    if (arr == NULL) { fclose(f); return 4; }
+
+    // Pass 2: build rows one by one with minimal extra memory
+    rewind(f);
+    for (int i = 0; i < rows; ++i) {
+        long pos = ftell(f);
+        int count = 0;
+
+        // Count items in this row
+        if (format == fmt_text) {
+            while (1) {
+                if (fscanf(f, "%d", &val) != 1) { // malformed
+                    for (int k = 0; k < i; ++k) free(*(arr + k));
+                    free(arr); fclose(f); return 3;
+                }
+                if (val == -1) break;
+                count++;
+            }
+        } else {
+            while (1) {
+                if (fread(&val, sizeof(int), 1, f) != 1) { // malformed
+                    for (int k = 0; k < i; ++k) free(*(arr + k));
+                    free(arr); fclose(f); return 3;
+                }
+                if (val == -1) break;
+                count++;
+            }
+        }
+
+        // Allocate exact row size (+1 for -1 terminator we store)
+        int *row = (int *) malloc(((size_t) count + 1) * sizeof(int));
+        if (row == NULL) {
+            for (int k = 0; k < i; ++k) free(*(arr + k));
+            free(arr); fclose(f); return 4;
+        }
+
+        // Fill row
+        if (fseek(f, pos, SEEK_SET) != 0) { // should not fail when using ftell value
+            for (int k = 0; k < i; ++k) free(*(arr + k));
+            free(row); free(arr); fclose(f); return 3;
+        }
+        for (int j = 0; j < count; ++j) {
+            if (format == fmt_text) {
+                if (fscanf(f, "%d", &val) != 1) {
+                    for (int k = 0; k < i; ++k) free(*(arr + k));
+                    free(row); free(arr); fclose(f); return 3;
+                }
+            } else {
+                if (fread(&val, sizeof(int), 1, f) != 1) {
+                    for (int k = 0; k < i; ++k) free(*(arr + k));
+                    free(row); free(arr); fclose(f); return 3;
+                }
+            }
+            *(row + j) = val;
+        }
+        // consume the -1
+        if (format == fmt_text) {
+            if (fscanf(f, "%d", &val) != 1 || val != -1) {
+                for (int k = 0; k < i; ++k) free(*(arr + k));
+                free(row); free(arr); fclose(f); return 3;
+            }
+        } else {
+            if (fread(&val, sizeof(int), 1, f) != 1 || val != -1) {
+                for (int k = 0; k < i; ++k) free(*(arr + k));
+                free(row); free(arr); fclose(f); return 3;
+            }
+        }
+
+        *(row + count) = -1;
+        *(arr + i) = row;
+    }
+
+    *(arr + rows) = NULL;
+    *ptr = arr;
     fclose(f);
     return 0;
 }
@@ -293,13 +262,13 @@ int statistics_row(int **ptr, struct statistic_t **stats) {
 }
 
 int main() {
-    printf("Podaj nazwe pliku: ");
     char *filename = (char *) malloc(40 * sizeof(char));
     if (filename == NULL) {
         printf("Failed to allocate memory\n");
         return 8;
     }
 
+    printf("Podaj nazwe pliku: ");
     if (scanf("%39s", filename) != 1) {
         printf("Couldn't read filename\n");
         free(filename);

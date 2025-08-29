@@ -1,0 +1,147 @@
+Napisz funkcje do:
+
+wczytywania plików binarnych i tekstowych zawierające dane liczbowe,
+do wyznaczania statystyk dla każdego wiersza danych,
+do zwalniania pamięci przydzielonej na zbiór danych, przez funkcję wczytującą.
+Funkcje powinny mieć następujące prototypy:
+
+int load(const char *filename, int ***ptr, enum save_format_t format);
+int statistics_row(int **ptr, struct statistic_t **stats);
+void destroy(int ***ptr);
+void display(int **ptr);
+void display(int **ptr);
+Funkcja wyświetla w konsoli zawartość poszczególnych wierszy tablicy ptr, bez znaku końcowego. Każdy element tablicy D (pierwszego poziomu) ma znajdować się w oddzielnej linii.
+
+W przypadku podanie niwłaściwych danych funkcja nie podejmuje żadnej akcji.
+
+Przykład dla D:
+
+10 20 30 40 50 60 70 ⏎
+100 200 300 400 500 600 700 800 ⏎
+1000 2000 3000 4000 5000 6000 7000 8000 9000 ⏎
+int load(const char *filename, int ***ptr, enum save_format_t format);
+Funkcja wczytująca dane z pliku o nazwie filename.
+
+Parametry:
+
+ptr - adres wskaźnika do którego ma zostać zapisany adres zbioru danych odczytany z pliku filename,
+format - flaga formatu w jakim dany plik ma być wczytany (fmt_text lub fmt_binary).
+Deklaracja enum save_format_t powinna znajdować się w osobnym pliku o nazwie: format_type.h.
+
+W funkcji należy zaalokować tylko tyle pamięci ile będzie potrzebne na przechowanie całego zbioru danych.
+
+Wartość zwracana:
+
+1 - w przypadku błędnych danych wejściowych,
+2 - jeżeli plik nie istnieje,
+3 - jeżeli dane w pliku są niepoprawne,
+4 - jeżeli nie udało się przydzielić pamięci na którymkolwiek z etapów wczytywania pliku danych.
+0 - w przypadku poprawnego odczytania danych.
+Wczytując pliki pamiętaj o tym, że:
+
+W przypadku plików tekstowych, każda z tablic jest zapisana w oddzielnej linii, zakończonej liczbą -1.
+W pliku binarnym wszystkie liczby są zapisane w ciągu, jedna po drugiej, łącznie z liczbami -1. Terminator NULL nie jest zapisywany; o końcu danych świadczy koniec pliku.
+Wartości zwracane:
+
+1 - w przypadku błędnych danych wejściowych,
+2 - jeżeli nie udało się utworzyć pliku lub
+0 - w przypadku sukcesu.
+Pamiętaj, aby w przypadku stwierdzenia braku pamięci (kod 4) zwolnić całą przydzieloną wcześniej pamięć. Funkcja load nie może generować wycieków pamięci.
+
+Wykorzystując strukturę statistics_t przygotuj funkcję statistics_row do generowania statystyk dla poszczególnych wierszy danego zbioru. Struktura powinna wyglądać następująco:
+
+struct statistic_t
+{
+    int min;
+    int max;
+    float avg;
+    float standard_deviation;
+    int range;
+};    
+Funkcja wyznacza indywidualne statystyki dla każdego wiersza danych ze zbioru ptr. Statystyki są zapisywane do tablicy struktur stats, którą funkcja statistics_row powinna sama utworzyć i zwrócić przez wskaźnik stats.
+
+int statistics_row(int **ptr, struct statistic_t **stats);
+Wartość zwracana:
+
+-1 - w przypadku błędnych danych wejściowych,
+-2 - jeżeli nie udało się przydzielić pamięci lub
+> 0 - liczba wpisów w tablicy stats w przypadku powodzenia.
+Jeżeli w którymś wierszu nie będzie danych to odpowiadający mu wpis w tablicy stats powinien zostać wypełniony w całości wartościami -1.
+
+void destroy(int ***ptr);
+Funkcja zwalnia pamięć przydzieloną na zbiór danych i ustawia wartość wskaźnika *ptr na NULL. W przypadku przekazania wartości NULL w parametrze ptr funkcja ma nie podejmować żadnej akcji.
+
+Napisz program, który pobierze od użytkownika nazwę pliku z zapisanym w nim zbiorem danych (rozszerzenie .bin oznacza plik binarny, .txt plik tekstowy).
+
+Pamięć na nazwę pliku ma zostać przydzielona dynamicznie. Przyjmij, że nazwa pliku nie będzie dłuższa niż 39 znaków.
+
+Jeżeli alokacja nie powiedzie się, program powinien wyświetlić komunikat Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+Jeżeli podany przez użytkownika plik będzie posiadał inne rozszerzenie to program powinien wyświetlić komunikat Unsupported file format i zakończyć działanie z kodem błędu 7.
+Po uzyskaniu poprawnej nazwy pliku wejściowego (poprawne rozszerzenie) należy wczytać go funkcją load i postąpić odpowiednio, w zależności od wyniku funkcji load:
+
+Jeżeli nie udało się otworzyć pliku ze zbiorem danych to program ma wyświetlić komunikat Couldn't open file i zakończyć działanie z kodem błędu 4.
+Jeżeli dane w pliku są nieprawidłowe, program ma wyświetlić komunikat File corrupted i przerwanie działanie z kodem błędu 6.
+W przypadku braku pamięci na zbiór danych program powinien poinformować użytkownika komunikatem Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+Jeżeli udało się wczytać poprawnie zbiór liczb z pliku to program powinien wyznaczyć dla niego szczegółowe statystyki - dla każdego wiersza osobno (funkcja statistics_row). Statystyki powinny zostać wyświetlone dla każdego wiersza w osobnej liniach, w następującej kolejności:
+
+wartość minimalną,
+wartość maksymalną,
+wartość rozstępu,
+wartość średnią,
+wartość odchylenia standardowego.
+W przypadku, kiedy nie będzie możliwe przydzielenie pamięci na tablicę ze statystykami program powinien wyświetlić komunikat Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+
+Przykładowa interakcja z programem -- sukces (plik binarny):
+
+Podaj nazwe pliku: eachartmixareabeatfreeseelocatenume.bin⏎
+3 96 93 28.38 32.53⏎
+-98 -4 94 -56.14 30.96⏎
+11 35 24 23.00 12.00⏎
+-82 -72 10 -77.00 5.00⏎
+18 52 34 35.00 17.00⏎
+-88 -6 82 -42.80 26.52⏎
+-80 -4 76 -40.22 25.31⏎
+-85 -32 53 -63.67 22.84⏎
+28 80 52 53.71 16.86⏎
+27 76 49 41.00 20.33⏎
+-86 -29 57 -66.33 26.41⏎
+-1 -1 -1 -1.00 -1.00⏎
+Plik wejściowy.
+
+Przykładowa interakcja z programem -- sukces (plik tekstowy):
+
+Podaj nazwe pliku: markrundevelopbodyplanthistoryviewo.txt⏎
+-96 -20 76 -68.67 24.61⏎
+4 89 85 58.71 25.72⏎
+13 95 82 52.11 29.38⏎
+-96 -15 81 -48.17 29.92⏎
+55 67 12 61.00 6.00⏎
+5 98 93 52.78 35.85⏎
+-1 -1 -1 -1.00 -1.00⏎
+-93 -8 85 -47.11 26.74⏎
+5 94 89 48.60 34.44⏎
+0 87 87 53.75 28.32⏎
+5 79 74 40.57 28.16⏎
+-85 -16 69 -48.14 26.59⏎
+-99 -8 91 -75.00 29.52⏎
+Plik wejściowy.
+
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit sterty: 0 bajtów
+
+Failed to allocate memory⏎
+Limit sterty: 40 bajtów
+
+Podaj nazwe pliku: stone.txt⏎
+Failed to allocate memory⏎```
+Przykładowa interakcja z programem -- uszkodzenie pliku, błedne rozszerzenie, brak pliku:
+
+Podaj nazwe pliku: above.txt⏎
+File corrupted
+Podaj nazwe pliku: deadtxt⏎
+Unsupported file format
+Podaj nazwe pliku: nature.txt⏎
+Couldn't open file
+Uwagi
+W programie nie wolno używać operatora [].
