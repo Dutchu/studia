@@ -3,4 +3,6 @@ project(sort C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(sort main.c)
+add_executable(sort
+        main.c
+        comparators.c)
