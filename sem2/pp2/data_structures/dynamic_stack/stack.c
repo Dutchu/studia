@@ -1,97 +1,82 @@
-// Implementation of dynamic integer stack
+// Linked-list based integer stack implementation
 #include <stdlib.h>
 #include <stdio.h>
 #include "stack.h"
 
-int stack_init(struct stack_t **stack, int N)
+int stack_init(struct stack_t **stack)
 {
-    if (stack == NULL || N <= 0)
+    if (stack == NULL)
         return 1;
 
     *stack = (struct stack_t *)malloc(sizeof(struct stack_t));
     if (*stack == NULL)
         return 2;
 
-    (*stack)->data = (int *)malloc((size_t)N * sizeof(int));
-    if ((*stack)->data == NULL)
-    {
-        free(*stack);
-        *stack = NULL;
-        return 2;
-    }
-
-    (*stack)->head = 0;
-    (*stack)->capacity = N;
+    (*stack)->head = NULL;
     return 0;
 }
 
 int stack_push(struct stack_t *stack, int value)
 {
-    if (stack == NULL || stack->data == NULL || stack->capacity <= 0 || stack->head < 0)
-        return 1;
-    if (stack->head > stack->capacity)
+    if (stack == NULL)
         return 1;
 
-    if (stack->head >= stack->capacity)
-    {
-        int new_capacity = stack->capacity * 2;
-        if (new_capacity <= 0)
-            return 2;
-        int *tmp = (int *)realloc(stack->data, (size_t)new_capacity * sizeof(int));
-        if (tmp == NULL)
-            return 2;
-        stack->data = tmp;
-        stack->capacity = new_capacity;
-    }
+    struct node_t *node = (struct node_t *)malloc(sizeof(struct node_t));
+    if (node == NULL)
+        return 2;
 
-    *(stack->data + stack->head) = value;
-    stack->head += 1;
+    node->data = value;
+    node->next = stack->head;
+    stack->head = node;
     return 0;
 }
 
 int stack_pop(struct stack_t *stack, int *err_code)
 {
-    if (stack == NULL || stack->data == NULL || stack->head < 0 || stack->capacity <= 0)
+    if (stack == NULL || stack->head == NULL)
     {
-        if (err_code) *err_code = 1;
-        return 0;
-    }
-    if (stack->head > stack->capacity)
-    {
-        if (err_code) *err_code = 1;
+        if (err_code) *err_code = 1; // invalid input or empty stack
         return 0;
     }
 
-    if (stack->head == 0)
-    {
-        if (err_code) *err_code = 2;
-        return 0;
-    }
-
-    stack->head -= 1;
-    int value = *(stack->data + stack->head);
+    struct node_t *node = stack->head;
+    int value = node->data;
+    stack->head = node->next;
+    free(node);
     if (err_code) *err_code = 0;
     return value;
 }
 
-void stack_display(const struct stack_t *stack)
+int stack_empty(const struct stack_t *stack)
 {
-    if (stack == NULL || stack->data == NULL || stack->head < 0 || stack->capacity <= 0)
-        return;
-    if (stack->head > stack->capacity)
-        return;
-
-    for (int i = stack->head - 1; i >= 0; --i)
-    {
-        int v = *(stack->data + i);
-        printf("%d ", v);
-    }
+    if (stack == NULL)
+        return 2;
+    return stack->head == NULL ? 1 : 0;
 }
 
-void stack_free(struct stack_t *stack)
+void stack_display(const struct stack_t *stack)
 {
     if (stack == NULL)
         return;
-    free(stack->data);
-    free(stack);
+    const struct node_t *it = stack->head;
+    while (it)
+    {
+        printf("%d ", it->data);
+        it = it->next;
+    }
+}
+
+void stack_destroy(struct stack_t **stack)
+{
+    if (stack == NULL || *stack == NULL)
+        return;
+    struct node_t *it = (*stack)->head;
+    while (it)
+    {
+        struct node_t *next = it->next;
+        free(it);
+        it = next;
+    }
+    free(*stack);
+    *stack = NULL;
 }

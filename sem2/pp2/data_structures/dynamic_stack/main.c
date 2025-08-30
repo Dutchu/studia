@@ -5,7 +5,7 @@
 int main(void)
 {
     struct stack_t *stack = NULL;
-    int rc = stack_init(&stack, 10);
+    int rc = stack_init(&stack);
     if (rc == 2)
     {
         printf("Failed to allocate memory\n");
@@ -13,7 +13,6 @@ int main(void)
     }
     else if (rc != 0)
     {
-        // Should not happen with valid arguments; treat as fatal
         return 1;
     }
 
@@ -24,13 +23,13 @@ int main(void)
         if (scanf("%d", &op) != 1)
         {
             printf("Incorrect input\n");
-            stack_free(stack);
+            stack_destroy(&stack);
             return 1;
         }
 
         if (op == 0)
         {
-            stack_free(stack);
+            stack_destroy(&stack);
             return 0;
         }
         else if (op == 1)
@@ -40,7 +39,7 @@ int main(void)
             if (scanf("%d", &value) != 1)
             {
                 printf("Incorrect input\n");
-                stack_free(stack);
+                stack_destroy(&stack);
                 return 1;
             }
 
@@ -48,28 +47,43 @@ int main(void)
             if (prc == 2)
             {
                 printf("Failed to allocate memory\n");
-                stack_free(stack);
+                stack_destroy(&stack);
                 return 8;
             }
-            // For prc == 1 (invalid data), ignore; not expected in normal flow
         }
         else if (op == 2)
         {
             int err = 0;
             int v = stack_pop(stack, &err);
-            if (err == 2)
+            if (err == 1)
             {
                 printf("Stack is empty\n");
             }
-            else if (err == 0)
+            else
             {
                 printf("%d\n", v);
             }
-            // err == 1 -> invalid data; ignore
         }
         else if (op == 3)
         {
-            if (stack && stack->head == 0)
+            int e = stack_empty(stack);
+            if (e == 2)
+            {
+                // invalid input; treat as fatal to keep behavior deterministic
+                stack_destroy(&stack);
+                return 1;
+            }
+            printf(e == 1 ? "1\n" : "0\n");
+        }
+        else if (op == 4)
+        {
+            int e = stack_empty(stack);
+            if (e == 2)
+            {
+                stack_destroy(&stack);
+                return 1;
+            }
+            if (e == 1)
             {
                 printf("Stack is empty\n");
             }
