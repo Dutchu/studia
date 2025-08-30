@@ -1,0 +1,108 @@
+Przygotuj makra do generowania struktur zadanego typu oraz funkcji API do tych struktur. Skorzystaj z umiejętności nabytych podczas realizacji zadania 9.14 Makra i funkcje.
+
+Makra:
+
+DEFINE_ARRAY(TYPE) - makro generuje strukturę o nazwie tworzonej według wzoru:
+
+nazwa array_TYPE_t,
+struktura ma zawierać 3 pola: size typu int, capacity typu int oraz wskaźnika data na tablicę danych typu TYPE. Przykładowo, dla typu int struktura powinna wyglądać następująco:
+  struct array_int_t {
+ 	int size;
+ 	int capacity;
+ 	int *data;
+ }
+CREATE_ARRAY(TYPE) - makro generuje funkcję przydzielającą pamięć na strukturę array_TYPE_t oraz tablicę elementów typu TYPE. Prototyp funkcji ma wyglądać następująco:
+
+struct array_TYPE_t *create_array_TYPE(int size);
+Funkcja zwraca wskaźnik na strukturę array_TYPE_t lub NULL w przypadku porażki.
+
+FREE_ARRAY(TYPE) - makro generuje funkcję zwalniającą pamięć struktury array_TYPE_t danej wskaźnikiem array oraz tablicę elementów typu TYPE w tej strukturze. Prototyp funkcji ma wyglądać następująco:
+
+void free_array_TYPE(struct array_TYPE_t *array);
+Funkcja nie podejmuje żadnych działań w przypadku podania przekazania błędnych/uszkodzonych danych.
+
+SAVE_ARRAY(TYPE) - makro generuje funkcję zapisującą tablicę elementów typu TYPE ze struktury array_TYPE_t danej wskaźnikiem array do pliku o nazwie filename w formie binarnej. Prototyp funkcji ma wyglądać następująco:
+
+int save_array_TYPE(const struct array_TYPE_t *array, const char *filename);
+Funkcja zwraca:
+
+0 - w przypadku sukcesu,
+1 - w przypadku przekazania do funkcji błędnych danych,
+2 jeżeli nie uda się utworzyć pliku.
+Format pliku jest następujący:
+
+liczba int (4 bajty) zawierająca liczbę elementów typu TYPE następujących po niej (patrz pole size),
+sekwencja elementów TYPE (size elementów).
+LOAD_ARRAY(TYPE) - makro generuje funkcję wczytującą tablicę elementów typu TYPE z pliku o nazwie filename i zapisującą ją do struktury array. Funkcja musi przydzielić pamięć zarówno na strukturę, jak i na tablicę. Prototyp funkcji ma wyglądać następująco:
+
+int load_array_TYPE(struct array_TYPE_t **array, const char *filename);
+Funkcja zwraca:
+
+0 - w przypadku sukcesu,
+1 - w przypadku przekazania do funkcji błędnych danych,
+2 - jeżeli nie uda się otworzyć pliku,
+3 - jeżeli dane w pliku są nieprawidłowe/uszkodzone,
+4 - w przypadku niepowodzenia alokacji pamięci.
+SORT_ARRAY(TYPE) - makro generuje funkcję sortującą rosnąco tablicę elementów typu TYPE. Prototyp funkcji ma wyglądać następująco:
+
+int sort_array_TYPE(struct array_TYPE_t *array);
+Funkcja zwraca:
+
+0 - w przypadku sukcesu
+1 - w przypadku przekazania do funkcji błędnych danych.
+Definicje makr umieść w pliku functions.h.
+
+Podpowiedź:
+
+Przestudiuj makra preprocesora języka C. Szczególnie zwróć uwagę na stringifikację (utekstowienie) oraz łączenie.
+Pamiętaj, że za rozwiązywanie makr odpowiada preprocesor, który przetwarza kod programu zanim ten trafi do kompilatora. Możesz myśleć o makrach jako o "inteligentnym" mechanizmie kopiuj/wklej.
+Napisz program do wczytywania danych z pliku podanego przez użytkownika, sortowania ich oraz ponownego zapisywania. Do realizacji tej funkcjonalności wykorzystaj przygotowane makra/generatory - wygeneruj nimi API dla typów int oraz double.
+
+Na początku program powinien pobrać od użytkownika nazwę pliku (tablica na nazwę alokowana dynamicznie na 30 znaków), a następnie typ danych zapisanych w pliku:
+
+0 - oznacza liczby typu int,
+1 - oznacza liczbę zmiennoprzecinkową podwójnej precyzji.
+Następnie, program powinien wczytać dane z pliku, posortować je rosnąco, oraz zapisać ponownie do tego samego pliku.
+
+W przypadku wprowadzenia błędnych znaków program powinien wyświetlić komunikat Incorrect input i zakończyć działanie z kodem błędu 1.
+W przypadku wprowadzenia błędnych danych program powinien wyświetlić komunikat Incorrect input data i zakończyć działanie z kodem błędu 2.
+Jeżeli nie uda się otworzyć pliku program powinien wyświetlić komunikat Couldn't open file i zakończyć działanie z kodem błędu 4.
+Jeżeli nie uda się utworzyć pliku wyjściowego, to komunikat Couldn't create file i zakończyć działanie z kodem błędu 5.
+Jeżeli dane w pliku będą uszkodzone, to komunikat File corrupted i zwrócić wartość 6.
+W przypadku niepowodzenia przydziału pamięci program powinien wyświetlić komunikat Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+Ostatecznie, jeżeli wszystkie operacje zakończą się sukcesem, program powinien wyświetlić komunikat File saved i zakończyć działanie z kodem błędu 0.
+
+Przykładowa interakcja z programem -- sukces:
+
+Plik: wejściowy miss.bin, wyjściowy miss.bin, wejściowy hot.bin, wyjściowy hot.bin.
+
+Enter filename: miss.bin⏎
+Choose your type: 0⏎
+File saved
+Plik: wejściowy salt.bin, wyjściowy salt.bin.
+
+Enter filename: salt.bin⏎
+Choose your type: 1⏎
+File saved
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit sterty: 31 bajtów, plik war.bin.
+
+Enter filename: war.bin⏎
+Choose your type: 1⏎
+Failed to allocate memory⏎
+Przykładowa interakcja z programem -- błąd wejścia/wyjścia:
+
+Enter filename: music.bin⏎
+Choose your type: 0⏎
+Couldn't create file⏎
+Przykładowa interakcja z programem -- błąd danych:
+
+Enter filename: best.bin⏎
+Choose your type: CANFcetz⏎
+Incorrect input
+Enter filename: all.bin⏎
+Choose your type: 2⏎
+Incorrect input data
+Uwagi
+w programie nie wolno używać operatora [].
