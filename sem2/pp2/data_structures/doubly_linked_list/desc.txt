@@ -1,0 +1,259 @@
+Napisz program pozwalający użytkownikowi na wykonywanie dowolnej operacji na liście dwukierunkowej z poziomu konsoli (menu tekstowe).
+
+W tym celu zaimplementuj listę wiązaną dwukierunkową, opartą o następujące struktury oraz API:
+
+struct doubly_linked_list_t
+{
+  struct node_t *head;
+  struct node_t *tail;
+};
+
+struct node_t
+{
+  int data;
+  struct node_t *next;
+  struct node_t *prev;
+};
+
+gdzie:
+
+head - wskaźnik na pierwszy element listy, jeżeli lista jest pusta powinien być ustawiony na NULL,
+tail - wskaźnik na ostatni element listy, jeżeli lista jest pusta powinien być ustawiony na NULL.
+next - wskaźnik na następny element listy, jeżeli nie ma następnego elementu to NULL
+prev - wskaźnik na poprzedni element listy, jeżeli nie ma poprzedniego elementu to NULL,
+data - wartość przechowywana w elemencie listy
+Przygotuj następujące funkcje, umożliwiające obsługę listy:
+
+struct doubly_linked_list_t* dll_create();
+
+int dll_push_back(struct doubly_linked_list_t* dll, int value);
+int dll_push_front(struct doubly_linked_list_t* dll, int value);
+int dll_pop_front(struct doubly_linked_list_t* dll, int *err_code);
+int dll_pop_back(struct doubly_linked_list_t* dll, int *err_code);
+
+int dll_back(const struct doubly_linked_list_t* dll, int *err_code);
+int dll_front(const struct doubly_linked_list_t* dll, int *err_code);
+
+struct node_t* dll_begin(struct doubly_linked_list_t* dll);
+struct node_t* dll_end(struct doubly_linked_list_t* dll);
+
+int dll_size(const struct doubly_linked_list_t* dll);
+int dll_is_empty(const struct doubly_linked_list_t* dll);
+
+int dll_at(const struct doubly_linked_list_t* dll, unsigned int index, int *err_code);
+
+int dll_insert(struct doubly_linked_list_t* dll, unsigned int index, int value);
+int dll_remove(struct doubly_linked_list_t* dll, unsigned int index, int *err_code);
+
+void dll_clear(struct doubly_linked_list_t* dll);
+
+void dll_display(const struct doubly_linked_list_t* dll);
+void dll_display_reverse(const struct doubly_linked_list_t* dll);
+Deklaracje wszystkich funkcji oraz struktur umieść w pliku nagłówkowym doubly_linked_list.h, a definicje w pliku doubly_linked_list.c.
+
+struct doubly_linked_list_t* dll_create();
+Funkcja przydziela pamięć na strukturę doubly_linked_list_t, inicjuje ją na pustą listę dwukierunkową i zwraca adres przydzielonej struktury. Jeżeli operacja się nie powiedzie to zwraca NULL.
+
+int dll_push_back(struct doubly_linked_list_t* dll, int value);
+int dll_push_front(struct doubly_linked_list_t* dll, int value);
+Funkcje dodają element o wartości value na koniec (push_back) lub początek (push_front) listy dll. Funkcje zwracają:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych lub
+2 jeżeli nie uda się przydzielić pamięci.
+int dll_pop_front(struct doubly_linked_list_t* dll, int *err_code);
+int dll_pop_back(struct doubly_linked_list_t* dll, int *err_code);
+Funkcje usuwają pierwszy (pop_front) lub ostatni (pop_back) element z listy dll zwracając jego wartość. Do zmiennej err_code, o ile to możliwe, zapisany powinien zostać kod błędu:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych.
+int dll_front(const struct doubly_linked_list_t* dll, int *err_code);
+int dll_back(const struct doubly_linked_list_t* dll, int *err_code);
+Funkcje zwracają wartość pierwszego (front) lub ostatniego (back) elementu z listy dll bez usuwania tego elementu. Do zmiennej err_code, o ile to możliwe, zapisany powinien zostać kod błędu:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych.
+struct node_t* dll_begin(struct doubly_linked_list_t* dll);
+struct node_t* dll_end(struct doubly_linked_list_t* dll);
+Funkcje zwracają:
+
+wskaźnik na pierwszy (begin) lub ostatni (end) elementu listy dll lub
+NULL jeżeli nie będzie to możliwe.
+int dll_size(const struct doubly_linked_list_t* dll);
+Funkcja zwraca:
+
+liczbę elementów w liście dll lub
+-1 w przypadku błędnych danych wejściowych.
+int dll_is_empty(const struct doubly_linked_list_t* dll);
+Funkcja sprawdza czy lista dll jest pusta. Funkcja zwraca:
+
+1 jeżeli lista jest pusta,
+0 jeżeli w liście znajdują się jakieś elementy lub
+-1 w przypadku błędnych danych wejściowych.
+int dll_at(const struct doubly_linked_list_t* dll, unsigned int index, int *err_code);
+Funkcja zwraca wartość elementu spod indeksu index listy dll. Indeks elementu liczony jest względem pierwszego elementu (head). Do zmiennej err_code, o ile to możliwe, zapisany powinien zostać kod błędu:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych.
+int dll_insert(struct doubly_linked_list_t* dll, unsigned int index, int value);
+Funkcja dodają element o wartości value na pozycję index listy dll. Funkcja zwraca:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych lub
+2 jeżeli nie uda się przydzielić pamięci.
+Przykład:
+
+Dana jest lista sześciu elementów ll = ABCDEF.
+Element x jest wstawiany na pozycję 3.
+Lista ll po zmianie: ABCxDEFG.
+int dll_remove(struct doubly_linked_list_t* dll, unsigned int index, int *err_code);
+Funkcja usuwa element spod indeksu index z listy dll i zwraca jego wartość. Do zmiennej err_code, o ile to możliwe, zapisany powinien zostać kod błędu:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych.
+void dll_clear(struct doubly_linked_list_t* dll);
+Funkcja usuwa wszystkie elementy z listy dll (zwalnia również pamięć).
+
+void dll_display(const struct doubly_linked_list_t* dll);
+Funkcja wyświetla wszystkie elementy z listy dll, w jednym wierszu, oddzielone spacjami. Jeżeli lista jest pusta to funkcja nie podejmuje żadnej akcji.
+
+
+void dll_display_reverse(const struct doubly_linked_list_t* dll);
+
+Funkcja wyświetla wszystkie elementy z listy dll, w jednym wierszu, oddzielone spacjami. Elementy należy wyświetlać od ostatniego (tail).
+
+Jeżeli lista jest pusta to funkcja nie podejmuje żadnej akcji.
+
+Napisz program, który pozwoli użytkownikowi na wykonywanie podstawowych operacji na liście dwukierunkowej.
+
+Na początek program powinien zaalokować pamięć na listę.
+
+Jeżeli nie uda się zaalokować żądanego obszaru pamięci program powinien wyświetlić komunikat Failed to allocate memory i zwrócić kod błędu 8.
+W przypadku wprowadzenia przez użytkownika błędnych znaków program powinien bezzwłocznie zakończyć działanie z kodem błędu 1 i komunikatem Incorrect input.
+Jeżeli udało się utworzyć listę, program powinien zapytać użytkownika o wybór operacji:
+
+0 - Zakończenie działania programu.
+1 - Dodanie elementu na koniec listy.
+Program pobiera od użytkownika wartość, która ma zostać dodana do listy.
+2 - Usunięcie ostatniego elementu z listy.
+Program powinien wyświetlić wartość elementu.
+Jeżeli lista jest pusta to program powinien wyświetlić komunikat List is empty.
+3 - Dodanie elementu na początek listy.
+Program pobiera od użytkownika wartość, która ma zostać dodana do listy,
+4 - Usunięcie pierwszego elementu z listy.
+Program powinien wyświetlić wartość elementu.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty.
+5 - Dodanie elementu do listy na pozycji podanej przez użytkownika.
+Program pobiera od użytkownika wartość do dodania a następnie indeks, pod który ma zostać dodany nowy element.
+W przypadku podania błędnych danych program powinien wyświetlić komunikat Index out of range i kontynuować działanie,
+6 - Usunięcie elementu spod indeksu podanego przez użytkownika z listy.
+Program powinien wyświetlić wartość elementu.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty
+W przeciwnym przypadku program pobiera od użytkownika indeks elementu do usunięcia.
+W przypadku podania błędnych danych program powinien wyświetlić komunikat Index out of range i kontynuować działanie.
+7 - Wyświetlenie wartości ostatniego elementu listy.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty.
+8 - Wyświetlenie wartości pierwszego elementu listy.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty.
+9 - Sprawdzanie czy lista jest pusta. Program powinien wypisać:
+1 jeżeli lista jest pusta lub
+0 w przeciwnym przypadku.
+10 - Wyświetlenie liczby elementów znajdujących się w liście.
+11 - Usunięcie wszystkich elementów z listy.
+12 - Wyświetlenie wartości elementu spod indeksu indeksu index listy.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty.
+W przeciwnym przypadku program pobiera od użytkownika indeks, spod którego ma zostać wyświetlona wartość.
+W przypadku podania błędnych danych program powinien wyświetlić komunikat Index out of range i kontynuować działanie.
+13 - Wyświetlenie wartości wszystkich elementów znajdujących się w liście.
+14 - Wyświetlenie od końca wartości wszystkich elementów znajdujących się w liście.
+W przypadku podania innej wartości program powinien wyświetlić komunikat Incorrect input data i kontynuować działanie.
+Przykładowa interakcja z programem -- sukces:
+
+Co chcesz zrobic? 2⏎
+List is empty⏎
+Co chcesz zrobic? 7⏎
+List is empty⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe 2⏎
+Co chcesz zrobic? 5⏎
+Podaj liczbe 2⏎
+Podaj index 0⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe -3⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe 5⏎
+Co chcesz zrobic? 5⏎
+Podaj liczbe -8⏎
+Podaj index 0⏎
+Co chcesz zrobic? 10⏎
+5⏎
+Co chcesz zrobic? 8⏎
+-8⏎
+Co chcesz zrobic? 13⏎
+-8 5 -3 2 2 ⏎
+Co chcesz zrobic? 7⏎
+2⏎
+Co chcesz zrobic? 8⏎
+-8⏎
+Co chcesz zrobic? 14⏎
+2 2 -3 5 -8 ⏎
+Co chcesz zrobic? 12⏎
+Podaj index 0⏎
+-8⏎
+Co chcesz zrobic? 10⏎
+5⏎
+Co chcesz zrobic? 13⏎
+-8 5 -3 2 2 ⏎
+Co chcesz zrobic? 13⏎
+-8 5 -3 2 2 ⏎
+Co chcesz zrobic? 8⏎
+-8⏎
+Co chcesz zrobic? 8⏎
+-8⏎
+Co chcesz zrobic? 0⏎
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit sterty: 16 bajtów
+
+Co chcesz zrobic? 1⏎
+Podaj liczbe 5⏎
+Failed to allocate memory⏎
+Limit sterty: 136 bajtów
+
+Co chcesz zrobic? 1⏎
+Podaj liczbe 4⏎
+Co chcesz zrobic? 1⏎
+Podaj liczbe 4⏎
+Co chcesz zrobic? 1⏎
+Podaj liczbe -10⏎
+Co chcesz zrobic? 1⏎
+Podaj liczbe 6⏎
+Co chcesz zrobic? 1⏎
+Podaj liczbe 0⏎
+Co chcesz zrobic? 1⏎
+Podaj liczbe -2⏎
+Failed to allocate memory⏎
+Przykładowa interakcja z programem -- błąd danych:
+
+(...)
+Co chcesz zrobic? 5⏎
+Podaj liczbe 2⏎
+Podaj index 0⏎
+Co chcesz zrobic? WEduuDaej⏎
+Incorrect input
+(...)
+Co chcesz zrobic? 19⏎
+Incorrect input data⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe -1⏎
+(...)
+(...)
+Co chcesz zrobic? 6⏎
+Podaj index 2⏎
+Index out of range⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe -8⏎
+(...)
+Uwagi
+W programie nie wolno deklarować zmiennej typu struct doubly_linked_list_t, zamiast tego zadeklaruj wskaźnik na strukturę.
+W programie nie wolno używać operatora []!
