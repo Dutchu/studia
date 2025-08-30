@@ -1,0 +1,30 @@
+Wykorzystując operatory bitowe napisz funkcje sprawdzające:
+
+czy dwie liczby całkowite są równe oraz
+czy liczba jest ujemna. Funkcje powinny mieć następujący prototypy:
+int is_equal(int a, int b);
+int is_negative(int value);
+Funkcja is_equal przyjmuje liczby a oraz b do porównania. Zwraca:
+
+1 jeśli są równe lub
+0 jeśli nie są.
+Funkcja is_negative zwraca:
+
+1 jeśli liczba value jest ujemna lub
+0 jeśli nie jest.
+Napisz program, który przyjmuje od użytkownika dwie liczby całkowite ze znakiem a następnie porównuje je. Na podstawie wyniku porównania należy wyświetlić napis rowne lub nierowne. Następnie należy sprawdzić znaki obu liczb i w kolejnej linii wyświetlić komentarze dla obu liczb: ujemna lub nieujemna.
+
+W przypadku wprowadzenia przez użytkownika nieprawidłowych znaków program powinien zostać przerwany z kodem błędu 1 i komunikatem Incorrect input.
+Uwagi
+W programie nie można wykorzystać następujących operatorów: -, ==, <, >, <=, >= oraz !=
+W programie nie można wykorzystywać unii bitowych.
+Przykładowa interakcja z programem -- sukces:
+
+Podaj dwie liczby: ⏎
+0 -2⏎
+nierowne⏎
+nieujemna ujemna
+Przykładowa interakcja z programem -- błąd danych:
+
+Podaj dwie liczby: 123 abc⏎
+Incorrect input⏎
