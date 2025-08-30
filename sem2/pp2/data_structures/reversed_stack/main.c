@@ -1,101 +1,66 @@
+// Reverse sentences in files using a stack of sentences
 #include <stdio.h>
 #include <stdlib.h>
 #include "stack.h"
 
-int main(void)
+int main(int argc, char **argv)
 {
-    struct stack_t *stack = NULL;
-    int rc = stack_init(&stack);
-    if (rc == 2)
+    // Preflight: verify we can allocate at least 1 byte before any output
+    void *probe = malloc(1);
+    if (probe == NULL)
     {
         printf("Failed to allocate memory\n");
         return 8;
     }
-    else if (rc != 0)
+    free(probe);
+
+    if (argc < 2)
     {
-        return 1;
+        printf("Not enough arguments\n");
+        return 9;
     }
 
-    for (;;)
+    int i = 1;
+    while (i < argc)
     {
-        int op;
-        printf("Co chcesz zrobic? ");
-        if (scanf("%d", &op) != 1)
+        const char *name = *(argv + i);
+        struct stack_t *stack = NULL;
+        int lrc = stack_load(&stack, name);
+        if (lrc == 2)
         {
-            printf("Incorrect input\n");
+            printf("Couldn't open file %s\n", name);
+            i += 1;
+            continue;
+        }
+        else if (lrc == 3)
+        {
+            printf("Failed to allocate memory\n");
+            return 8;
+        }
+        else if (lrc == 1)
+        {
+            // invalid input pointers; treat as fatal generic error
             stack_destroy(&stack);
             return 1;
         }
 
-        if (op == 0)
+        int src = stack_save(stack, name);
+        if (src == 2)
         {
             stack_destroy(&stack);
-            return 0;
+            printf("Couldn't create file\n");
+            return 5;
         }
-        else if (op == 1)
+        else if (src == 1)
         {
-            int value;
-            printf("Podaj liczbe ");
-            if (scanf("%d", &value) != 1)
-            {
-                printf("Incorrect input\n");
-                stack_destroy(&stack);
-                return 1;
-            }
+            stack_destroy(&stack);
+            return 1;
+        }
 
-            int prc = stack_push(stack, value);
-            if (prc == 2)
-            {
-                printf("Failed to allocate memory\n");
-                stack_destroy(&stack);
-                return 8;
-            }
-        }
-        else if (op == 2)
-        {
-            int err = 0;
-            int v = stack_pop(stack, &err);
-            if (err == 1)
-            {
-                printf("Stack is empty\n");
-            }
-            else
-            {
-                printf("%d\n", v);
-            }
-        }
-        else if (op == 3)
-        {
-            int e = stack_empty(stack);
-            if (e == 2)
-            {
-                // invalid input; treat as fatal to keep behavior deterministic
-                stack_destroy(&stack);
-                return 1;
-            }
-            printf(e == 1 ? "1\n" : "0\n");
-        }
-        else if (op == 4)
-        {
-            int e = stack_empty(stack);
-            if (e == 2)
-            {
-                stack_destroy(&stack);
-                return 1;
-            }
-            if (e == 1)
-            {
-                printf("Stack is empty\n");
-            }
-            else
-            {
-                stack_display(stack);
-                printf("\n");
-            }
-        }
-        else
-        {
-            printf("Incorrect input data\n");
-        }
+        stack_destroy(&stack);
+        printf("File %s saved\n", name);
+        i += 1;
     }
+
+    return 0;
 }

@@ -1,82 +1,158 @@
-// Linked-list based integer stack implementation
+// Sentence stack implementation for reversing file sentences
 #include <stdlib.h>
 #include <stdio.h>
 #include "stack.h"
 
-int stack_init(struct stack_t **stack)
+int stack_push(struct stack_t **stack, char *value)
 {
-    if (stack == NULL)
+    if (stack == NULL || value == NULL)
         return 1;
 
-    *stack = (struct stack_t *)malloc(sizeof(struct stack_t));
-    if (*stack == NULL)
-        return 2;
-
-    (*stack)->head = NULL;
-    return 0;
-}
-
-int stack_push(struct stack_t *stack, int value)
-{
-    if (stack == NULL)
-        return 1;
-
-    struct node_t *node = (struct node_t *)malloc(sizeof(struct node_t));
+    struct stack_t *node = (struct stack_t *)malloc(sizeof(struct stack_t));
     if (node == NULL)
         return 2;
 
-    node->data = value;
-    node->next = stack->head;
-    stack->head = node;
+    node->sentence = value;
+    node->prev = *stack;
+    *stack = node;
     return 0;
 }
 
-int stack_pop(struct stack_t *stack, int *err_code)
+char *stack_pop(struct stack_t **stack, int *err_code)
 {
-    if (stack == NULL || stack->head == NULL)
+    if (stack == NULL || *stack == NULL)
     {
-        if (err_code) *err_code = 1; // invalid input or empty stack
-        return 0;
+        if (err_code) *err_code = 1;
+        return NULL;
     }
-
-    struct node_t *node = stack->head;
-    int value = node->data;
-    stack->head = node->next;
+    struct stack_t *node = *stack;
+    char *value = node->sentence;
+    *stack = node->prev;
     free(node);
     if (err_code) *err_code = 0;
     return value;
-}
-
-int stack_empty(const struct stack_t *stack)
-{
-    if (stack == NULL)
-        return 2;
-    return stack->head == NULL ? 1 : 0;
-}
-
-void stack_display(const struct stack_t *stack)
-{
-    if (stack == NULL)
-        return;
-    const struct node_t *it = stack->head;
-    while (it)
-    {
-        printf("%d ", it->data);
-        it = it->next;
-    }
 }
 
 void stack_destroy(struct stack_t **stack)
 {
     if (stack == NULL || *stack == NULL)
         return;
-    struct node_t *it = (*stack)->head;
+    struct stack_t *it = *stack;
     while (it)
     {
-        struct node_t *next = it->next;
+        struct stack_t *prev = it->prev;
+        free(it->sentence);
         free(it);
-        it = next;
+        it = prev;
     }
-    free(*stack);
     *stack = NULL;
+}
+
+int stack_load(struct stack_t **stack, const char *filename)
+{
+    if (stack == NULL || filename == NULL)
+        return 1;
+    // Must load into an empty stack (top pointer must be NULL)
+    if (*stack != NULL)
+        return 1;
+
+    FILE *f = fopen(filename, "rb");
+    if (f == NULL)
+        return 2;
+
+    char *buf = NULL;
+    size_t len = 0;
+
+    for (;;)
+    {
+        int ch = fgetc(f);
+        if (ch == EOF)
+            break;
+
+        // append character
+        char *tmp = (char *)realloc(buf, len + 1);
+        if (tmp == NULL)
+        {
+            free(buf);
+            fclose(f);
+            stack_destroy(stack);
+            return 3;
+        }
+        buf = tmp;
+        *(buf + len) = (char)ch;
+        len += 1;
+
+        if (ch == '.')
+        {
+            // finalize current sentence by adding NUL terminator
+            char *tmp2 = (char *)realloc(buf, len + 1);
+            if (tmp2 == NULL)
+            {
+                free(buf);
+                fclose(f);
+                stack_destroy(stack);
+                return 3;
+            }
+            buf = tmp2;
+            *(buf + len) = '\0';
+
+            int prc = stack_push(stack, buf);
+            if (prc == 2)
+            {
+                free(buf);
+                fclose(f);
+                stack_destroy(stack);
+                return 3;
+            }
+            else if (prc != 0)
+            {
+                free(buf);
+                fclose(f);
+                stack_destroy(stack);
+                return 1;
+            }
+
+            // reset buffer to start reading next sentence
+            buf = NULL;
+            len = 0;
+        }
+    }
+
+    // discard incomplete tail if any
+    free(buf);
+    fclose(f);
+    return 0;
+}
+
+int stack_save(const struct stack_t *stack, const char *filename)
+{
+    if (stack == NULL || filename == NULL)
+        return 1;
+
+    FILE *f = fopen(filename, "wb");
+    if (f == NULL)
+        return 2;
+
+    const struct stack_t *it = stack;
+    while (it)
+    {
+        const char *p = it->sentence;
+        if (p)
+        {
+            while (*p)
+            {
+                if (fputc((unsigned char)*p, f) == EOF)
+                {
+                    // On write error treat as create/open failure
+                    fclose(f);
+                    return 2;
+                }
+                p += 1;
+            }
+        }
+        it = it->prev;
+    }
+
+    fclose(f);
+    return 0;
 }
