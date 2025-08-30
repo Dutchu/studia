@@ -1,6 +1,6 @@
-#include <stdio.h>
+// Minimal main for compilation only per task statement.
+#include "my_io.h"
 
 int main() {
-    printf("Hello My I/O!");
     return 0;
 }
