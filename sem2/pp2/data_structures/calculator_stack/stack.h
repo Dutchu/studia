@@ -4,7 +4,7 @@
 
 struct node_t
 {
-    int data;
+    double data;
     struct node_t* next;
 };
 
@@ -14,10 +14,11 @@ struct stack_t
 };
 
 int stack_init(struct stack_t **stack);
-int stack_push(struct stack_t *stack, int value);
+int stack_push(struct stack_t *stack, double value);
 void stack_display(const struct stack_t *stack);
-int stack_pop(struct stack_t *stack, int *err_code);
+double stack_pop(struct stack_t *stack, int *err_code);
 void stack_destroy(struct stack_t **stack);
 int stack_empty(const struct stack_t *stack);
+int stack_size(const struct stack_t *stack);
 
 #endif // SIMPLE_STACK_STACK_H

@@ -1,4 +1,4 @@
-// Linked-list based integer stack implementation
+// Linked-list based double stack implementation
 #include <stdlib.h>
 #include <stdio.h>
 #include "stack.h"
@@ -16,7 +16,7 @@ int stack_init(struct stack_t **stack)
     return 0;
 }
 
-int stack_push(struct stack_t *stack, int value)
+int stack_push(struct stack_t *stack, double value)
 {
     if (stack == NULL)
         return 1;
@@ -31,16 +31,16 @@ int stack_push(struct stack_t *stack, int value)
     return 0;
 }
 
-int stack_pop(struct stack_t *stack, int *err_code)
+double stack_pop(struct stack_t *stack, int *err_code)
 {
     if (stack == NULL || stack->head == NULL)
     {
         if (err_code) *err_code = 1; // invalid input or empty stack
-        return 0;
+        return 0.0;
     }
 
     struct node_t *node = stack->head;
-    int value = node->data;
+    double value = node->data;
     stack->head = node->next;
     free(node);
     if (err_code) *err_code = 0;
@@ -54,6 +54,20 @@ int stack_empty(const struct stack_t *stack)
     return stack->head == NULL ? 1 : 0;
 }
 
+int stack_size(const struct stack_t *stack)
+{
+    if (stack == NULL)
+        return -1;
+    int count = 0;
+    const struct node_t *it = stack->head;
+    while (it)
+    {
+        ++count;
+        it = it->next;
+    }
+    return count;
+}
+
 void stack_display(const struct stack_t *stack)
 {
     if (stack == NULL)
@@ -61,7 +75,7 @@ void stack_display(const struct stack_t *stack)
     const struct node_t *it = stack->head;
     while (it)
     {
-        printf("%d ", it->data);
+        printf("%f ", it->data);
         it = it->next;
     }
 }
