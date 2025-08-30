@@ -1,0 +1,70 @@
+Napisz program realizujący wybrane operacje bitowe na podanej liczbie oraz bicie. Przygotuj następujące funkcje:
+
+int toggle_bit(uint32_t* pvalue, int b);
+int set_bit(uint32_t* pvalue, int b);
+int clear_bit(uint32_t* pvalue, int b);
+int isset_bit(const uint32_t* pvalue, int b);
+Funkcje przyjmują wskaźnik pvalue na liczbę typu uint32_t (całkowitą, 32bitową, bez znaku) oraz numer bitu b o zakresie wartości adekwatnym dla typu uint32_t.
+
+Funkcja toggle_bit przełącza stan b-tego bitu liczby pod adresem w ptr.
+Funkcja set_bit ustawia b-ty bit liczby pod adresem ptr.
+Funkcja clear_bit zeruje b-ty bit liczby pod adresem ptr.
+Funkcja isset_bit zwraca wartość (0 lub 1) będącą wartością b-tego bitu pod adresem ptr.
+Wartość zwracana:
+
+W przypadku niepoprawnych danych wejściowych funkcje mają zwrócić -1
+a w przypadku sukcesu 0. Wyjątkiem jest funkcja isset_bit.
+Napisz program, który pobiera od użytkownika liczbę typu uint32_t oraz następnie numer bitu.
+
+Jeśli numer bitu jest niewłaściwy dla typu wprowadzonej liczby to program powinien wyświetlić komunikat Invalid bit index i zakończyć się z kodem błędu 1.
+W przypadku wprowadzenia przez użytkownika nieprawidłowych znaków program powinien zostać przerwany z kodem błędu 1 i komunikatem Incorrect input.
+Następnie program ma wyświetlić menu dostępnych operacji oraz pobrać numer operacji do wykonania. Menu:
+
+0 - przełączenie,
+
+1 - ustawianie,
+
+2 - czyszczenie,
+
+3 - sprawdzanie wartości
+
+W przypadku podania niewłaściwego numeru program ma być przerwany (komunikat Invalid operation wraz z kodem błędu 1).
+
+W przypadku wprowadzenia przez użytkownika nieprawidłowych znaków program powinien zostać przerwany z kodem błędu 1 i komunikatem Incorrect input.
+
+Po wykonaniu operacji 0-2, na podanym bicie oraz liczbie, program powinien wyświetlić zmodyfikowaną liczbę w pełnej formie szesnastkowej. W przypadku operacji sprawdzenia wartości bitu program powinien wyświetlić stan tego bitu dziesiętnie.
+
+Uwagi
+W programie nie można wykorzystywać unii bitowych.
+Przykładowa interakcja z programem -- sukces:
+
+Enter a value: ⏎
+1042520947⏎
+Enter an index of a bit: ⏎
+15⏎
+Select operation (0-toggle, 1-set, 2-clear, 3-read): ⏎
+2⏎
+3e231b73⏎
+Przykładowa interakcja z programem -- sukces:
+
+Enter a value: ⏎
+1705876625⏎
+Enter an index of a bit: ⏎
+5⏎
+Select operation (0-toggle, 1-set, 2-clear, 3-read): ⏎
+3⏎
+0⏎
+Przykładowa interakcja z programem -- błąd danych:
+
+Enter a value: ⏎
+1772247531⏎
+Enter an index of a bit: ⏎
+-6⏎
+Invalid bit index⏎
+Enter a value: ⏎
+548343480⏎
+Enter an index of a bit: ⏎
+31⏎
+Select operation (0-toggle, 1-set, 2-clear, 3-read): ⏎
+-1⏎
+Invalid operation⏎
