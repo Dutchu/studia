@@ -1,0 +1,67 @@
+Napisz funkcję wyznaczającą liczbę wystąpień poszczególnych słów w tekście zapisanym w pliku. Prototyp funkcji powinien wyglądać następująco:
+
+int* count_words(const char *filename, int *err_code, int N, ...) {
+gdzie:
+
+filename - nazwa pliku, dla którego ma zostać wyznaczona statystyka,
+err_code - zmienna, do której ma zostać zapisany kod błędu (o ile to możliwe):
+0 - w przypadku sukcesu,
+1 - w przypadku przekazania do funkcji błędnych danych,
+2 - w przypadku, kiedy żądany plik nie będzie istniał,
+3 - w przypadku niepowodzenia alokacji pamięci.
+N - liczba słów, dla których ma zostać wyznaczona liczba wystąpień,
+... - poszczególne słowa.
+Funkcja powinna zwrócić tablicę liczb całkowitych, w której zawartość poszczególnych komórek będzie odpowiadała liczbie wystąpień kolejnych słów, podanych w liście ...
+
+Przykład wywołania:
+
+Plik plik.txt = ala ma kota, ala ma psa
+
+int err;
+int* counts = count_words("plik.txt", &err, 3, "ala", "kota", "chomika");
+// counts == [2, 1, 0]
+free(counts);
+Napisz program, który dla przekazanego pliku oraz wyrazów przekazanych w parametrach programu wyznaczy statystyki wystąpień poszczególnych wyrazów w pliku.
+
+Wyznaczone statystyki powinny być wyświetlone w oddzielnych liniach.
+
+Program powinien zwrócić wartość:
+
+0 i wyświetlić liczbę wystąpień poszczególnych wyrazów w oddzielnych liniach,
+4 i wyświetlić komunikat Couldn't open file w przypadku kiedy plik źródłowy nie będzie istniał,
+8 i wyświetlić komunikat Failed to allocate memory w przypadku kiedy nie powiedzie się alokacja pamięci,
+9 i wyświetlić komunikat Not enough arguments w przypadku wywołania programu ze zbyt małą liczbą argumentów.
+Przykładowa interakcja z programem -- sukces:
+
+Plik about.txt:
+
+$> ./main about.txt numquam Dolore quaerat Dolore
+9⏎
+6⏎
+15⏎
+6⏎
+Plik create.txt:
+
+$> ./main create.txt voluptatem Neque sit quisquam quisquam quiquia quaerat
+14⏎
+4⏎
+9⏎
+10⏎
+10⏎
+16⏎
+16⏎
+Przykładowa interakcja z programem -- brak pliku:
+
+$> ./main non_existent cLBHqK
+Couldn't open file
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit sterty: 3 bajty, plik istnieje i zawiera słowo numquam
+
+$> ./main 2 life numquam
+Failed to allocate memory⏎
+Uwagi
+W programie nie wolno używać operatora [].
+Testy wywołują skompilowany program z dodatkowym parametrem 0, sterującym pracą testów:
+./main 0 store near
+Wartość ta jest wykorzystywana przez testy i nie jest przekazywana do testowanej funkcji main. Dostanie ona jedynie store oraz near.
