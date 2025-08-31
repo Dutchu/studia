@@ -2,6 +2,49 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int matrix_create(struct matrix_t *m, int width, int height) {
+    if (m == NULL || width < 1 || height < 1) {
+        return 1;
+    }
+
+    m->width = width;
+    m->height = height;
+    m->ptr = (int**)malloc((size_t)height * sizeof(int*));
+    if (m->ptr == NULL) {
+        m->width = 0;
+        m->height = 0;
+        return 2;
+    }
+
+    for (int i = 0; i < height; ++i) {
+        *(m->ptr + i) = (int*)malloc((size_t)width * sizeof(int));
+        if (*(m->ptr + i) == NULL) {
+            for (int j = 0; j < i; ++j) {
+                free(*(m->ptr + j));
+            }
+            free(m->ptr);
+            m->ptr = NULL;
+            m->width = 0;
+            m->height = 0;
+            return 2;
+        }
+    }
+    return 0;
+}
+
+void matrix_destroy(struct matrix_t *m) {
+    if (m == NULL || m->ptr == NULL) {
+        return;
+    }
+    for (int i = 0; i < m->height; ++i) {
+        free(*(m->ptr + i));
+    }
+    free(m->ptr);
+    m->ptr = NULL;
+    m->width = 0;
+    m->height = 0;
+}
+
 struct matrix_t* matrix_create_struct(int width, int height) {
     if (width < 1 || height < 1) {
         return NULL;
@@ -232,6 +275,11 @@ struct matrix_t* matrix_load_t(const char *filename, int *err_code) {
         fclose(f);
         return NULL;
     }
+    if (width < 1 || height < 1) {
+        if (err_code) *err_code = 3;
+        fclose(f);
+        return NULL;
+    }
     struct matrix_t* m = matrix_create_struct(width, height);
     if (m == NULL) {
         if (err_code) *err_code = 4;
@@ -269,6 +317,11 @@ struct matrix_t* matrix_load_b(const char *filename, int *err_code) {
         fclose(f);
         return NULL;
     }
+    if (width < 1 || height < 1) {
+        if (err_code) *err_code = 3;
+        fclose(f);
+        return NULL;
+    }
     struct matrix_t* m = matrix_create_struct(width, height);
     if (m == NULL) {
         if (err_code) *err_code = 4;
@@ -290,12 +343,61 @@ struct matrix_t* matrix_load_b(const char *filename, int *err_code) {
 
 void matrix_display(const struct matrix_t *m) {
     if (m == NULL || m->ptr == NULL || m->width < 1 || m->height < 1) {
-        printf("Error\n");
-        return;
+        return; // do not print anything on invalid input
     }
     for (int i = 0; i < m->height; ++i) {
         for (int j = 0; j < m->width; ++j) {
             printf("%d ", *(*(m->ptr + i) + j));
+        }
+        printf("\n");
+    }
+}
+
+void matrix_display_add(const struct matrix_t *m1, const struct matrix_t *m2) {
+    if (m1 == NULL || m2 == NULL || m1->ptr == NULL || m2->ptr == NULL ||
+        m1->width != m2->width || m1->height != m2->height ||
+        m1->width < 1 || m1->height < 1) {
+        printf("Error\n");
+        return;
+    }
+    for (int i = 0; i < m1->height; ++i) {
+        for (int j = 0; j < m1->width; ++j) {
+            int v = *(*(m1->ptr + i) + j) + *(*(m2->ptr + i) + j);
+            printf("%d ", v);
+        }
+        printf("\n");
+    }
+}
+
+void matrix_display_subtract(const struct matrix_t *m1, const struct matrix_t *m2) {
+    if (m1 == NULL || m2 == NULL || m1->ptr == NULL || m2->ptr == NULL ||
+        m1->width != m2->width || m1->height != m2->height ||
+        m1->width < 1 || m1->height < 1) {
+        printf("Error\n");
+        return;
+    }
+    for (int i = 0; i < m1->height; ++i) {
+        for (int j = 0; j < m1->width; ++j) {
+            int v = *(*(m1->ptr + i) + j) - *(*(m2->ptr + i) + j);
+            printf("%d ", v);
+        }
+        printf("\n");
+    }
+}
+
+void matrix_display_multiply(const struct matrix_t *m1, const struct matrix_t *m2) {
+    if (m1 == NULL || m2 == NULL || m1->ptr == NULL || m2->ptr == NULL ||
+        m1->width != m2->height || m1->width < 1 || m1->height < 1 || m2->width < 1) {
+        printf("Error\n");
+        return;
+    }
+    for (int i = 0; i < m1->height; ++i) {
+        for (int j = 0; j < m2->width; ++j) {
+            int sum = 0;
+            for (int k = 0; k < m1->width; ++k) {
+                sum += *(*(m1->ptr + i) + k) * *(*(m2->ptr + k) + j);
+            }
+            printf("%d ", sum);
         }
         printf("\n");
     }

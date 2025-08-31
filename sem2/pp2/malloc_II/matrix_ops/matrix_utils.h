@@ -31,5 +31,15 @@ int matrix_save_b(const struct matrix_t *m, const char *filename);
 
 int matrix_save_t(const struct matrix_t *m, const char *filename);
 
+// Compatibility API expected by tests
+int matrix_create(struct matrix_t *m, int width, int height);
+void matrix_destroy(struct matrix_t *m);
+
+
+// Streaming display (no temporary result allocations)
+void matrix_display_add(const struct matrix_t *m1, const struct matrix_t *m2);
+void matrix_display_subtract(const struct matrix_t *m1, const struct matrix_t *m2);
+void matrix_display_multiply(const struct matrix_t *m1, const struct matrix_t *m2);
+
 
 #endif //MALLOC_II_MATRIX_UTILS_H

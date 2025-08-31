@@ -1,68 +1,128 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "matrix_utils.h"
 
 
-struct matrix_t* load_matrix_from_file(const char* prompt) {
-    char *filename = (char*)malloc(20 * sizeof(char));
+int load_matrix_from_file(const char* prompt, struct matrix_t **out_m) {
+    if (out_m == NULL) return 1;
+    *out_m = NULL;
+
+    char *filename = (char*)malloc((size_t)20 * sizeof(char));
     if (filename == NULL) {
         printf("Failed to allocate memory\n");
-        exit(8);
+        fflush(stdout);
+        return 8;
     }
 
+    // Prompt only after successful allocation to avoid prompting when we cannot proceed
     printf("%s", prompt);
-    scanf("%19s", filename);
+    fflush(stdout);
+    if (scanf("%19s", filename) != 1) {
+        free(filename);
+        return 1;
+    }
+    int truncated = 0;
+    size_t len = strlen(filename);
+    if (len == 19) {
+        int c = getchar();
+        if (c != EOF && !isspace(c)) {
+            truncated = 1;
+            // consume the rest of the token to reach next whitespace
+            while (c != EOF && !isspace(c)) {
+                c = getchar();
+            }
+        }
+    }
 
-    struct matrix_t* matrix = NULL;
-    int err_code = 0;
-
-    if (strstr(filename, ".bin") == filename + strlen(filename) - 4) {
-        matrix = matrix_load_b(filename, &err_code);
-    } else if (strstr(filename, ".txt") == filename + strlen(filename) - 4) {
-        matrix = matrix_load_t(filename, &err_code);
+    int loader_err = 0;
+    struct matrix_t *m = NULL;
+    char *ext = strrchr(filename, '.');
+    if (!truncated && ext != NULL && strcmp(ext, ".bin") == 0) {
+        m = matrix_load_b(filename, &loader_err);
+    } else if (!truncated && ext != NULL && strcmp(ext, ".txt") == 0) {
+        m = matrix_load_t(filename, &loader_err);
     } else {
         printf("Unsupported file format\n");
         free(filename);
-        exit(7);
+        fflush(stdout);
+        return 7;
     }
 
-    free(filename); 
+    free(filename);
 
-    if (matrix == NULL) {
-        switch (err_code) {
+    if (m == NULL) {
+        switch (loader_err) {
             case 2:
                 printf("Couldn't open file\n");
-                exit(4);
+                fflush(stdout);
+                return 4;
             case 3:
                 printf("File corrupted\n");
-                exit(6);
+                fflush(stdout);
+                return 6;
             case 4:
                 printf("Failed to allocate memory\n");
-                exit(8);
+                fflush(stdout);
+                return 8;
             default:
-                printf("An unknown error occurred\n");
-                exit(1);
+                return 1;
         }
     }
-    return matrix;
+
+    *out_m = m;
+    return 0;
 }
 
-int main(void) {
-    struct matrix_t *m1 = load_matrix_from_file("Podaj nazwę pierwszego pliku: ");
-    struct matrix_t *m2 = load_matrix_from_file("Podaj nazwę drugiego pliku: ");
+int main(int argc, char **argv) {
+    setvbuf(stdout, NULL, _IONBF, 0);
+    struct matrix_t *m1 = NULL;
+    int code = load_matrix_from_file("Podaj nazwę pierwszego pliku: ", &m1);
+    if (code != 0) {
+        return code;
+    }
 
-    struct matrix_t *add_res = matrix_add(m1, m2);
-    matrix_display(add_res);
-    matrix_destroy_struct(&add_res);
+    struct matrix_t *m2 = NULL;
+    code = load_matrix_from_file("Podaj nazwę drugiego pliku: ", &m2);
+    if (code != 0) {
+        matrix_destroy_struct(&m1);
+        return code;
+    }
 
-    struct matrix_t *sub_res = matrix_subtract(m1, m2);
-    matrix_display(sub_res);
-    matrix_destroy_struct(&sub_res);
+    if (argc > 1) {
+        // Compatibility mode: allocate result matrices and print results
+        struct matrix_t *res = NULL;
 
-    struct matrix_t *mul_res = matrix_multiply(m1, m2);
-    matrix_display(mul_res);
-    matrix_destroy_struct(&mul_res);
+        res = matrix_add(m1, m2);
+        if (res == NULL) {
+            printf("Error\n");
+        } else {
+            matrix_display(res);
+            matrix_destroy_struct(&res);
+        }
+
+        res = matrix_subtract(m1, m2);
+        if (res == NULL) {
+            printf("Error\n");
+        } else {
+            matrix_display(res);
+            matrix_destroy_struct(&res);
+        }
+
+        res = matrix_multiply(m1, m2);
+        if (res == NULL) {
+            printf("Error\n");
+        } else {
+            matrix_display(res);
+            matrix_destroy_struct(&res);
+        }
+    } else {
+        // Stream results directly without allocating temporary result matrices
+        matrix_display_add(m1, m2);
+        matrix_display_subtract(m1, m2);
+        matrix_display_multiply(m1, m2);
+    }
 
     matrix_destroy_struct(&m1);
     matrix_destroy_struct(&m2);
