@@ -1,0 +1,50 @@
+Napisz program, który pobierze od użytkownika wyrażenie w postaci nazw plików z macierzami oraz operatorów +, - oraz *. Następnie wykona odpowiednie obliczenia i ostateczny wynik wyświetli na ekranie. Wykorzystaj funkcje macierzowe z zadań 5.4 Macierz, 5.5 Macierz 2 oraz 5.6 Operacje na macierzach.
+
+Na początku przydziel pamięć na tablicę, do której zapisane zostanie wyrażenie podane przez użytkownika. Przyjmij założenie, że długość wyrażenia nie przekroczy 500 znaków.
+
+Przykładowa operacja:
+
+macierz1.txt+macierz2.txt*macierz3.bin
+Jeżeli nie będzie możliwe wykonanie którejkolwiek z operacji program powinien wyświetlić komunikat Illegal operation i zakończyć działanie z kodem błędu 1. Przykładem możeb być próba zsumowania macierzy o róznych rozmiarach.
+
+W przypadku, kiedy nie uda się otworzyć któregoś z plików wejściowych program powinien wyświetlić komunikat Couldn't open file i zakończyć działanie z kodem błędu 4
+
+Jeżeli dane w pliku będą niepoprawne/uszkodzone to wyjść z komunikatem File corrupted i kodem błędu 6.
+
+Jeżeli rozszerzenie pliku będzie nieprawidłowe to program powinien o tym poinformować użytkownika komunikatem Unsupported file format i zakończyć działanie z kodem błędu 7 (patrz zadania 5.4 Macierz, 5.5 Macierz 2 oraz 5.6 Operacje na macierzach).
+
+Ponadto, jeżeli w którymkolwiek miejscu głównego programu nie powiedzie się alokacja pamięci to program powinien wyświetlić komunikat Failed to allocate memory i bezzwłocznie zakończyć pracę z kodem błędu 8. Dotyczy to również alokacji pamięci pod wyrażenie wejściowe.
+
+Przykład interakcji z programem -- sukces:
+
+Podaj wyrażenie: office.bin*season.bin-thank.bin*door.txt+cotton.txt+jump.bin+ran.txt+brother.txt*after.bin*equal.bin+include.bin⏎
+-253032  -290583   475868   78751  261114  136640   39169   221802  -64411 ⏎
+-3483      60730    41690   43004   44729   78837  128681   163698  -78950 ⏎
+-884019  -972111  1286763  364558  770986  784613  383618  1522411 -543443 ⏎
+-931556 -1042838  1417611  415744  853768  813758  468619  1744724 -635544 ⏎
+731792   1051188  -900943 -168817 -457998 -531922   33674  -991786  309931 ⏎
+211067    416485  -303978   17672  -66154 -218628   27716  -434194  102219 ⏎
+-490188  -562724   723021  207132  419303  449621  256486   984359 -357349 ⏎
+719520    906539 -1053709 -260931 -601147 -578705 -188345 -1156855  416442 ⏎
+-144590  -433524  -113471   19977 -126533  266079   20127   836487 -285922 ⏎
+Pliki wejściowe: office.bin, season.bin, thank.bin, door.txt, cotton.txt, jump.bin, fran.txt, include.bin, brother.txt, after.bin, equal.bin.
+
+Przykład interakcji z programem -- jedna z macierzy ma rozmiary niepozwalające na wykonanie operacji:
+
+Podaj wyrażenie: baby.txt-island.bin-reach.txt*camp.bin*shape.txt-ring.bin+blue.bin*skin.txt+clock.txt-said.txt+together.bin+press.bin-dollar.bin+invent.bin⏎
+Illegal operation
+Przykład interakcji z programem -- brak jednego z plików:
+
+Podaj wyrażenie: slip.bin*mountain.bin*enter.txt+power.bin+begin.txt-draw.txt+string.bin-develop.bin⏎
+Couldn't open file
+Przykład interakcji z programem -- brak/złe rozszerzenie pliku:
+
+Podaj wyrażenie: music.txt*reply.txt+gardentxt⏎
+Unsupported file format
+Przykład interakcji z programem -- jeden z plików jest uszkodzony:
+
+Podaj wyrażenie: told.txt-pick.bin+silent.bin*represent.bin-arm.txt*chart.txt-interest.bin-hole.txt⏎
+File corrupted
+Uwagi
+W programie nie wolno używać operatora '[]'.
+Deklaracje funkcji oraz definicję struktury umieść w pliku nagłówkowym matrix_utils.h, a definicje funkcji w pliku matrix_utils.c!
