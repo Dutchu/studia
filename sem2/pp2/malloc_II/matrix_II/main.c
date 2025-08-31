@@ -39,21 +39,23 @@ int main(void) {
     printf("Podaj sciezke do pliku:\n");
     scanf("%39s", filename);
 
+    int save_status = -1;
+    /* Try to transpose (tests expect allocation here to possibly fail) */
     struct matrix_t *transposed_matrix = matrix_transpose(matrix);
     if (transposed_matrix == NULL) {
-        printf("Failed to allocate memory\n");
+        printf("failed to allocate memory\n");
         free(filename);
         matrix_destroy_struct(&matrix);
         return 8;
     }
 
-    int save_status = -1;
-    if (strstr(filename, ".bin") == filename + strlen(filename) - 4) {
+    size_t fname_len = strlen(filename);
+    if (fname_len >= 4 && strcmp(filename + (fname_len - 4), ".bin") == 0) {
         save_status = matrix_save_b(transposed_matrix, filename);
-    } else if (strstr(filename, ".txt") == filename + strlen(filename) - 4) {
+    } else if (fname_len >= 4 && strcmp(filename + (fname_len - 4), ".txt") == 0) {
         save_status = matrix_save_t(transposed_matrix, filename);
     } else {
-        printf("Unsupported file format\n");
+        printf("unsupported file format\n");
         free(filename);
         matrix_destroy_struct(&transposed_matrix);
         matrix_destroy_struct(&matrix);
@@ -61,13 +63,13 @@ int main(void) {
     }
 
     if (save_status == 2) {
-        printf("Couldn't create file\n");
+        printf("couldn't create file\n");
         free(filename);
         matrix_destroy_struct(&transposed_matrix);
         matrix_destroy_struct(&matrix);
         return 5;
     } else if (save_status == 0) {
-        printf("File saved\n");
+        printf("file saved\n");
     }
 
     free(filename);
