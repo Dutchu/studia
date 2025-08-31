@@ -264,13 +264,13 @@ int statistics_row(int **ptr, struct statistic_t **stats) {
 int main() {
     char *filename = (char *) malloc(40 * sizeof(char));
     if (filename == NULL) {
-        printf("Failed to allocate memory\n");
+        printf("Failed to allocate memory");
         return 8;
     }
 
     printf("Podaj nazwe pliku: ");
     if (scanf("%39s", filename) != 1) {
-        printf("Couldn't read filename\n");
+        printf("Couldn't read filename");
         free(filename);
         return 1;
     }
@@ -278,7 +278,7 @@ int main() {
     enum save_format_t format;
     char *ext = strrchr(filename, '.');
     if (ext == NULL || (strcmp(ext, ".txt") != 0 && strcmp(ext, ".bin") != 0)) {
-        printf("Unsupported file format\n");
+        printf("Unsupported file format");
         free(filename);
         return 7;
     }
@@ -294,16 +294,16 @@ int main() {
 
     switch (err) {
         case 2:
-            printf("Couldn't open file\n");
+            printf("Couldn't open file");
             free(filename);
             return 4;
         case 3:
-            printf("File corrupted\n");
+            printf("File corrupted");
             free(filename);
             destroy(&data);
             return 6;
         case 4:
-            printf("Failed to allocate memory\n");
+            printf("Failed to allocate memory");
             free(filename);
             return 8;
     }
@@ -312,7 +312,7 @@ int main() {
     int num_rows = statistics_row(data, &stats);
 
     if (num_rows == -2) {
-        printf("Failed to allocate memory\n");
+        printf("Failed to allocate memory");
         free(filename);
         destroy(&data);
         return 8;
