@@ -13,3 +13,5 @@ add_subdirectory("${PROJECT_SOURCE_DIR}/matrix_ops" "${PROJECT_SOURCE_DIR}/matri
 add_subdirectory("${PROJECT_SOURCE_DIR}/img_in_img" "${PROJECT_SOURCE_DIR}/img_in_img/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/statistics" "${PROJECT_SOURCE_DIR}/statistics/cmake-build-debug-wsl")
 add_subdirectory("${PROJECT_SOURCE_DIR}/matrix_files" "${PROJECT_SOURCE_DIR}/matrix_files/cmake-build-debug-wsl")
+add_subdirectory("${PROJECT_SOURCE_DIR}/rectangle" "${PROJECT_SOURCE_DIR}/rectangle/cmake-build-debug-wsl")
+add_subdirectory("${PROJECT_SOURCE_DIR}/mirror_image" "${PROJECT_SOURCE_DIR}/mirror_image/cmake-build-debug-wsl")
