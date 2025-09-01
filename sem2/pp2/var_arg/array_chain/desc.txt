@@ -1,0 +1,152 @@
+Napisz i przetestuj funkcję łączącą N tablic w jedną o następującym wywołaniu:
+
+int* result = connect(data_type_int, 2, (int []){18, -13, -10, -1}, (int []){-7, 1, 20, -2, -1});
+Funkcja ma przyjmować w parametrze:
+
+typ danych,
+liczbę tablic oraz kolejne tablice; koniec danych w tablicy będzie oznaczony wartością -1.
+Wartość zwracana:
+
+W przypadku sukcesu funkcja powinna zwrócić adres zaalokowanej pamięci na tablicę wynikową,
+NULL w przypadku błędnych danych wejściowych lub w przypadku niepowodzenia alokacji pamięci.
+Funkcja powinna obsługiwać następujące typy danych: short, int, float, double i long. Typ danych ma być przekazany do funkcji za pomocą typu wyliczeniowego o nazwie data_type_t (umieść go w pliku nagłówkowym data_type.h.), a pola powinny mieć nazwy zgodne ze wzorcem: data_type_NAZWATYPU (np. data_typ_short).
+
+Przyjmij następującą zależność nazwa typu data_type_t i jej wartości:
+
+0 - short
+1 - int
+2 - float
+3 - double
+4 - long
+Napisz program, który pobierze od użytkownika typ danych (0-4), następnie liczbę tablic do wprowadzenia (liczba tablic powinna być z zakresu 2 - 4). Program powinien zaalokować pamięć na tablicę tablic. W dalszej kolejności program powinien pobierać od użytkownika liczbę elementów do pobrania dla każdej z tablic oraz same elementy.
+
+UWAGA: Wszystkie tablice powinny być alokowane dynamicznie, rozmiar tablic powinien odpowiadać dokładnej liczbie elementów, które mają zostać do niej zapisane.
+
+Następnie, używając przygotowanej wcześniej funkcji, program powinien połączyć tablice w jedną oraz wyświetlić wynik ich połączenia.
+
+W przypadku niepowodzenia alokacji pamięci program powinien wyświetlić komunikat Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+W przypadku wprowadzenia błędnych znaków program powinien wyświetlić komunikat Incorrect input i zakończyć działanie z kodem błędu 1.
+W przypadku błędnych danych wejściowych komunikat Incorrect input data i zakończyć działanie z kodem błędu 2.
+Przykładowa interakcja z programem -- sukces:
+
+Podaj typ danych do wprowadzenia: 0⏎
+Podaj liczbę tablic do wprowadzenia: 2⏎
+Podaj liczbę elementów: 4⏎
+Podaj liczby: 13198 -21820 31004 17468⏎
+Podaj liczbę elementów: 10⏎
+Podaj liczby: 8536 -6120 31209 4159 3090 29620 -8633 9804 25050 -14744⏎
+13198 -21820 31004 17468 8536 -6120 31209 4159 3090 29620 -8633 9804 25050 -14744
+Podaj typ danych do wprowadzenia: 1⏎
+Podaj liczbę tablic do wprowadzenia: 2⏎
+Podaj liczbe elementów: 5⏎
+Podaj liczby: -1682758964 625446075 -987799357 -768891976 1145793215 ⏎
+Podaj liczbe elementów: 8⏎
+Podaj liczby: -464071611 736941668 -1284086243 -681338352 -1644704167 927937490 1629968476 746019885 ⏎
+-1682758964 625446075 -987799357 -768891976 1145793215 -464071611 736941668 -1284086243 -681338352 -1644704167 927937490 1629968476 746019885
+Podaj typ danych do wprowadzenia: 2⏎
+Podaj liczbę tablic do wprowadzenia: 3⏎
+Podaj liczbe elementów: 2⏎
+Podaj liczby: 1543698304.000000 1632917760.000000 ⏎
+Podaj liczbe elementów: 6⏎
+Podaj liczby: -1343933312.000000 1114173696.000000 -1017467328.000000 -1685539072.000000 1104521984.000000 1589446400.000000 ⏎
+Podaj liczbe elementów: 10⏎
+Podaj liczby: 66074160.000000 1718993152.000000 -766287552.000000 869980288.000000 -1172962432.000000 1938579712.000000 1372081152.000000 881807936.000000 -473061056.000000 991107776.000000 ⏎
+1543698304.000000 1632917760.000000 -1343933312.000000 1114173696.000000 -1017467328.000000 -1685539072.000000 1104521984.000000 1589446400.000000 66074160.000000 1718993152.000000 -766287552.000000 869980288.000000 -1172962432.000000 1938579712.000000 1372081152.000000 881807936.000000 -473061056.000000 991107776.000000
+Podaj typ danych do wprowadzenia: 3⏎
+Podaj liczbę tablic do wprowadzenia: 3⏎
+Podaj liczbe elementów: 6⏎
+Podaj liczby: 1470547017167117824.000000 -569187911635062784.000000 1611391488550195200.000000 -913335767635329024.000000 -3014326221726208.000000 -687025101968769536.000000 ⏎
+Podaj liczbe elementów: 8⏎
+Podaj liczby: 1858497404455746560.000000 -1092624252026896384.000000 -136695033462176768.000000 1782832101629554688.000000 2082304066038778880.000000 2206359849694499840.000000 724933581873523712.000000 1512616683112862208.000000 ⏎
+Podaj liczbe elementów: 7⏎
+Podaj liczby: -1248110263009641472.000000 -111145059401772544.000000 -1366764901037449728.000000 1487737961826200064.000000 -1656510149516580864.000000 100457488006598144.000000 459708437159504896.000000 ⏎
+1470547017167117824.000000 -569187911635062784.000000 1611391488550195200.000000 -913335767635329024.000000 -3014326221726208.000000 -687025101968769536.000000 1858497404455746560.000000 -1092624252026896384.000000 -136695033462176768.000000 1782832101629554688.000000 2082304066038778880.000000 2206359849694499840.000000 724933581873523712.000000 1512616683112862208.000000 -1248110263009641472.000000 -111145059401772544.000000 -1366764901037449728.000000 1487737961826200064.000000 -1656510149516580864.000000 100457488006598144.000000 459708437159504896.000000
+Podaj typ danych do wprowadzenia: 4⏎
+Podaj liczbę tablic do wprowadzenia: 4⏎
+Podaj liczbe elementów: 7⏎
+Podaj liczby: 1516774220044654728 -1540920891565521303 -1028861127404037891 -510766251239665608 -1163849637290526128 390686458761230105 -575948768023293599 ⏎
+Podaj liczbe elementów: 7⏎
+Podaj liczby: -302270228230921198 -2239290835675813963 645338172683410520 -1010236480208649085 -1207635027541807321 -1121942350668546699 1433166950236153859 ⏎
+Podaj liczbe elementów: 7⏎
+Podaj liczby: -904389649400570163 1989313567395542055 963453405388480724 1566224288527858394 1387906658681094759 1942940292758795817 88286189625995708 ⏎
+Podaj liczbe elementów: 7⏎
+Podaj liczby: -747731035000616177 -1845973821348548920 1026915648542892977 300715208160158299 1769112426761997169 -1440936478794568495 810744652322818971 ⏎
+1516774220044654728 -1540920891565521303 -1028861127404037891 -510766251239665608 -1163849637290526128 390686458761230105 -575948768023293599 -302270228230921198 -2239290835675813963 645338172683410520 -1010236480208649085 -1207635027541807321 -1121942350668546699 1433166950236153859 -904389649400570163 1989313567395542055 963453405388480724 1566224288527858394 1387906658681094759 1942940292758795817 88286189625995708 -747731035000616177 -1845973821348548920 1026915648542892977 300715208160158299 1769112426761997169 -1440936478794568495 810744652322818971
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit sterty: 32 bajty
+
+Podaj typ danych do wprowadzenia: 0⏎
+Podaj liczbę tablic do wprowadzenia: 4⏎
+Podaj liczbe elementów: 3⏎
+Failed to allocate memory⏎
+Limit sterty: 58 bajtów
+
+Podaj typ danych do wprowadzenia: 0⏎
+Podaj liczbę tablic do wprowadzenia: 4⏎
+Podaj liczbe elementów: 3⏎
+Podaj liczby: 0 3 4 ⏎
+Podaj liczbe elementów: 4⏎
+Podaj liczby: -4 5 -3 10 ⏎
+Podaj liczbe elementów: 3⏎
+Podaj liczby: 9 7 -8 ⏎
+Podaj liczbe elementów: 3⏎
+Failed to allocate memory⏎
+Limit sterty: 84 bajty
+
+Podaj typ danych do wprowadzenia: 2⏎
+Podaj liczbę tablic do wprowadzenia: 4⏎
+Podaj liczbe elementów: 3⏎
+Podaj liczby: -1 -2 -4 ⏎
+Podaj liczbe elementów: 4⏎
+Podaj liczby: 10 8 -3 -9 ⏎
+Podaj liczbe elementów: 3⏎
+Podaj liczby: 6 -4 9 ⏎
+Podaj liczbe elementów: 3⏎
+Failed to allocate memory⏎
+Limit sterty: 136 bajtów
+
+Podaj typ danych do wprowadzenia: 3⏎
+Podaj liczbę tablic do wprowadzenia: 4⏎
+Podaj liczbe elementów: 3⏎
+Podaj liczby: -8 3 1 ⏎
+Podaj liczbe elementów: 4⏎
+Podaj liczby: -7 2 8 9 ⏎
+Podaj liczbe elementów: 3⏎
+Podaj liczby: -1 -10 -9 ⏎
+Podaj liczbe elementów: 3⏎
+Failed to allocate memory⏎
+Limit sterty: 136 bajtów
+
+Podaj typ danych do wprowadzenia: 4⏎
+Podaj liczbę tablic do wprowadzenia: 4⏎
+Podaj liczbe elementów: 3⏎
+Podaj liczby: -5 -5 -7 ⏎
+Podaj liczbe elementów: 4⏎
+Podaj liczby: 0 -5 6 10 ⏎
+Podaj liczbe elementów: 3⏎
+Podaj liczby: -1 5 8 ⏎
+Podaj liczbe elementów: 3⏎
+Failed to allocate memory⏎
+Przykładowa interakcja z programem -- błąd danych wejściowych:
+
+Podaj typ danych do wprowadzenia: 2⏎
+Podaj liczbę tablic do wprowadzenia: 3⏎
+Podaj liczbe elementów: oZIzxzeNkQ⏎
+Incorrect input
+Podaj typ danych do wprowadzenia: 3⏎
+Podaj liczbę tablic do wprowadzenia: 5⏎
+Incorrect input data
+Podaj typ danych do wprowadzenia: 4⏎
+Podaj liczbę tablic do wprowadzenia: 3⏎
+Podaj liczbe elementów: 5⏎
+Podaj liczby: 546695279357400596⏎
+795667012141034954⏎
+1202213633089363886⏎
+-777710668482024431⏎
+574733644313512532⏎
+Podaj liczbe elementów: -2⏎
+Incorrect input data
+Uwagi
+Postaraj się nie powielać tego samego kodu dla różnych typów danych, da się to zrobić prościej i krócej (patrz dział z makrami).
+W programie nie wolno używać operatora [].

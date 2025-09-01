@@ -1,0 +1,100 @@
+Wykorzystując następujące funkcje z zadania 5.7 Obraz w obrazie:
+
+struct image_t* load_image_t(const char *filename, int *err_code);
+int save_image_t(const char * filename, const struct image_t *m1);
+
+void destroy_image(struct image_t **m)
+
+const int* image_get_pixel(const struct image_t *img, int x, int y);
+int* image_set_pixel(struct image_t *img, int x, int y);
+przygotuj program, który umożliwi rysowanie prostokątów na obrazie. W tym celu przygotuj funkcje do rysowania prostokąta w obrazie:
+
+int image_draw_rectangle(struct image_t *img, const struct rectangle_t *rect, int value);
+Funkcja rysuje prostokąt, w postaci ramki o grubości jednego punktu, opisany strukturą rect w obrazie img. Poziom jasności rysowanej ramki przekazany jest w parametrze value. Pamiętaj, że w tym zadaniu operujemy na obrazach w odcieniach szarości i taki też ma być obraz wynikowy.
+
+Wartość zwracan:
+
+1 - w przypadku błędnych danych wejściowych, lub
+0 - w przypadku sukcesu.
+Struktura rectangle_t powinna wyglądać następująco:
+
+struct rectangle_t{
+  struct point_t p;
+  int width;
+  int height;
+};
+Struktura point_t jest taka sama jak w zadaniu 2.1 W punkt.
+
+Podczas pisania programu zastanów się jak interpretować pojęcie szerokości oraz wyskości prostokąta jeśli ten ma być ramką o grubości jednego piksela. Np. jak powinien wyglądać prostoką o szerokości 4 px i wysokości 3 px?
+
+Napisz program, który pobierze od użytkownika nazwę pliku (tablica na nazwę pliku powinna być alokowana dynamicznie na 40 znaków), a następnie współrzędne i wymiary prostokąta (oddzielone spacjami w kolejności: x, y, szerokość i wysokość) jaki ma zostać narysowany na obrazie a na koniec jego odcień.
+
+Po pobraniu nazwy pliku z obrazem wejściowym należy go wczytać (funkcja load_image_t z zadania 5.7 Obraz w obrazie):
+
+W przypadku kiedy nie uda się otworzyć podanego pliku, program powinien wyświetlić komunikat Couldn't open file i zakończyć działanie z kodem błędu 4.
+
+Jeżeli dane zapisane w pliku są niepoprawne należy wyświetlić komunikat File corrupted i zakończyć działanie z kodem błędu 6.
+
+Jeżeli nie uda się przydzielić pamięci program powinien wyświetlić komunikat Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+
+Jeśli któryś z powyższych błedów ma miejsce to program powinien natychmiast zakończyć pracę, nie pobierając od użytkownika pozostałych danych (informacji o prostokącie, itd.).
+
+Po pomyślnym wczytaniu obrazu wejściowego, pobraniu informacji o prostokącie należy go narysować (funkcja draw_rectangle) w obrazie wejściowym, a zmodyfikowany obraz zapisać pod tą samą nazwą, co plik wejściowy.
+
+W przypadku wprowadzenia przez użytkownika błędnych znaków, program powinien wyświetlić komunikat Incorrect input i zakończyć niezwłoczniwe się z kodem błędu 1.
+
+Jeżeli narysowanie prostokąta nie będzie możliwe, program powinien wyświetlić komunikat Incorrect input data i zakończyć się z kodem błędu 2.
+
+W przypadku kiedy nie uda się zapis do pliku, należy wyświetlić komunikat Couldn't create file i zakończyć działanie z kodem błędu 5.
+
+Ostatecznie, w przypadku poprawnego narysowania prostokąta i zapisania pliku program powinien poinformować o tym użytkownika komunikatem File saved i zakończyć pracę z kodem błędu 0.
+
+Przykładowa interakcja z programem -- sukces:
+
+Podaj nazwe: sleep.txtdescribestudentohquartmore.txt⏎
+Podaj wspolrzedne i wymiary prostokata116 44 142 19⏎
+Podaj kolor226⏎
+File saved
+Pliki: wejściowy, wyjściowy. Obrazy tylko dla celów poglądowych: wejściowy, wyjściowy.
+
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit sterty: 40 bajtów
+
+Podaj nazwe: guess.txt⏎
+Failed to allocate memory⏎
+Przykładowa interakcja z programem -- błąd wejścia/wyjścia:
+
+Podaj nazwe: guess.txt⏎
+Podaj wspolrzedne i wymiary prostokata: 0 0 7 3⏎
+Podaj kolor: 205⏎
+Couldn't create file⏎
+Podaj nazwe: slip.txt⏎
+couldn't open file
+Przykładowa interakcja z programem -- błąd danych wejściowych:
+
+Podaj nazwe: king.txt⏎
+Podaj wspolrzedne i wymiary prostokata: 15 81 305 13⏎
+Podaj kolor: aQWfkvziA⏎
+Incorrect input
+Podaj nazwe: vary.txt⏎
+Podaj wspolrzedne i wymiary prostokata: 173 24 270 652⏎
+Podaj kolor: 185⏎
+Incorrect input data
+Podaj nazwe: rise.txt⏎
+Podaj wspolrzedne i wymiary prostokata: -2 150 342 42⏎
+Podaj kolor: 29⏎
+Incorrect input data
+Podaj nazwe: can.txt⏎
+Podaj wspolrzedne i wymiary prostokataNnUmsxPvy⏎
+Incorrect input
+Podaj nazwe: ocean.txt⏎
+Podaj wspolrzedne i wymiary prostokata130 112 236 NlQeftOuld⏎
+Incorrect input
+Przykładowa interakcja z programem -- uszkodzony plik wejściowy:
+
+Podaj nazwe: came.txt⏎
+File corrupted
+Uwagi
+W programie nie wolno używać operatora '[]', oprócz deklaracji tablicy type w strukturze image_t.
+Deklaracje funkcji oraz definicję struktury umieść w pliku nagłówkowym image_utils.h, a definicje funkcji w pliku image_utils.c!

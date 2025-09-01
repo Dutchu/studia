@@ -1,0 +1,170 @@
+Napisz program, który pobierze od użytkownika cztery wyrazy, a następnie utworzy z nich dwa krzyże pojedyncze i jeden krzyż podwójny.
+
+W tym celu przygotuj funkcje, które będą: tworzyły pojedynczy krzyż z dwóch słów przekazanych w parametrach, będą tworzyły podwójny krzyż ze słów przekazanych w parametrach oraz funkcję do zwalniania krzyża.
+
+Przykład podwójnego krzyża dla słów MASK, CAT, WELFARE oraz DUFFY:
+
+         D
+ C       U
+MASK  WELFARE
+ T       F
+         Y
+Funkcje te powinny mieć następujące prototypy:
+
+int create_leading_word_cross(const char *first, const char *second, char ***result);
+int create_double_leading_word_cross(
+    const char *first, const char *second, const char *third, const char *fourth,
+    char ***result, char ***first_cross, char ***second_cross);
+
+void destroy(char **words);
+int create_leading_word_cross(const char *first, const char *second, char ***result);
+Funkcja tworzy krzyż ze słów first oraz second w taki sposób, że pierwszy wyraz ma być ustawiony pionowo, a drugi poziomo. Mają się one krzyżować na pierwszej wspólnej literze wyrazu poziomego. Wyrazy mogą składać się tylko i wyłącznie z dużych liter.
+
+Przykład 1: first=IECE, second=WEOE; wynik ma szerokość i wysokość równą 4 znakom:
+
+ I⏎
+WEOE⏎
+ C⏎
+ E⏎
+Przykład 2: first=IECE, second=CEOE; wynik ma szerokość i wysokość równą 4 znakom. Zwróć uwagę, że w przypadku IECE oraz CEOE wyrazy mają dwie wspólne litery E oraz C. Pierwsza wspólna litera to C.
+
+I⏎
+E⏎
+CEOE⏎
+E⏎
+Funkcja może zaalokować na tablicę wynikową (result) tylko tyle pamięci ile będzie potrzebne do przechowywania utworzonego wyrazu. Wolne miejsca (z lewej strony) mają zostać wypełnione spacjami.
+
+W ostatnim wierszu tablicy *result zostać być zapisany NULL, który będzie oznaczał jej koniec. Stąd powyższy przykład to tablica wskaźników na 5 elementów (4 wiersze + NULL) oraz 4 tablice znaków, odpowiednio na 3 bajty (2 znaki + terminator), 5 bajtów, 3 bajty, 3 bajty.
+
+Zatem dokładna liczba bajtów, którą może zajmować powyższy krzyż to (dla kompilatora 64 bitowego):
+
+5 * 8  +  (3 + 5 + 3 + 3 + 0)
+Liczba 8 jest wartością operatora sizeof(char**) dla platformy 64 bitowej. Natomiast ostatnie 0 oznacza, że skoro w piątym wierszu jest NULL to nie idzie za nim żadna tablica tekstowa (0 bajtów alokowanych).
+
+W przypadku błędów/braku pamięci funkcja zapisuje NULL pod adres w result i zwraca niezerowy kod błędu.
+
+Wartość zwracana:
+
+-1 - w przypadku przekazania błędnych danych,
+-2 - w przypadku, kiedy niemożliwe będzie utworzenie krzyża z podanych słów
+-3 - w przypadku niepowodzenia alokacji pamięci,
+>=0 - w przypadku sukcesu - numer wiersza, na którym zostały skrzyżowane słowa.
+int create_double_leading_word_cross(
+    const char *first, const char *second, const char *third, const char *fourth,
+    char ***result, char ***first_cross, char ***second_cross);
+Funkcja tworzy krzyże ze słów first i second oraz third i fourth i zapisuje je odpowiednio do zmiennych first_cross i second_cross w taki sam sposób jak w przypadku funkcji create_leading_word_cross, ale wyrazy muszą być wykorzystane w odwrotny sposób. Wyrazy first i third muszą być ułożone w poziomie natomiast wyrazy second oraz fourth w pionie.
+
+Dodatkowo funkcja tworzy podwójny krzyż z przekazanych do niej słów, łącząc dwa pojedyncze krzyże, w taki sposób, że wyrazy poziome znajdują się w tym samym wierszu.
+
+Funkcja może zaalokować na tablice wynikowe (result, first_cross, second_cross) tylko tyle pamięci ile będzie potrzebne do przechowywania utworzonych krzyży.
+
+Wolne miejsca (z lewej strony) oraz między krzyżami mają zostać wypełnione spacjami. Odstęp między krzyżami (ich poziomymi wyrazami) należy ustalić na 3 spacje.
+
+Przykład dla first=WELFARE, second=KILL, third=WEOE, fourth=IECE; wynik ma szerokość 14 i wysokość 5 znaków.
+
+  K⏎
+  I        I⏎
+WELFARE   WEOE⏎
+  L        C⏎
+           E⏎
+Dokładna liczba bajtów, którą może zajmować powyższy wynik to (dla kompilatora 64 bitowego):
+
+6 * 8  +  4 + 13 + 15 + 13 + 13 + 0
+W przypadku błędów/braku pamięci funkcja zapisuje NULL pod adres w result, first_cross oraz second_cross i zwraca niezerowy kod błędu.
+
+Wartość zwracana:
+
+1 - w przypadku przekazania błędnych danych,
+2 - w przypadku, kiedy niemożliwe będzie utworzenie krzyża z podanych słów
+3 - w przypadku niepowodzenia alokacji pamięci,
+0 - w przypadku sukcesu.
+void destroy(char **words);
+Funkcja zwalnia cała pamięć daną wskaźnikiem words. Jeżeli do funkcji przekazano nieprawidłowe dane, to nie podejmuje ona żadnych akcji.
+
+Napisz program, który przygotuje pamięć (4 bufory, dynamicznie) na 4 słowa o maks. długości 10 znaków.
+
+W przypadku niepowodzenia alokacji pamięci program powinien wyświetlić komunikat Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+
+Następnie program pobierze od użytkownika cztery wyrazy (oddzielone spacjami) i utworzy z nich dwa krzyże pojedyncze oraz jeden krzyż podwójny. Utworzone tablice powinny zostać wyświetlone w powyższej kolejności, oddzielone pojedynczą pustą linią.
+
+Wyrazy mogą składać się tylko i wyłącznie z dużych liter i mogą mieć ich maksymalnie 10.
+
+W przypadku podania błędnych danych program ma wyświetlić komunikat Incorrect input i zakończyć działanie z kodem błędu 1.
+W przypadku niepowodzenia alokacji pamięci program powinien wyświetlić komunikat Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+Jeżeli niemożliwe będzie utworzenie podwójnego krzyże ze słów wprowadzonych przez użytkownika program powinien wyświetlić komunikat Unable to make two crosses i zakończyć działanie z kodem błędu 0.
+Przykładowa interakcja z programem -- błąd danych:
+
+Enter wordsSCHOLAR $MMHMM ABOVE SILENCE⏎
+Incorrect input
+Przykładowa interakcja z programem -- brak wspólnych liter:
+
+Enter words: STAGE MORNING FOLLOWING CAMPUS⏎
+Unable to make two crosses
+Przykładowa interakcja z programem -- wyniki:
+
+Enter words: MULTIPLE BEHAVIOR PROOF FAMILY⏎
+    B⏎
+    E⏎
+    H⏎
+    A⏎
+    V⏎
+MULTIPLE⏎
+    O⏎
+    R⏎
+⏎
+PROOF⏎
+    A⏎
+    M⏎
+    I⏎
+    L⏎
+    Y⏎
+⏎
+    B⏎
+    E⏎
+    H⏎
+    A⏎
+    V⏎
+MULTIPLE   PROOF⏎
+    O          A⏎
+    R          M⏎
+               I⏎
+               L⏎
+               Y⏎
+Enter words: T T DISEASE HEARING⏎
+T⏎
+⏎
+ H⏎
+ E⏎
+ A⏎
+ R⏎
+DISEASE⏎
+ N⏎
+ G⏎
+⏎
+     H⏎
+     E⏎
+     A⏎
+     R⏎
+T   DISEASE⏎
+     N⏎
+     G⏎
+Enter words: DISEASE HEARING T T⏎
+ H⏎
+ E⏎
+ A⏎
+ R⏎
+DISEASE⏎
+ N⏎
+ G⏎
+⏎
+T⏎
+⏎
+ H⏎
+ E⏎
+ A⏎
+ R⏎
+DISEASE   T⏎
+ N⏎
+ G⏎
+Uwagi
+Wszystkie operacje na tablicach powinny być wykonywane za pomocą wskaźników, a nie operatora []!

@@ -1,0 +1,160 @@
+Rozbuduj program z zadania 5.4 Macierz o następujące funkcje:
+
+struct matrix_t* matrix_create_struct(int width, int height);
+void matrix_destroy_struct(struct matrix_t **m);
+
+struct matrix_t* matrix_copy(const struct matrix_t *copy);
+
+struct matrix_t* matrix_load_b(const char *filename, int *err_code)
+struct matrix_t* matrix_load_t(const char *filename, int *err_code)
+
+struct matrix_t* matrix_add(const struct matrix_t *m1, const struct matrix_t *m2);
+struct matrix_t* matrix_subtract(const struct matrix_t *m1, const struct matrix_t *m2);
+struct matrix_t* matrix_multiply(const struct matrix_t *m1, const struct matrix_t *m2);
+
+struct matrix_t* matrix_create_struct(int width, int height);
+Funkcja alokuje pamięć na strukturę typu matrix_t, a następnie na macierz o wymiarach width x height i przypisuje ją do odpowiedniego pola w strukturze matrix_t* oraz ustawia odpowiednie wartości w pozostałych polach struktury - inicjuje strukturę matrix_t*.
+
+Funkcja powinna zwrócić wartość
+
+NULL w przypadku kiedy nie udało się poprawnie utworzyć struktury (cała zaalokowana pamięć powinna zostać zwolniona)
+lub wskaźnik do nowo utworzonej struktury.
+void matrix_destroy_struct(struct matrix_t **m);
+Funkcja zwalnia pamięć przydzieloną na strukturę m oraz macierz, na koniec przypisuje wartość NULL pod wskaźnik m. Funkcja oczekuje wskaźnika do zmiennej wskaźnikowej, opisującej macierz (otrzymanej od funkcji create_matrix). W przypadku podania błędnych danych funkcja nie podejmuje żadnej akcji.
+
+struct matrix_t* matrix_copy(struct matrix_t *m);
+Funkcja wykonuje kopię głęboką macierzy m i zwraca wskaźnik do nowo utworzonej struktury lub NULL, kiedy niemożliwe jest utworzenie kopii. Zapoznaj się z pojęciami kopiowania płytkiego oraz głębokiego (ang. deep and shallow copy) tutaj.
+
+struct matrix_t* matrix_add(const struct matrix_t *m1, const struct matrix_t *m2);
+struct matrix_t* matrix_subtract(const struct matrix_t *m1, const struct matrix_t *m2);
+struct matrix_t* matrix_multiply(const struct matrix_t *m1, const struct matrix_t *m2);
+Funkcje wykonują operacje na macierzach m1 i m2, odpowiednio m1 + m2, m1 - m2 oraz m1 * m2 i zwracają wskaźnik do nowej macierzy.
+
+W przypadku kiedy wykonanie obliczeń będzie niemożliwe lub zostaną do funkcji przekazane błędne/uszkodzone dane wejściowe, funkcje te mają zwrócić NULL.
+
+struct matrix_t* matrix_load_b(const char *filename, int *err_code);
+struct matrix_t* matrix_load_t(const char *filename, int *err_code);
+Funkcje wczytują macierz z pliku o nazwie filename, zapisane w formie binarnej (load_matrix_b) lub tekstowej (load_matrix_t) i zapisują ją do nowo utworzonej struktury matrix_t. W przypadku sukcesu funkcje zwracają wskaźnik do struktury lub NULL w przypadku niepowodzenia.
+
+Format danych w obu plikach ma być zgodny z opisanym w zadaniu 5.5 Macierz 2.
+
+Kod błędu powinien zostać zapisany do zmiennej err_code (o ile to możliwe):
+
+0 - w przypadku udanego odczytania macierzy z pliku i utworzenia struktury matrix_t,
+1 - w przypadku błędnych danych wejściowych,
+2 - kiedy nie można otworzyć pliku,
+3 - w przypadku kiedy plik jest uszkodzony,
+4 - w przypadku niepowodzenia przydzielenia pamięci na macierz.
+Napisz program, który pobierze od użytkownika dwie nazwy plików. Należy przydzielić pamięć na bufor, w którym mają być one przechowywane. Przyjmij wielkość bufora na 19 znaków (20 bajtów) a pamięć przydziel dynamicznie. Następnie z plików o podanych nazwach wczytaj macierze.
+
+Zwróć uwagę na oszczędne korzystanie z zasobów pamięci. Nazwa pierwszego pliku wymagana jest tylko do jego wczytania i nie ma potrzeby dalszego trzymania jej w pamięci.
+
+W przypadku podania błędnej nazwy pliku program powinien wyświetlić komunikat Unsupported file format i zakończyć działanie z kodem błędu 7. Poprawne pliki będą miały rozszerzenie .txt lub .bin.
+
+W przypadku kiedy nie uda się otworzyć pliku program wyświetla komunikat Couldn't open file i zakończyć działanie z kodem błędu 4.
+
+Jeżeli plik jest uszkodzony to File corrupted i zwrócić wartość 6.
+
+Jeżeli nie uda się zaalokować pamięci na struktury macierzy odczytywanj z pliku to Failed to allocate memory i zwrócić wartość 8.
+
+We wszystkich tych przypadkach program powinien niezwłocznie zakończyć działanie - nie może podejść do wczytywania drugiego pliku, jeśli nie udało się wczytać pierwszego. Nie ma to sensu ze względu na koniecznośc posiadania obu macierzy do wykonania odpowiedniej operacji arytmetycznej. Co więcej, jeśli na pierwszą macierz nie starczyło pamięci to na drugą też raczej nie wystarczy.
+
+Po pomyślnym wczytaniu obu plików wykonaj i wyświetl kolejno wyniki: dodawania, odejmowania i mnożenia tych macierzy.
+
+Jeżeli niemożliwe będzie wykonanie którejś z operacji to program powinien wyświetlić komunikat Error zamiast wyniku tej operacji. Pamiętaj o zwolnieniu pamięci przed zakończeniem programu.
+
+Przykładowa interakcja z programem -- sukces:
+
+Podaj nazwę pierwszego pliku: some.txt⏎
+Podaj nazwę drugiego pliku: enough.txt⏎
+Error⏎
+Error⏎
+150 -63 -103 -17 -88 -44 68 156 47 ⏎
+-137 -23 94 -63 39 97 13 -98 59 ⏎
+-70 7 96 33 34 18 1 -90 -37 ⏎
+-222 -52 42 -83 -8 127 -3 -196 45 ⏎
+161 15 -119 36 -46 -14 135 184 99 ⏎
+-165 105 -83 -136 96 90 -169 -76 67 ⏎
+173 45 16 138 5 -128 18 106 -102 ⏎
+-82 -121 -13 -78 -88 73 63 -68 60 ⏎
+65 -16 209 141 33 -88 38 -22 -137 ⏎
+
+Pliki: some.txt, enough.txt.
+
+Podaj nazwę pierwszego pliku: two.txt⏎
+Podaj nazwę drugiego pliku: snow.txt⏎
+3 2 8 3 1 ⏎
+-11 7 -4 -1 13 ⏎
+7 -13 -18 -17 -19 ⏎
+-13 3 4 -12 11 ⏎
+-2 -6 10 -13 0 ⏎
+-1 7 -7 0 5 ⏎
+3 12 -3 -2 3 ⏎
+8 -11 -7 -2 -1 ⏎
+-7 -6 -8 17 3 ⏎
+1 -5 -10 -19 -7 ⏎
+7 -3 0 -3 1 ⏎
+5 -1 -12 2 -7 ⏎
+4 0 6 7 20 ⏎
+11 -9 -13 4 -7 ⏎
+11 -2 -5 6 15 ⏎
+2 7 3 14 -3 ⏎
+Error
+Pliki: two.txt, snow.txt.
+
+Podaj nazwę pierwszego pliku: yes.bin⏎
+Podaj nazwę drugiego pliku: be.bin⏎
+Error⏎
+Error⏎
+42 89 51 65 -102 -41 55 ⏎
+39 30 -30 -123 68 64 67 ⏎
+103 -54 -16 55 -74 -78 -75 ⏎
+-117 -104 26 79 -2 -86 -115 ⏎
+0 -48 -76 18 77 116 -38 ⏎
+161 6 -47 -16 -75 9 -26 ⏎
+212 -10 -106 -23 -29 89 -29 ⏎
+Pliki: be.bin, yes.bin.
+
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit sterty: 19 bajtów (brak pamięci na pierwszy bufor nazwy pliku)
+
+Failed to allocate memory⏎
+Limit sterty: 25 bajtów (brak pamięci na pierwszą macierz)
+
+Podaj nazwę pierwszego pliku: learn.txt⏎
+Failed to allocate memory⏎
+Limit sterty: 256 bajtów (brak pamięci na drugą macierz)
+
+Podaj nazwę pierwszego pliku: learn.txt⏎
+Podaj nazwę drugiego pliku: wing.txt⏎
+Failed to allocate memory⏎
+Pliki: learn.txt, wing.txt.
+
+Limit sterty: 492 bajty (brak pamięci na wyniki którejkolwiek z operacji); kod błędu 0
+
+Podaj nazwę pierwszego pliku: learn.txt⏎
+Podaj nazwę drugiego pliku: wing.txt⏎
+Error⏎
+Error⏎
+Error⏎
+Przykładowa interakcja z programem -- błędy wejścia/wyjścia:
+
+Podaj nazwę pierwszego pliku: wrong.txt⏎
+Couldn't open file
+Podaj nazwę pierwszego pliku: kept.txt⏎
+Podaj nazwę drugiego pliku: reply.bin⏎
+Couldn't open file
+Przykładowa interakcja z programem -- błędy danych:
+
+Podaj nazwę pierwszego pliku: dog.txt⏎
+Podaj nazwę drugiego pliku: began.txt.exe⏎
+Unsupported file format
+Podaj nazwę pierwszego pliku: troubletxt⏎
+Unsupported file format
+Podaj nazwę pierwszego pliku: sleep.txt⏎
+Podaj nazwę drugiego pliku: since.bin⏎
+File corrupted
+Uwagi
+W programie nie wolno korzystać z operatora []!
+Deklaracje funkcji oraz definicję struktury umieść w pliku nagłówkowym matrix_utils.h, a definicje funkcji w pliku matrix_utils.c!

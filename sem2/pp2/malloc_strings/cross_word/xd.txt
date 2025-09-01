@@ -1,0 +1,66 @@
+Words: MULTIPLE BEHAVIOR PROOF FAMILY
+
+<create_double_leading_word_cross>
+<leading_word_cross>
+<first_cross>
+' ', ' ', ' ', ' ', 'B', ' ', ' ', ' ', '\0''\n'
+' ', ' ', ' ', ' ', 'E', ' ', ' ', ' ', '\0''\n'
+' ', ' ', ' ', ' ', 'H', ' ', ' ', ' ', '\0''\n'
+' ', ' ', ' ', ' ', 'A', ' ', ' ', ' ', '\0''\n'
+' ', ' ', ' ', ' ', 'V', ' ', ' ', ' ', '\0''\n'
+'M', 'U', 'L', 'T', 'I', 'P', 'L', 'E', '\0''\n'
+' ', ' ', ' ', ' ', 'O', ' ', ' ', ' ', '\0''\n'
+' ', ' ', ' ', ' ', 'R', ' ', ' ', ' ', '\0''\n'
+</first_cross>
+'\n'
+<second_cross>
+'P', 'R', 'O', 'O', 'F', '\0''\n'
+' ', ' ', ' ', ' ', 'A', '\0''\n'
+' ', ' ', ' ', ' ', 'M', '\0''\n'
+' ', ' ', ' ', ' ', 'I', '\0''\n'
+' ', ' ', ' ', ' ', 'L', '\0''\n'
+' ', ' ', ' ', ' ', 'Y', '\0''\n'
+</<second_cross>
+</leading_word_cross>
+<leading_word_cross>
+<first_cross>' ', ' ', ' ', ' ', 'B', ' ', ' ', ' ', '\0'</first_cross>' ', ' ', ' '<second_cross>' ', ' ', ' ', ' ', ' ', '\0'</<second_cross>'\n'
+<first_cross>' ', ' ', ' ', ' ', 'E', ' ', ' ', ' ', '\0'</first_cross>' ', ' ', ' '<second_cross>' ', ' ', ' ', ' ', ' ', '\0'</<second_cross>'\n'
+<first_cross>' ', ' ', ' ', ' ', 'H', ' ', ' ', ' ', '\0'</first_cross>' ', ' ', ' '<second_cross>' ', ' ', ' ', ' ', ' ', '\0'</<second_cross>'\n'
+<first_cross>' ', ' ', ' ', ' ', 'A', ' ', ' ', ' ', '\0'</first_cross>' ', ' ', ' '<second_cross>' ', ' ', ' ', ' ', ' ', '\0'</<second_cross>'\n'
+<first_cross>' ', ' ', ' ', ' ', 'V', ' ', ' ', ' ', '\0'</first_cross>' ', ' ', ' '<second_cross>' ', ' ', ' ', ' ', ' ', '\0'</<second_cross>'\n'
+<first_cross>'M', 'U', 'L', 'T', 'I', 'P', 'L', 'E', '\0'</first_cross>' ', ' ', ' '<second_cross>'P', 'R', 'O', 'O', 'F', '\0'</<second_cross>'\n'
+<first_cross>' ', ' ', ' ', ' ', 'O', ' ', ' ', ' ', '\0'</first_cross>' ', ' ', ' '<second_cross>' ', ' ', ' ', ' ', 'A', '\0'</<second_cross>'\n'
+<first_cross>' ', ' ', ' ', ' ', 'R', ' ', ' ', ' ', '\0'</first_cross>' ', ' ', ' '<second_cross>' ', ' ', ' ', ' ', 'M', '\0'</<second_cross>'\n'
+<first_cross>' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'</first_cross>' ', ' ', ' '<second_cross>' ', ' ', ' ', ' ', 'I', '\0'</<second_cross>'\n'
+<first_cross>' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'</first_cross>' ', ' ', ' '<second_cross>' ', ' ', ' ', ' ', 'L', '\0'</<second_cross>'\n'
+<first_cross>' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', '\0'</first_cross>' ', ' ', ' '<second_cross>' ', ' ', ' ', ' ', 'Y', '\0'</<second_cross>'\n'
+</leading_word_cross>
+</create_double_leading_word_cross>
+
+1st ("MULTIPLE"): 8 + null
+2nd ("BEHAVIOR"): 8 + null
+3rd ("PROOF")   : 5 + null
+4th ("FAMILY")  : 6 + null
+
+Observations:
+1st leading_word_cross call:
+1st cross:
+Made of 1st and 2nd words. Matrix 8x8 with nulls and null row it's 9x9.
+2nd cross:
+Made of 4th and 4th words. Matrix 5x6 with nulls and null row it's 6x7.
+2nd and 4th words are aligned vertically and 1st and 3rd words are placed horizontally.
+1st and 2nd cross are divided with new line character.
+In first call of leading_word_cross there is no match in neither of axis dimensions.
+
+2nd leading_word_cross call:
+1st cross:
+Made of 1st and 2nd words. Matrix 8x(8+3) with nulls and null row it's 9x12. 3 vertical spacing below is added to align 1st and 3rd word horizontally.
+2nd cross:
+Made of 3rd and 4th words. Matrix 5x(6+5) with nulls and null row it's 6x12. 5 vertical spacing is added above to align 1st and 3rd word horizontally.
+1st and 2nd cross are divided with 3 space characters.
+In second call of leading_word_cross there is a match of dimension in Y axis.
+
+Conclusions:
+I lack analytical skills to develop an algorithm that will create such alignments. My pattern recognition skills are incapable of producing conclusions required for this task.
+I assume create_double_leading_word_cross have to gather dimensions and workout which X value can be match from the first call of leading_word_cross for the first and second cross. On this occasion we were lucky but if "proof" was for example "turf" we would have to add spacing from left in a second cross.
+For the second call of leading_word_cross we have to work out Y axis alignment and we got example that represent padding such that we calculate number of words to a matching letter and workout if more letters are before that matching or after that matching for the words in Y axis placement (2nd and 4th).

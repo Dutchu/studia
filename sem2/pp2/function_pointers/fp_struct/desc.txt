@@ -1,0 +1,118 @@
+Napisz program do przeprowadzania operacji na liczbach zespolonych oraz skalarnych (całkowitych oraz zmiennoprzecinkowych) za pomocą funkcji danych wskaźnikami oraz strukturą, stanowiącą swoisty interfejs API operacji na danym typie liczb.
+
+W tym celu przygotuj strukturę operations_t, która będzie przechowywała wskaźniki do funkcji wykonujących podstawowe operacje arytmetyczne oraz wejścia/wyjścia.
+
+W strukturze operations_t musisz przewidzieć pola na przechowanie:
+
+wskaźników do funkcji wykonujących podstawowe operacje na dwóch liczbach dowolnego typu i zwracających wynik tej operacji. Pola te powinny mieć nazwy:
+add - sumowanie,
+sub - odejmowanie,
+div - dzielenie oraz
+mul - mnożenie.
+wskaźników od funkcji wykonujących operacje wejścia/wyjścia (wczytywania oraz wyświetlania):
+read - wczytywanie liczby oraz
+show - wyświetlanie liczby w konsoli.
+Przygotuj funkcje do wykonywania podstawowych operacji matematycznych, pobierania danych od użytkownika oraz wyświetlania wyniku na konsoli dla liczb typu int, float i zespolonych (struct complex_t z zadania 2.7 Liczby zespolone - koszmar powraca).
+
+Funkcje dla operacji arytmetycznych powinny być zgodne z następującym prototypem:
+
+void* nazwa_funkcji(const void *left, const void *right);
+Wartość zwracana:
+
+Wskaźnik na liczbę będącą wynikiem operacji, lub
+NULL jeśli wykonanie operacji arytmetycznej nie jest możliwe.
+Funkcje wejścia/wyjścia powinny być zgodne z następującymi prototypami:
+
+int nazwa_funkcji_wczytującej(void *a, void *b);
+void nazwa_funkcji_wyświetlającej(const void *a);
+Funkcja wczytująca pobiera od użytkownika dwie liczby i umieszcza je pod wskaźnikami a oraz b w takiej kolejności. Wartość zwracana:
+
+1 - operacja wczytywania nie jest możliwa do wykonania,
+0 - operacja wczytywania powiodła się.
+Funkcja wyświetlająca wyświetla na ekranie liczbę daną wskaźnikiem a lub nie podejmuje żadnej operacji.
+
+W przypadku liczb zespolonych funkcje wejścia/wyjścia powinny być zgodne z następującym formatem:
+
+9.999999 ± i9.999999
+Przykładowe wywołanie takich funkcji (dla operacji na liczbach typu float) powinno wyglądać następująco:
+
+float a, b;
+read_float(&a, &b);
+float *result_float = (float *)mul_float(&a, &b);
+show_float(result_float);
+free(result_float);
+Dodatkowo przygotuj funkcje, które będą przyjmowały wskaźniki na dwie liczby i sprawdzały czy pierwsza z nich jest mniejsza od drugiej, zgodnie z następującym prototypem:
+
+int is_smaller_???(const void *a, const void *b);
+Wartość zwracana:
+
+-2 - gdy do funkcji przekazano błędne dane,
+1 - kiedy pierwsza liczba (a) jest mniejsza od drugiej (b),
+0 - w przeciwnym przypadku.
+Nazwy funkcji powinny być utworzone analogicznie do przykładowej: is_smaller_float dla typu float.
+
+Deklaracje wszystkich funkcji (oraz struktury complex_t w przypadku liczb zespolonych) należy umieścić w oddzielnych plikach nagłówkowych dla każdego typu. Nazwa pliku nagłówkowego ma wyglądać następująco: int_operations.h (dla typu int) a definicje należy umieścić w odpowiadających im plikach C (np. int_operations.c).
+
+Przygotuj funkcję find_extremum która zwróci najmniejszy z wyników podstawowych operacji arytmetycznych na dwóch przekazanych liczbach. Prototyp powinien mieć następującą postać:
+
+void* find_extremum(const void *a, const void *b, const struct operations_t *op, int(* comp)(const void *, const void *));
+Parametry:
+
+a, b - lewy i prawy argument operacji arytmetycznych, dane wskaźnikami,
+op - struktura dostarczająca wskaźniki na funkcje, realizująca podstawowe operacje arytmetyczne dla danego typu,
+comp - komparator określający która z liczb, danych mu argumentami wskaźnikowymi, jest mniejsza.
+Wartość zwracana:
+
+Wskaźnik na liczbę będącą najmniejszym wynikiem jednej z czterech operacji na a oraz b, lub
+NULL jeśli znalezienie minimum nie jest możliwe.
+Funkcja powinna nazywać się find_extremum, a jej przykładowe wywołanie powinno wyglądać następująco:
+
+int a = 5, b = 1;
+int *result_int = (int *)find_extremum(&a, &b, op, is_smaller_int);
+// op - struktura ze wskaźnikami na operacje dla liczb całkowitych int
+Deklaracja funkcji find_extremum oraz struktury operations_t powinna znaleźć się w pliku operations.h, a definicja funkcji w pliku operations.c.
+
+Napisz program, który przetestuje działanie przygotowanych przez Ciebie funkcji.
+
+W funkcji main utwórz dynamicznie tablicę struktur operations_t i przypisz do niej adresy poszczególnych funkcji. Sugerowana kolejność: float, int, complex.
+
+W przypadku niepowodzenia program powinien wyświetlić komunikat Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+Następnie program powinien pobrać od użytkownika typ liczb do wczytania:
+
+0 - liczby zmiennoprzecinkowe,
+1 - liczby całkowite,
+2 - liczby zespolone.
+wczytać je i wyświetlić najmniejszy wynik jednej z operacji na tych liczbach (dodawania, odejmowania, dzielenia, mnożenia).
+
+W przypadku podania błędnych danych program powinien wyświetlić komunikat Incorrect input i zakończyć działanie z kodem błędu 1.
+W przypadku problemów z alokacją pamięci program powinien wyświetlić komunikat Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+Przykładowa interakcja z programem -- sukces:
+
+Enter data type: 1⏎
+Enter values: -80 47⏎
+-3760
+Enter data type: 2⏎
+Enter values: 0.168847+i0.142800 5.174851+i1.480399⏎
+0.037457 + i0.016879⏎
+Enter data type: 0⏎
+Enter values: -53.146552 65.326841⏎
+-3471.896484
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit sterty: 0 bajtów
+
+Failed to allocate memory⏎
+Limit starty: 144 bajty
+
+Enter data type: 0⏎
+Enter values: -6.071656 2.593162⏎
+Failed to allocate memory⏎
+Przykładowa interakcja z programem -- błąd danych wejściowych:
+
+Enter data type: 2⏎
+Enter values: 4.422757-8.385103 4.422757-i8.385103⏎
+Incorrect input
+Enter data type: 3⏎
+Incorrect input
+Uwagi
+W programie nie wolno używać operatora [] (dotyczy to również komentarzy jak i stringów formatujących)!

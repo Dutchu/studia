@@ -1,0 +1,124 @@
+Rozbuduj program z zadania 6.7 Słownik o funkcje sortujące oraz wejścia/wyjścia. Powinny one mieć następujące prototypy:
+
+int dictionary_sort_alphabetically(struct dictionary_t *d);
+int dictionary_sort_occurence(struct dictionary_t *d);
+
+int save_dictionary_b(const struct dictionary_t *d, const char *filename);
+struct dictionary_t* load_dictionary_b(const char *filename, int *err_code);
+Deklaracje wszystkich funkcji oraz struktur powinny być umieszczone w pliku dictionary.h, a definicje w pliku dictionary.c.
+
+int dictionary_sort_alphabetically(struct dictionary_t *d);
+Funkcja sortuje słownik d alfabetycznie, od A do Z, przy czym duże litery mają wyższy priorytet, pomimo ich mniejszej wartości w tabeli ASCII. Sortowanie należy realizować w miejscu.
+
+Wartość zwracana:
+
+1 - w przypadku błędnych (np. niespójnych) danych wejściowych
+0 - w przypadku powodzenia.
+Przykład: dla słownika kot kota Kotek ala Ale poprawna kolejność to Ale Kotek ala kot kota.
+
+int dictionary_sort_occurence(struct dictionary_t *d);
+Funkcja sortuje słownik d malejąco pod względem liczby wystąpień każdego słowa (patrz pole counter). W przypadku jednakowej liczby wystąpień kilku słów, słowa te powinny zostać posortowane alfabetycznie (jak w funkcji dictionary_sort_alphabetically). Sortowanie należy realizować w miejscu.
+
+Wartość zwracana:
+
+1 - w przypadku błędnych (np. niespójnych) danych wejściowych
+0 - w przypadku powodzenia.
+int save_dictionary_b(const struct dictionary_t *d, const char *filename);
+Funkcja zapisuje słownik d do pliku binarnego filename.
+
+Format pliku jest następujący:
+
+4 bajty (liczba całkowita) - liczba słów w słowniku (size). Następnie zapisywanych jest size wpisów, odpowiadających kolejnym słowom, według następującego formatu (punkty 2-4):
+4 bajty (liczba całkowita) - długość n-tego słowa (len)
+len bajtów (znaki) - kolejne znaki n-tego słowa, bez terminatora
+4 bajty (liczba całkowita) - liczba wystąpień n-tego słowa
+Funkcja zwraca:
+
+1 - w przypadku błędnych danych wejściowych,
+2 - jeżeli nie uda się utworzyć pliku lub
+0 - w przypadku sukcesu.
+struct dictionary_t* load_dictionary_b(const char *filename, int *err_code);
+Funkcja wczytuje słownik z pliku filename w formacie binarnym do nowo utworzonej struktury, zwracając wskaźnik do niej. Funkcja może przydzielić tylko tyle pamięci, ile będzie potrzebne na przechowanie danych wejściowych.
+
+Jeżeli nie uda się odczytać danych z pliku filename funkcja powinna zwrócić NULL, zwalniając całą przydzieloną pamięć i zapisać kod błędu pod wskaźnik err_code (o ile to możliwe).
+
+Kody błędu generowane przez funkcję:
+
+0 - wczytywanie pliku zakończyło się sukcesem,
+1 - błędne dane wejściowe,
+2 - nie udało się otworzyć pliku,
+3 - dane w pliku są nieprawidłowe/uszkodzone,
+4 - problemy z alokacją pamięci.
+Podczas projektowania funkcji load_dictionary_b postaraj się skorzystać z już istniejącego kodu, np. do tworzenia, przeszukiwania i dodawania.
+
+Napisz program, który pobierze od użytkownika nazwę pliku, wczyta go jako słownik lub zbiór słów a następnie posortuje oraz zapisze wersje posortowane (leksykograficzną oraz częstotliwościową).
+
+W pierwszym kroku program pobiera od użytkownika nazwę pliku danych do wczytania. Przygotuj bufor na nazwę pliku o wielkości 40 bajtów (alokowany dynamicznie; w przypadku problemów z pamięcią program ma wyświetlić komunikat Failed to allocate memory i zakończyć się z kodem błędu 8).
+
+Po pobraniu nazwy pliku danych zaproponuj użytkownikowi dwie metody wczytywania danych z podanego pliku.
+
+Opcje wyboru użytkownika:
+
+0 - Wczytanie słownika z pliku binarnego.
+1 - Wczytanie wszystkich słów z pliku i utworzenie na ich podstawie słownika.
+Wybór 0 - słownik w pliku binarnym:
+
+Wykorzystując opracowaną funkcję wczytaj słownik do struktury dictionary_t.
+
+W przypadku, jeżeli nie powiedzie się alokacja pamięci na słownik, program powinien wyświetlić komunikat Failed to allocate memory i zwrócić wartość 8.
+Jeżeli plik nie istnieje to program powinien poinformować o tym użytkownika komunikatem Couldn't open file i zakończyć pracę z kodem błędu 4.
+Jeżeli plik jest uszkodzony to komunikat File corrupted i wyjście z kodem błędu 6.
+Wybór 1 - indywidualne słowa wczytywane z pliku tekstowego:
+
+Otwórz podany plik i na podstawie wszystkich istniejących w nim słów wygeneruj nowy słownik dictionary_t. Wykorzystaj do tego istniejące funkcje (patrz zadanie 6.7 Słownik). Pamiętaj aby usunąć z wyrazów wszystkie znaki niebędące literami oraz o możliwych awariach (brak pamięci, brak pliku).
+
+W przypadku podania przez użytkownika błędnej opcji program powinien wyświetlić komunikat Incorrect input data i niezwłocznie zakończyć pracę z kodem błędu 2, a w przypadku wprowadzenia błędnych znaków komunikat Incorrect input i zakończyć działanie z kodem błędu 1.
+
+Mając wczytany słownik przygotuj nazwy plików wyjściowych, do których wersje tego słownika zostaną zapisane. Alokując pamięć przygotuj dwie nazwy plików:
+
+Z przyrostkiem _alpha w nazwie - w tym pliku zostanie zapisany słownik posortowany alfabetycznie (patrz funkcja dictionary_sort_alphabetically).
+Z przyrostkiem _occ w nazwie - w tym pliku zostanie zapisany słownik posortowany ze względu na liczbę wystąpień (patrz funkcja dictionary_sort_occurence).
+Przyrostek w nazwie oznacza, że dla pliku slownik.bin program wygeneruje slownik_alpha.bin oraz slownik_occ.bin.
+
+Mając przygotowane nazwy plików oraz wczytany słownik:
+
+posortuj go ze względu na wystąpienia i zapisz do odpowiedniego pliku, a następnie
+posortuj go alfabetycznie i zapisz do odpowiedniego pliku.
+W przypadku powodzenia danego zapisu program powinien wyświetlić komunikat File saved, a jeżeli nie uda się utworzyć pliku to komunikat Couldn't create file. Pamiętaj o zwolnieniu pamięci przed wyjściem.
+
+Przykładowa interakcja z programem (brak pamięci na starcie):
+
+Limit sterty: 350 bajtów
+
+Podaj nazwe pliku: exact.txt⏎
+Co chcesz teraz zrobić: 1⏎
+Failed to allocate memory⏎
+Plik: exact.txt.
+
+Przykładowa interakcja z programem (brak pamięci na słownik):
+
+Podaj nazwe pliku: nor.txt⏎
+Co chcesz teraz zrobić: 1⏎
+Failed to allocate memory⏎
+Przykładowa interakcja z programem -- błąd zapisu pliku:
+
+Podaj nazwe pliku: exact.txt⏎
+Co chcesz teraz zrobić: 1⏎
+File saved⏎
+Couldn't create file⏎
+Podaj nazwe pliku: exact.txt⏎
+Co chcesz teraz zrobić: 1⏎
+Couldn't create file⏎
+Couldn't create file⏎
+Przykładowa interakcja z programem -- zły wybór metody wczytywania:
+
+Podaj nazwe plikunight.bin⏎
+Co chcesz teraz zrobić: 2⏎
+Incorrect input data
+Podaj nazwe pliku: division.bin⏎
+Co chcesz teraz zrobić: gcftn⏎
+Incorrect input
+Przykłady plików:
+
+differ.txt, differ_occ.bin, differ_alpha.
+lady.bin, lady_occ.bin, lady_alpha.bin.

@@ -1,0 +1,239 @@
+Napisz program, który pozwoli użytkownikowi na wykonywanie podstawowych operacji na liście jednokierunkowej. W tym celu przygotuj struktury i zaimplementuj listę wiązaną jednokierunkową:
+
+struct node_t
+{
+  int data;
+  struct node_t *next;
+};
+
+struct linked_list_t
+{
+  struct node_t *head;
+  struct node_t *tail;
+};
+gdzie:
+
+head - wskaźnik na pierwszy element listy, jeżeli lista jest pusta powinien być ustawiony na NULL,
+tail - wskaźnik na ostatni element listy, jeżeli lista jest pusta powinien być ustawiony na NULL.
+next - wskaźnik na następny element listy. Jeżeli nie ma następnego elementu to NULL.
+Przygotuj następujące funkcje, umożliwiające obsługę listy:
+
+struct linked_list_t* ll_create();
+
+int ll_push_back(struct linked_list_t* ll, int value);
+int ll_push_front(struct linked_list_t* ll, int value);
+int ll_pop_front(struct linked_list_t* ll, int *err_code);
+int ll_pop_back(struct linked_list_t* ll, int *err_code);
+
+int ll_back(const struct linked_list_t* ll, int *err_code);
+int ll_front(const struct linked_list_t* ll, int *err_code);
+
+struct node_t* ll_begin(struct linked_list_t* ll);
+struct node_t* ll_end(struct linked_list_t* ll);
+
+int ll_size(const struct linked_list_t* ll);
+int ll_is_empty(const struct linked_list_t* ll);
+int ll_at(const struct linked_list_t* ll, unsigned int index, int *err_code);
+
+int ll_insert(struct linked_list_t* ll, unsigned int index, int value);
+
+int ll_remove(struct linked_list_t* ll, unsigned int index, int *err_code);
+
+void ll_clear(struct linked_list_t* ll);
+
+void ll_display(const struct linked_list_t* ll);
+Deklaracje wszystkich funkcji oraz struktur umieść w pliku nagłówkowym linked_list.h, a definicje w pliku linked_list.c.
+
+struct linked_list_t* ll_create();
+Funkcja przydziela pamięć na strukturę linked_list_t, inicjuje ją i zwraca adres przydzielonej struktury. Jeżeli operacja się nie powiedzie, zwraca NULL.
+
+int ll_push_back(struct linked_list_t* ll, int value);
+int ll_push_front(struct linked_list_t* ll, int value);
+Funkcje dodają element o wartości value na koniec (push_back) lub początek (push_front) listy ll.
+
+Zwracają:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych lub
+2 jeżeli nie uda się przydzielić pamięci.
+int ll_pop_front(struct linked_list_t* ll, int *err_code);
+int ll_pop_back(struct linked_list_t* ll, int *err_code);
+Funkcje usuwają pierwszy (pop_front) lub ostatni (pop_back) element z listy ll zwracając jego wartość. W przypadku błędu zwracana wartość jest nieistotna.
+
+Do zmiennej err_code, o ile to możliwe, zapisany powinien zostać kod błędu:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych lub pustej listy.
+int ll_front(const struct linked_list_t* ll, int *err_code);
+int ll_back(const struct linked_list_t* ll, int *err_code);
+Funkcje zwracają wartość pierwszego (front) lub ostatniego (back) elementu z listy ll, ale go nie usuwają. Do zmiennej err_code, o ile to możliwe, zapisany powinien zostać kod błędu:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych lub pustej listy.
+struct node_t* ll_begin(struct linked_list_t* ll);
+struct node_t* ll_end(struct linked_list_t* ll);
+Funkcje zwracają wskaźnik na pierwszy (begin) lub ostatni (end) elementu listy ll lub NULL, jeżeli nie będzie to możliwe.
+
+int ll_size(const struct linked_list_t* ll);
+Funkcja zwraca:
+
+rozmiar listy ll (jej liczbę elementów) lub
+-1 w przypadku błędnych danych wejściowych.
+int ll_is_empty(const struct linked_list_t* ll);
+Funkcja sprawdza czy lista ll jest pusta. Zwraca:
+
+1, jeżeli lista jest pusta,
+0 jeżeli w liście znajdują się jakieś elementy lub
+-1 w przypadku błędnych danych wejściowych.
+int ll_at(const struct linked_list_t* ll, unsigned int index, int *err_code);
+Funkcja zwraca wartość elementu spod indeksu index listy ll. W przypadku błędu wartość zwracana nie jest istotna.
+
+Do zmiennej err_code, o ile to możliwe, zapisany powinien zostać kod błędu:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych.
+int ll_insert(struct linked_list_t* ll, unsigned int index, int value);
+Funkcja dodają element o wartości value na pozycję index listy ll. Zwraca:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych lub
+2 jeżeli nie uda się przydzielić pamięci.
+int ll_remove(struct linked_list_t* ll, unsigned int index, int *err_code);
+Funkcja usuwa element spod indeksu index z listy ll i zwraca jego wartość.
+
+Do zmiennej err_code, o ile to możliwe, zapisany powinien zostać kod błędu:
+
+0 w przypadku sukcesu,
+1 w przypadku błędnych danych wejściowych.
+void ll_clear(struct linked_list_t* ll);
+Funkcja usuwa wszystkie elementy z listy ll.
+
+void ll_display(const struct linked_list_t* ll);
+Funkcja wyświetla wszystkie elementy z listy ll, w jednym wierszu, oddzielone spacjami. Wyświetlać należy elementy zaczynając od head a kończąc na tail.
+
+W przypadku pustej listy funkcja nie podejmuje żadnych działań.
+
+Napisz program, który pozwoli użytkownikowi na wykonywanie podstawowych operacji na liście jednokierunkowej. Na początek program powinien zaalokować pamięć na listę.
+
+Jeżeli nie uda się zaalokować żądanego obszaru pamięci program powinien wyświetlić komunikat Failed to allocate memory i zwrócić kod błędu 8.
+W przypadku wprowadzenia przez użytkownika błędnych znaków program powinien bezzwłocznie zakończyć działanie z kodem błędu 1 i komunikatem Incorrect input.
+Jeżeli udało się utworzyć listę, program powinien zapytać użytkownika o wybór operacji:
+
+0 - zakończenie działania programu,
+1 - dodanie elementu na koniec listy, program pobiera od użytkownika wartość, która ma zostać dodana do listy,
+2 - usunięcie ostatniego elementu z listy, program powinien wyświetlić wartość usuniętego elementu.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty.
+3 - dodanie elementu na początek listy, program pobiera od użytkownika wartość, która ma zostać dodana do listy,
+4 - usunięcie pierwszego elementu z listy, program powinien wyświetlić wartość elementu.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty.
+5 - dodanie elementu do listy na pozycji podanej przez użytkownika. Program pobiera od użytkownika wartość, a następnie indeks, pod który ma zostać dodany nowy element.
+W przypadku podania błędnych danych (indeksu spoza zakresu) program powinien wyświetlić komunikat Index out of range i kontynuować działanie.
+6 - usunięcie elementu spod indeksu podanego przez użytkownika z listy, program powinien wyświetlić wartość elementu.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty, w przeciwnym przypadku program pobiera od użytkownika indeks elementu do usunięcia.
+W przypadku podania błędnych danych (indeksu spoza zakresu) program powinien wyświetlić komunikat Index out of range i kontynuować działanie,
+7 - wyświetlenie wartości ostatniego elementu listy.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty.
+8 - wyświetlenie wartości pierwszego elementu listy.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty.
+9 - sprawdzanie czy lista jest pusta, program powinien wypisać 1 jeżeli lista jest pusta lub 0 w przeciwnym przypadku,
+10 - wyświetlenie liczby elementów znajdujących się w liście,
+11 - usunięcie wszystkich elementów z listy,
+12 - wyświetlenie wartości elementu spod indeksu indeksu index listy.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty.
+W przeciwnym przypadku program pobiera od użytkownika indeks, spod którego ma zostać wyświetlona wartość.
+W przypadku podania błędnych danych program powinien wyświetlić komunikat Index out of range i kontynuować działanie,
+13 - wyświetlenie wartości wszystkich elementów znajdujących się w liście.
+Jeżeli lista jest pusta program powinien wyświetlić komunikat List is empty.
+W przypadku podania innej wartości program powinien wyświetlić komunikat Incorrect input data i kontynuować działanie.
+Przykładowa interakcja z programem -- sukces:
+
+Co chcesz zrobic? 6⏎
+List is empty⏎
+Co chcesz zrobic? 4⏎
+List is empty⏎
+Co chcesz zrobic? 4⏎
+List is empty⏎
+Co chcesz zrobic? 13⏎
+List is empty⏎
+Co chcesz zrobic? 2⏎
+List is empty⏎
+Co chcesz zrobic? 5⏎
+Podaj liczbe -10⏎
+Podaj index 0⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe -10⏎
+Co chcesz zrobic? 4⏎
+-10⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe 2⏎
+Co chcesz zrobic? 6⏎
+Podaj index 0⏎
+2⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe -5⏎
+Co chcesz zrobic? 5⏎
+Podaj liczbe 7⏎
+Podaj index 0⏎
+Co chcesz zrobic? 1⏎
+Podaj liczbe 9⏎
+Co chcesz zrobic? 5⏎
+Podaj liczbe -4⏎
+Podaj index 3⏎
+Co chcesz zrobic? 2⏎
+9⏎
+Co chcesz zrobic? 1⏎
+Podaj liczbe 5⏎
+Co chcesz zrobic? 4⏎
+7⏎
+Co chcesz zrobic? 1⏎
+Podaj liczbe -9⏎
+Co chcesz zrobic? 1⏎
+Podaj liczbe -6⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe -6⏎
+Co chcesz zrobic? 2⏎
+-6⏎
+Co chcesz zrobic? 2⏎
+-9⏎
+Co chcesz zrobic? 0⏎
+Przykładowa interakcja z programem -- błąd danych:
+
+Co chcesz zrobic? 3⏎
+Podaj liczbe JgGZy⏎
+Incorrect input
+Co chcesz zrobic? 14⏎
+Incorrect input data⏎
+Co chcesz zrobic? 10⏎
+0⏎
+Co chcesz zrobic? 12⏎
+Podaj index GCnspx⏎
+Incorrect input
+Przykładowa interakcja z programem -- nieprawidłowy indeks:
+
+...
+Co chcesz zrobic? 5⏎
+Podaj liczbe 0⏎
+Podaj index 6⏎
+Index out of range⏎
+Co chcesz zrobic? 7⏎
+...
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit sterty: 96 bajtów
+
+Co chcesz zrobic? 3⏎
+Podaj liczbe -4⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe -6⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe 7⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe -7⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe -1⏎
+Co chcesz zrobic? 3⏎
+Podaj liczbe 5⏎
+Failed to allocate memory⏎
+Uwagi
+W programie nie wolno deklarować zmiennej typu struct linked_list_t, zamiast tego zadeklaruj wskaźnik na strukturę.
+W programie nie wolno używać operatora []!

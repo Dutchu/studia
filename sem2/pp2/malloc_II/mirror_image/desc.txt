@@ -1,0 +1,68 @@
+Wykorzystując następujące funkcje z zadania 5.7 Obraz w obrazie:
+
+struct image_t* load_image_t(const char *filename, int *err_code);
+int save_image_t(const char * filename, const struct image_t *m1);
+
+void destroy_image(struct image_t **m)
+przygotuj program, który umożliwi wykonywanie podstawowych operacji na obrazach.
+
+Przygotuj funkcje do wykonywania prostych operacji na obrazie: odbicia lustrzanego w poziomie (lewo-prawo), w pionie (góra-dół) oraz do zmiany wartości poziomów szarości pikseli w obrazie na przeciwne (negatyw). Funkcje te powinny mieć następujące prototypy:
+
+struct image_t* image_flip_horizontal(const struct image_t *m1);
+struct image_t* image_flip_vertical(const struct image_t *m1);
+struct image_t* image_negate(const struct image_t *m1);
+Funkcje zwracają wskaźnik na nowo utworzony obraz (po wykonaniu odpowiedniej operacji) lub NULL w przypadku, kiedy operacja się nie powiodła.
+
+Napisz program, który pobierze od użytkownika nazwę pliku (tablica na nazwę pliku powinna być alokowana dynamicznie na 39 znaków), a następnie odczyta z niego obraz.
+
+W przypadku kiedy nie uda się otworzyć podanego pliku, program powinien wyświetlić komunikat Couldn't open file i zakończyć działanie z kodem błędu 4.
+Jeżeli dane zapisane w pliku są niepoprawne należy wyświetlić komunikat File corrupted i zakończyć działanie z kodem błędu 6.
+Jeżeli nie uda się przydzielić pamięci program powinien wyświetlić komunikat Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+W przypadku pomyślnego wczytania pliku wejciowego program generuje:
+
+będący odbiciem lustrzanym w poziomie obrazu wczytanego,
+będący odbiciem lustrzanym w pionie obrazu wejściowego,
+z odwróconymi kolorami, względem wartości 255.
+Po wygenerowaniu każdego z obrazów należy sprawdzić czy operacja generacji się powiodła. Jeżeli zabrakło pamięci i funkcja image_* zwróciła NULL to program należy niezwłocznie przerwać z kodem błędu 8 oraz komunikatem Failed to allocate memory. Generowanie i zapisywanie kolejnego obrazu można wykonywać dopiero wtedy, gdy generacja/zapis oprzedniego zakończyła się sukcesem.
+
+Wszystkie trzy obrazy należy zapisać do plików o nazwie podanej przez użytkownika, ale z przedrostkiem odpowiednio mirror_h_, mirror_v_ oraz invert_. Tablica na nazwę pliku powinna być alokowana dynamicznie, jeżeli nie uda się przydzielić na nią pamięci to program powinien wyświetlić komunikat Failed to allocate memory i zakończyć działanie z kodem błędu 8.
+
+W przypadku powodzenia funkcja save_image_t należy wyświetlić komunikat File saved (dla każdego pliku w oddzielnej linii) lub Couldn't create file jeżeli zapis się nie powiedzie.
+
+Przykładowa interakcja z programem -- sukces:
+
+Enter file name: 5.bmpmustorganbutpersondeepcreasefr.txt⏎
+File saved⏎
+File saved⏎
+File saved
+Pliki: wejście, mirror_v, mirror_h, invert. Obrazy (tylko do celów podglądu): wejście, mirror_v, mirror_h, invert.
+
+Przykładowa interakcja z programem -- brak możliwości zapisu na dysk:
+
+Enter file name: smell.txt⏎
+Couldn't create file⏎
+Couldn't create file⏎
+Couldn't create file⏎
+Enter file name: smell.txt⏎
+File saved⏎
+Couldn't create file⏎
+Couldn't create file⏎
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit stery: 40 bajtów (miejsce tylko na bufor z nazwą pliku)
+
+Enter file name: smell.txt⏎
+Failed to allocate memory⏎
+Przykładowa interakcja z programem -- błąd danych:
+
+Próba wczytania pliku uszkodzonego lub niezgodnego z formatem PNM.
+
+Enter file name: de.jpg⏎
+File corrupted
+Brak pliku o podanej nazwie:
+
+Enter file name: 7.bmp⏎
+Couldn't open file
+Uwagi
+W programie nie wolno używać operatora '[]', oprócz deklaracji tablicy type w strukturze image_t.
+Deklaracje funkcji oraz definicję struktury umieść w pliku nagłówkowym image_utils.h, a definicje funkcji w pliku image_utils.c!

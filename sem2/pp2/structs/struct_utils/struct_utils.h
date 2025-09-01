@@ -19,6 +19,12 @@ struct file_t {
     int size;
 };
 
+struct student_t {
+    char name[20];
+    char surname[40];
+    int index;
+};
+
 struct message_t
 {
     char a;

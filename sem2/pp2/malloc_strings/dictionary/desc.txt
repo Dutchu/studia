@@ -1,0 +1,160 @@
+Napisz program do wyznaczania liczności poszczególnych słów w pliku tekstowym - histogramu słów. Zaimplementuj dynamiczny słownik, zwiększający swoją pojemność w razie potrzeby.
+
+W tym celu przygotuj struktury do przechowywania informacji o liczbie wystąpień danego słowa w dokumencie tekstowym oraz zbiór wszystkich słów jakie wystąpiły w dokumencie. Struktury powinny wyglądać następująco:
+
+struct word_count_t {
+  char *word;
+  int counter;
+};
+Struktura word_count_t kojarzy jedno słowo word wraz z jego licznością counter w analizowanym dokumencie. Zbiór struktur word_count_t zwany jest słownikiem. Zbiór taki określony jest strukturą dictionary_t:
+
+struct dictionary_t
+{
+  int size;
+  int capacity;
+  struct word_count_t *wc;
+};
+Struktura dictionary_t przechowuje listę słów z analizowanego dokumentu.
+
+Pole capacity przechowuje pojemność tablicy słów wc,
+pole size określa liczbę tych słów w wc (czyli liczbę unikalnych słów w analizowanym dokumencie).
+Pole wc to tablica zawierająca statystyki liczności unikalnych słów w tekście (tablica struktur word_count_t).
+Połączenie pól size oraz wc w jednej strukturze pozwala również uprościć listę parametrów korzystających z nich funkcji poprzez, konieczność przekazywania jedynie wskaźnika na dictionary_t a nie wartości wc oraz size za każdym razem.
+
+Przygotuj następujące funkcje:
+
+struct dictionary_t* create_dictionary(int N, int *err_code);
+void destroy_dictionary(struct dictionary_t** d);
+
+int dictionary_add_word(struct dictionary_t *d, const char *word);
+struct word_count_t* dictionary_find_word(const struct dictionary_t *d, const char *word);
+
+void dictionary_display(const struct dictionary_t *d);
+Deklaracje wszystkich funkcji oraz struktur powinny być umieszczone w pliku dictionary.h, a definicje w pliku dictionary.c.
+
+struct dictionary_t* create_dictionary(int N, int *err_code);
+Funkcja create_dictionary tworzy oraz inicjuje strukturę słownika dictionary_t oraz rezerwuje pamięć na N słów w tablicy wc struktury dictionary_t. Pamiętaj aby ustawić wszystkie pola struktury.
+
+Jeżeli operacja tworzenia się powiedzie to funkcja zwraca wskaźnik na nowo utworzoną strukturę i ustawia kod błędu na 0 lub NULL w razie porażki.
+
+Kody błędów ustawiane gdy podano err_code:
+
+0 - jeżeli operacja się powiodła
+2 - jeśli nie udało się przydzielić pamięci
+1 - jeżeli dane wejściowe były niewłaściwe.
+void destroy_dictionary(struct dictionary_t** d);
+Funkcja zwalnia całą pamięć przydzieloną na słownik d oraz tablicę wc. W przypadku przekazania niewłaściwych danych funkcja nie podejmuje żadnych działań.
+
+Pamiętaj, aby zwolnić również pamięć przydzieloną na poszczególne słowa w wc.
+
+Dobrą praktyką w takich funkcjach jest ustawianie wartości *d na NULL. Dzięki temu nieuważne wywołanie innej funkcji dla słownika *d zakończy się kontrolowanym błędem (ponieważ funkcje mają wykrywać NULL a nie awaryjnym przerwaniem programu z sygnałem SIGSEGV).
+
+struct word_count_t* dictionary_find_word(const struct dictionary_t *d, const char *word);
+Funkcja wyszukuje w słowniku d słowo word. Wielkość liter słowa word ma znaczenie.
+
+Jeśli słowo word istnieje w słowniku d to funkcja zwraca wskaźnik na strukturę word_count_t, opisującą to słowo. W przeciwnym razie zwraca NULL.
+
+Wartość NULL zwracana jest również w przypadku błędnych danych wejściowych (np. słownik z niespójnościami w polach struktury dictionary_t).
+
+void dictionary_display(const struct dictionary_t *d);
+Funkcja wyświetla zawartość słownika d.
+
+Każde słowo ze słownika wyświetlane jest w oddzielnej linii, wraz z liczbą jego wystąpień po spacji. Słowa powinny być wyświetlone w kolejności, w jakiej pojawiają się w dokumencie, każdy w osobnej linii. Oczekiwana forma dla ala ma kota i ma psa:
+
+ala 1
+ma 2
+kota 1
+i 1
+psa 1
+W przypadku podania niepoprawnych (niespójnych wewnętrznie danych) funkcja nie podejmuje żadnej akcji.
+
+int dictionary_add_word(struct dictionary_t *d, const char *word);
+Funkcja uzupełnia słownik d o słowo word.
+
+Jeśli słowo word istnieje w słowniku d, to jego liczność jest zwiększana o 1.
+Jeśli słowo word nie istnieje w słowniku d to jest ono dodawane. Funkcja musi przydzielić pamięć na to słowo i je skopiować do słownika. Pamiętaj, że dodanie słowa do słownika oznacza występowanie tego słowa w dokumencie wejściowym co najmniej raz.
+Jeżeli skończy się miejsce (patrz pola size oraz capacity) w słowniku to funkcja powinna dwukrotnie zwiększyć ilość zarezerwowanej pamięci.
+
+Operację zwiększania pojemności należy przeprowadzić wyłącznie wtedy, gdy jest taka potrzeba: dodanie dziesiątego słowa do słownika z size = 9 i capacity = 10 nie wymaga zmiany pojemności.
+
+Funkcja zwraca:
+
+0 w przypadku sukcesu,
+1 kiedy do funkcji zostaną podane niepoprawne (niespójne) dane,
+2 jeżeli nie powiodła się alokacja pamięci.
+Napisz program, który pobierze od użytkownika nazwę pliku tekstowego.
+
+W pierwszej kolejności przygotuj tablicę na nazwę pliku o długości 49 znaków (alokacja dynamiczna).
+
+W przypadku braku pamięci program przerywa pracę z komunikatem Failed to allocate memory i kodem błędu 8.
+Jeśli podany plik nie istnieje (lub nie da się go otworzyć do odczytu) to program kończy się z komunikatem Couldn't open file oraz kodem błędu 4.
+Następnie przygotuj pusty słownik, o wstępnej pojemności 10 wpisów i w pętli wczytuj kolejne słowa do tego słownika. Pamiętaj, aby usunąć ze tekstu wszystkie znaki niebędące literami. W przypadku problemów z alokacją pamięci na słownik lub podczas dodawania słów, program ma być niezwłocznie przerwany z komunikatem Failed to allocate memory i kodem błędu 8.
+
+Podpowiedź: bufor na nazwę pliku nie musi istnieć po jego otworzeniu; tę pamięć można wykorzystać inaczej.
+
+Po pomyślnym wczytaniu słów z pliku wyświetl zawartość słownika na ekranie. W przypadku kiedy słownik będzie pusty program powinien wyświetlić komunikat Nothing to show.
+
+Przykładowa interakcja z programem -- lista słów:
+
+Podaj nazwę pliku: feet.txt⏎
+Ut 1⏎
+voluptatem 10⏎
+numquam 4⏎
+magnam 2⏎
+modi 3⏎
+Sit 3⏎
+ipsum 6⏎
+est 3⏎
+Magnam 1⏎
+dolorem 3⏎
+dolor 4⏎
+consectetur 4⏎
+etincidunt 6⏎
+velit 7⏎
+tempora 4⏎
+Modi 4⏎
+quisquam 6⏎
+sit 4⏎
+quaerat 9⏎
+quiquia 4⏎
+Numquam 2⏎
+Velit 1⏎
+porro 5⏎
+amet 5⏎
+Quisquam 2⏎
+ut 3⏎
+adipisci 3⏎
+eius 4⏎
+Sed 1⏎
+labore 5⏎
+sed 2⏎
+dolore 3⏎
+Dolorem 1⏎
+Adipisci 1⏎
+neque 2⏎
+Dolore 1⏎
+Voluptatem 1⏎
+Tempora 2⏎
+Neque 1⏎
+Porro 1⏎
+aliquam 1⏎
+Pliki: feet.txt.
+
+Przykładowa interakcja z programem -- brak pamięci:
+
+Limit sterty: 350 bajtów
+
+Podaj nazwę pliku: than.txt⏎
+Failed to allocate memory⏎
+Plik: than.
+
+Przykładowa interakcja z programem -- brak pliku:
+
+Podaj nazwę pliku: missing.txt⏎
+Couldn't open file
+Przykładowa interakcja z programem -- pusty słownik:
+
+Podaj nazwę pliku: no_words.txt⏎
+Nothing to show
+Uwagi
+W programie nie wolno używać operatora [].
