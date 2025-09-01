@@ -1,0 +1,38 @@
+Napisz program, który w podanej liczbie zamienia dwa bity miejscami. W tym celu wykorzystaj funkcję swap_bits:
+
+unsigned int swap_bits(unsigned int * pvalue, int b1, int b2)
+gdzie:
+
+pvalue - Wskaźnik na liczbę całkowitą 32-bitową bez znaku, w której funkcja ma zamienić miejscami wartości dwóch bitów.
+b1 oraz b2 - Pozycje bitów w liczbie *pvalue, które mają zostać zamienione miejscami.
+Funkcja zamienia miejscami wartości bitów b1 i b2 w liczbie pod wskaźnikiem pvalue i zwraca 0. Jeżeli dane wejściowe są niepoprawne (nie dają możliwości wykonania operacji), to funkcja zwraca 1.
+
+Napisz program, który pobiera od użytkownika:
+
+liczbę całkowitą 32-bitową bez znaku oraz
+
+dwie pozycje bitów.
+
+W przypadku wprowadzenia przez użytkownika nieprawidłowych znaków program powinien zostać niezwłocznie przerwany z kodem błędu 1 i komunikatem Incorrect input.
+
+Dla poprawnych danych program wyświetla dziesiętnie liczbę z wymienionymi bitami. W przypadku błędu program wyświetla Error oraz kończy się kodem błędu 1.
+
+Przykładowa interakcja z programem -- sukces:
+
+Enter an uint32 number: 957642229⏎
+Enter 1st bit index: 15⏎
+Enter 2nd bit index: 27⏎
+Result: 823457269
+Przykładowa interakcja z programem -- błędy danych:
+
+Enter an uint32 number: 957642229⏎
+Enter 1st bit index: 15⏎
+Enter 2nd bit index: 32⏎
+Result: 823457269
+Enter an uint32 number: 44533545⏎
+Enter 1st bit index: 15⏎
+Incorrect input⏎
+Enter an uint32 number: hgfhf⏎
+Incorrect input⏎
+Uwagi
+W programie nie można wykorzystywać unii bitowych.
