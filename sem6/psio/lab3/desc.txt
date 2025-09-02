@@ -1,0 +1,72 @@
+Temat na kolejne zajęcia: szumy :sól i pieprz, Gaussa, jednostajny,  znormalizowany błąd średniokwadratowy NMSE, usuwanie szumu, filtry liniowe i nieliniowe, filtry medianowe
+
+
+Progowanie jest najprostszym wariantem segmentacji.
+
+Polega na sprawdzeniu dla każdego punktu obrazu warunku L > t, czyli czy jasność jest większa od wartości progu t. Jeśli tak, punkt stanie się biały, jeśli nie, czarny
+
+obraz_seg[row,col] = 1 if obraz[row,col] > t else 0
+
+Szybciej można zapisać tak
+
+obraz_seg = (obraz > t) * 1
+
+W jego wyniku na obrazie oddzielamy obiekty od tła. Najczęściej obiekty zostaną kolorem białym (1) a tło - czarnym (0). Prawidłowo dobrana wartość t pozwala oznaczyć obiekty dokładnie tam, gdzie one są.
+
+ZADANIE 1 (1pkt)
+
+Zapoznaj się z przykładem
+
+https://scikit-image.org/docs/dev/auto_examples/segmentation/plot_thresholding.html
+
+Wczytaj obraz gears1.png (zawartość to zestaw przekładni głównej mostu tylnego, Toyota Pickup), przekształć jego format do odcieni szarości [0:256].
+Korzystając z gotowej funkcji try_all_threshold znajdź najlepszą metodę automatyczną. Zanotuj dwie najlepsze metody
+Dwie najlepsze metody zastosuj osobno
+Obraz po zastosowaniu progowania dla obu metod wyświetl wraz z histogramem. Na histogramie zaznacz wartość progu.
+
+
+ZADANIE 2
+
+Wczytaj do pamięci obraz printed_page.png.
+
+Celem jest wydzielenie tekstu od tła, aby przeprowadzić proces OCR.
+
+Metodą try_all_threshold spróbuj którejś z gotowych metod progowania, spróbuj również dobrać ręcznie wartość progu. Efekt może nie być zadowalający.
+
+Obejrzyj przykład zastosowania filtru maximum.
+
+http://scikit-image.org/docs/dev/api/skimage.filters.rank.html#skimage.filters.rank.maximum
+
+Korzystając z tego filtru (dobierając odpowiednio wielkość dysku) spróbuj uzyskać obraz, który nazwiesz tlo.
+
+
+Od tego obrazu odejmij obraz oryginalny
+
+obraz2 = tlo - obraz
+
+Dla otrzymanego obrazu ponownie wykonaj try_all_threshold i określ najlepszą metodę.
+
+Wybraną metodę zastosuj (pojedynczo) i zapisz uzyskany obraz na dysku (będzie widać więcej szczegółów niż na figurze. Jeśli efekt nie jest idealny, przed wykonaniem odejmowania przefiltruj tlo filtrem rank.mean. Właściwy efekt powinien być następujący
+
+
+
+
+ZADANIE 3
+
+Na obrazie mikroskopowym rozmazu krwi ludzkiej możemy zaobserwować różne komórki
+
+
+Wczytaj obraz blood_smear.jpg i przekształć go do odcieni szarości. Następnie poprzez ręczny dobór wartości progu t1 uzyskaj obraz1 zawierający wszystkie krwinki
+
+
+Poprzez ręczny wybór wartości progu t2 uzyskaj obraz2 zawierający inne krwinki
+
+
+Mając dobrane wartości t1 i t2 utwórz obraz barwny, jak poniżej
+
+
+- Dla obrazu niebo oblicz średnie wartości R,G,B. Skorzystaj z np.average
+
+W pętli po wszystkich wierszach i kolumnach obrazu niebo porównaj uzyskaną wartość średnią z wartością dla każdego piksela, traktując kolor jako wektor o współrzędnych (R, G, B). Wykorzystaj np.linalg.norm do obliczenia odległości pomiędzy wektorami. Zapamiętaj maksymalną różnicę jako liczbę maxDist.
+
+- W pętli po wszystkich wierszach i kolumnach obrazu airbus porównaj każdy piksel obrazu z wartością średnią ponownie korzystając z normy. Jeśli będzie ona większa niż maxDist to oznacz piksel jako obiekt (1), w przeciwnym wypadku jako tło (0). Można uzyskać następujący efekt

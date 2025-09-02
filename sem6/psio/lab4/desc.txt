@@ -1,0 +1,157 @@
+Wstęp
+Filtracja obrazu wykorzystywana jest do:
+
+usuwania defektów obrazu powstałych w procesie akwizycji (szumy, brak fokusu, poruszenie obiektywu)
+usuwania widocznych defektów przedmiotu, którego obraz obserwujemy (rysy, uszkodzenia powierzchni)
+wydobycia z obrazu informacji niewidocznych gołym okiem (pojawiająca się częstotliwość będąca szumem lub ukrytą informacją)
+wydobycia z obrazu kształtów i fragmentów, lub ich usunięcie tak, aby umożliwić dalszy proces przetwarzania (filtracja morfologiczna)
+Filtry dzielimy na:
+
+liniowe (wszystkie operacje w których używamy maski i mnożymy elementy maski przez kolory pikseli obrazu a także operacje z wykorzystaniem FFT)
+nieliniowe (nieliniowe kombinacje filtrów liniowych, mediana itp, filtry morfologiczne)
+Dane
+Dowolny obraz w skali szarości. Można użyć obrazu z biblioteki skimage.data.
+
+ZADANIE 1 - zaszumianie obrazów
+Celem zadania jest sztuczne zaszumienie obrazu różnymi standardowymi rodzajami szumu, następnie próba usunięcia szumu z wykorzystaniem standardowych dostępnych filtrów i ocena na ile obraz odszumiony jest identyczny z obrazem oryginalnym.
+
+Zastosuj następujące szumy:
+
+szum sól i pieprz o wartościach  5%, 10%, 20%
+skimage.img_as_ubyte(skimage.util.random_noise(obraz,'s&p', amount=procent/100))
+szum Gaussa. Odchylenie standarowe s=0.05, 0.08, 0.1
+skimage.img_as_ubyte(skimage.util.random_noise(obraz,var=s*s))
+szum jednostajny. Przedziały h=-/+10, -/+20, -/+40
+Aby przygotować szum jednostajny, najlepiej przygotować zaszumioną maskę o wymiarach takich jak obraz
+
+maska = np.random.uniform(-h,h,obraz.shape)
+Następnie maskę dodajemy do obrazu. Wartości musimy obciąć do zakresu 0 - 255 (może się zdarzyć że do piksela o wartości 255 dodamy jeszcze pewną liczbę) i przekształcić do liczb całkowitych bez znaku.
+
+np.clip(obraz + maska, 0,255).astype(np.uint8)
+UWAGA: pamiętaj o przekształceniu obrazów na wartości 0-255 w przypadku
+
+Zmierz wartość NMSE (znormalizowany średni błąd kwadratowy) dla zaszumionych obrazów.
+
+
+Aby obliczyć NMSE pomiędzy obrazem f i fe, należy obliczyć różnice pomiędzy każdym pikselem f oraz fe. Uzyskane wartości należy podnieść do kwadratu i zsumować. Uzyskaną wartość (MSE) dzielimy przez sumę kwadratów pikseli dla f.
+
+Wskazówka: Użyj astype(np.float64) przed wykonaniem obliczeń, oraz np.square i np.sum tak aby wartości nie wyskoczyły poza zakres!!!
+
+ZADANIE 2 - usuwanie szumu
+W tym zadaniu przetestujemy najważniejsze filtry usuwające szum.
+
+Filtr medianowy - wykorzystaj
+
+skimage.filters.median(obraz1,disk(1))
+Wartość disk(1) spróbuj też zamienić maskę na disk(2) oraz square(3)
+
+Filtr uśredniający - wykorzystaj
+
+skimage.filters.rank.mean(obraz,disk(1))
+Podobnie jak poprzednio sprawdź inne wielkości masek.
+
+Filtr Gaussa - wykorzystaj
+
+skimage.filters.gaussian
+z różnymi wartościami sigma, np 0.5 do 1.
+
+Uwaga - filtr Gaussa przekształca obraz na float. Wykorzystaj img_as_ubyte aby powrócić do właściwego formatu.
+
+Celem tego zadania jest dobranie najlepszego filtru z najlepszymi parametrami do konkretnego zaszumienia.
+
+Najlepszy filtr to taki, dla którego NMSE pomiędzy obrazem oryginalnym i odszumionym jest najmniejsze.
+
+W rozwiązaniu przedstaw najlepsze uzyskane wartości w tabelce z kolumnami
+
+Rodzaj i wielkość szumu	NMSE(oryg, zaszum)
+NMSE(oryg, odszum)
+(oraz rodzaj filtru i parametry)
+
+Sól i pieprz 5%
+
+Filtry medianowe dla obrazów barwnych
+Powszechnie stosowanym, skutecznym filtrem przestrzennym dla usuwania szumu w obrazach monochromatycznych jest filtr medianowy.
+
+Def. 1 Mediana
+
+Niech
+
+gdzie     będzie zbiorem punktów maski oraz      ciągiem wartości jasności punktów należących do M posortowanych niemalejąco. Wówczas medianę dla zbioru M określamy wzorem (1)
+
+W przyjętej definicji maska otoczenia zawiera nieparzystą liczbę punktów – fakt ten gwarantuje, że mediana będzie wartością pewnego punktu z maski. Jest to niewątpliwa zaleta filtru. Kolejnymi zaletami są łatwość implementacji i duża szybkość działania, o ile rozmiar maski nie jest zbyt duży (nie przekracza 25 pikseli).
+
+Lemat
+
+Element Med(M) można równoważnie wskazać wzorem (2):
+
+
+co należy czytać następująco: medianą zbioru M jest taki punkt pi, dla którego suma modułów różnic pomiędzy pi a pozostałymi punktami zbioru M osiąga minimum.
+W wypadku obrazów barwnych (przykładowo w modelu RGB) definicja filtru medianowego wymaga istotnej zmiany, gdyż nie jest możliwe liniowe uporządkowanie wektorów wartości pikseli.
+
+Należy zwrócić uwagę na możliwość błędnego działania filtru zastępującego oryginalną wartość piksela kolorowego wektorem złożonym z median osobnych składowych barwnych pikseli sąsiedztwa.
+
+Przykładem niech będą kolory maski: p1 = {50, 100, 130}T, p2 = {120, 40, 100}T i p3 = {100, 130, 70}T.
+
+Wektor złożony z median składowych miałby wartość {100, 100, 100}T, a zatem byłby pewnym szarym punktem nie występującym (lokalnie) w oryginalnym obrazie. Co więcej, taka wersja mediany kolorowej może spowodować różne przesunięcia lokalnych maksimów na poszczególnych składowych barw.
+
+Mediana wektorowa (Vector Median Filter, VMF) dla obrazów barwnych.
+Wykorzystuje obliczanie odległości między wektorami w metryce euklidesowej. Korzystając ze wzoru (2) można zastąpić różnicę między skalarami odległością między wektorami w sensie zadanej metryki. W praktyce najczęściej używa się metryki miejskiej lub euklidesowej.
+
+Formalnie (3):
+
+
+gdzie Med(M) jest medianą (wyjściem filtra), N liczbą punktów w masce M, zaś pi (i=0 ... N-1) pikselami z maski M. Przyjmijmy dodatkowo, że p0 oznacza piksel, który aktualnie analizujemy (zazwyczaj w centrum maski). Pozostałe punkty oznaczymy jak na rysunku 1
+
+
+Dla ustalonej maski krzyżowej i metryki miejskiej przykładowa implementacja VMF
+
+suma0 = ||p0 - p1|| + ||p0 - p2|| + ||p0 - p3|| + ||p0 - p4||;
+suma1 = ||p0 - p1|| + ||p1 - p2|| + ||p1 - p3|| + ||p1 - p4||;
+suma2 = ||p0 - p2|| + ||p1 - p2|| + ||p2 - p3|| + ||p2 - p4||;
+suma3 = ||p0 - p3|| + ||p1 - p3|| + ||p2 - p3|| + ||p3 - p4||;
+suma4 = ||p0 - p4|| + ||p1 - p4|| + ||p2 - p4|| + ||p3 - p4||;
+sumamin = suma0;
+if(sumamin>suma1){ p0 = p1; sumamin = suma1; }
+if(sumamin>suma2){ p0 = p2; sumamin = suma2; }
+if(sumamin>suma3){ p0 = p3; sumamin = suma3; }
+if(sumamin>suma4){ p0 = p4;}
+|| . || - oznacza odległość pomiędzy kolorami w metryce miejskiej (uwzględnij składowe R,G,B).
+
+ZADANIE 3
+
+Zaimplementuj zaszumianie obrazu barwnego szumem impulsowym. Szum impulsowy wygląda mniej więcej tak samo jak sól i pieprz.
+
+Dla wartości wejściowej p (liczba procent zaszumionych pikseli) uzyskujemy liczbę N = rozdzielczość_obrazu * p // 100
+
+N razy powtarzamy następujące kroki:
+
+losujemy współrzędną x (z zakresu obraz.shape[1])
+losujemy współrzędną y (z zakresu obraz.shape[0])
+losujemy wartości R, G, B (z zakresu 256)
+obraz[y,x] = (R, G, B)
+Przykład dla obrazu skimage.data.chelsea() dla 3% pikseli
+
+
+Zadanie 4
+
+Przygotuj funkcję NMSE dla obrazów kolorowych.
+
+Przykładowo - powyższy obraz zaszumiony został wygenerowany dla 2% szumu. Obliczona wartość NMSE powinna być zbliżona.
+
+Zadanie 5
+
+Przygotuj funkcję VMF dla obrazów barwnych i wykonaj odszumianie obrazu zaszumionego. Porównaj wartość NMSE dla standardowego filtru medianowego oraz zaimplementowanych filtrów.
+
+wielkość szumu	NMSE(oryg, zaszum)
+NMSE(oryg, odszum)
+
+standardowa mediana
+
+.
+NMSE(oryg, odszum)
+
+VMF
+
+impulsowy 2%			.
+impulsowy 5%			.
+impulsowy 10%			.
